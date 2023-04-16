@@ -33,7 +33,9 @@ contract Durian {
 
     // Ratings given to this durian by the customers
     rating[] ratings;
-    Stages public currentStage; 
+    Stages public currentStage;
+    durianFarm public farm; 
+    durianTree 
 
     struct rating {
         Customer ratingCustomer;
@@ -73,5 +75,12 @@ contract Durian {
         stageTimestamps[0] = block.timestamp;
     }
 
+    modifier validStage(Stages reqStage) {
+        require(currentStage == reqStage);
+        _;
+    }
 
+    function addDurianFarm(string memory _farmID, string memory _name, string memory _location) public {
+
+    }
 }
