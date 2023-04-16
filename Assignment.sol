@@ -3,11 +3,16 @@ pragma solidity ^0.8.0;
 
 contract DTTBA {
 
+    uint256 public durianCount = 0;
+    uint256 public durianFarmCount = 0;
+    uint256 public durianFarmSectorCount = 0;
+
     Durian[] durians;
     struct Durian {
         uint256 id;
         uint256 weightGrams;
         DurianGrade grade;
+        Stage stage;
     }
 
     enum DurianGrade {
@@ -18,8 +23,8 @@ contract DTTBA {
     
     // Timestamps for the four stages
     uint[] stageTimestamps;
-    
-    enum Stages {
+
+    enum Stage {
         Harvested, 
         AtDistributionCenter, 
         AtRetailer, 
@@ -37,7 +42,6 @@ contract DTTBA {
 
     // Ratings given to this durian by the customers
     rating[] ratings;
-    Stages public currentStage;
     durianFarm public farm; 
     durianTree public tree;
 
@@ -55,7 +59,6 @@ contract DTTBA {
         address addr;
     }
 
-
     struct worker{
         string workerID;
     }
@@ -71,7 +74,6 @@ contract DTTBA {
         string farmSectorID;
         uint256 duringTreeCount;
     }
-
 
     struct durianTree{
         string treeID;
