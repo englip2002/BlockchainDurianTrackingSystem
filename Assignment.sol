@@ -108,7 +108,7 @@ contract DTTBA {
 
     }
 
-    function addWorker() public{
-
+    function addWorker(string memory _id, string memory _name) public{
+        
     }
 }
