@@ -33,6 +33,7 @@ contract Durian {
 
     // Ratings given to this durian by the customers
     rating[] ratings;
+    Stages public currentStage; 
 
     struct rating {
         Customer ratingCustomer;
@@ -51,15 +52,6 @@ contract Durian {
 
     struct worker{
         string workerID;
-    }
-
-    struct durianTree{
-        string treeID;
-        durianFarm farm;
-        durianFarmSector farmSector;
-        uint256 age;
-        string species;
-        uint256 lastHarvestTime;
     }
 
     struct durianFarm{
