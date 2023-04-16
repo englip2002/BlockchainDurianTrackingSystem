@@ -84,10 +84,10 @@ contract DTTBA {
         stageTimestamps[0] = block.timestamp;
     }
 
-    modifier validStage(Stage reqStage) {
-        require(currentStage == reqStage);
-        _;
-    }
+    // modifier validStage(Stage reqStage) {
+    //     require(currentStage == reqStage);
+    //     _;
+    // }
 
     function addDurianFarm(string memory _farmID, string memory _name, string memory _location) public {
 
