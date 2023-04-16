@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 contract DTTBA {
-
     uint256 public durianCount = 0;
     mapping(uint => Durian) public durians;
     struct Durian {
@@ -12,33 +11,39 @@ contract DTTBA {
         Stage supplyChainStage;
         uint[] stageTimestamps;
         DurianGrade grade;
-        DurianFarm farm; 
+        DurianFarm farm;
         DurianTree tree;
         Rating customerRating;
     }
 
     enum DurianGrade {
-        Extra, 
-        ClassI, 
+        Extra,
+        ClassI,
         ClassII
     }
-    
+
     // Timestamps for the four stages
 
     enum Stage {
-        Harvested, 
-        AtDistributionCenter, 
-        AtRetailer, 
-        SoldToCustomer, 
+        Harvested,
+        AtDistributionCenter,
+        AtRetailer,
+        SoldToCustomer,
         Expired
     }
 
     enum Rate {
-        Worst, 
-        Bad, 
-        Normal, 
-        Good, 
+        Worst,
+        Bad,
+        Normal,
+        Good,
         Excellent
+    }
+
+    enum WorkedFor {
+        DurianFarm,
+        DistributionCentre,
+        Retailer
     }
 
     // Ratings given to this durian by the customers
@@ -49,9 +54,9 @@ contract DTTBA {
         Rate taste;
         Rate fragrance;
         Rate creaminess;
-        Rate price; 
+        Rate price;
     }
-    
+
     struct Customer {
         string id;
         string name;
@@ -61,9 +66,10 @@ contract DTTBA {
     struct Worker {
         string workerID;
         string name;
+        WorkedFor works;
     }
 
-    struct DurianFarm{
+    struct DurianFarm {
         string name;
         string location;
         DurianTree[] durianTrees;
@@ -122,15 +128,24 @@ contract DTTBA {
         d.weightInGrams = _weightInGrams;
         d.supplyChainStage = Stage.Harvested;
         d.stageTimestamps[0] = block.timestamp;
-        
-
     }
 
-    function addDurianTree(string memory _treeID, DurianFarm memory _farm, uint _age, string memory _species, uint256 _lastHarvestTime) public {
 
-    }
+    function addDurianTree(
+        string memory _treeID,
+        DurianFarm memory _farm,
+        uint _age,
+        string memory _species,
+        uint256 _lastHarvestTime
+    ) public {}
 
-    function addWorker(string memory _id, string memory _name) public{
-        
+    mapping(uint => Worker) public workerList;
+    uint workerCount = 0;
+
+    function addWorker(string memory _name) public {
+        Worker storage newWorker = workerList[workerCount];
+        newWorker.name = _name;
+        newWorker.workerID = workerCount;
+        workerCount++;
     }
 }
