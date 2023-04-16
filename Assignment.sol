@@ -91,7 +91,7 @@ contract DTTBA {
         stageTimestamps[0] = block.timestamp;
     }
 
-    modifier validStage(Stages reqStage) {
+    modifier validStage(Stage reqStage) {
         require(currentStage == reqStage);
         _;
     }
