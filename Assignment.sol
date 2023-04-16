@@ -60,8 +60,9 @@ contract DTTBA {
         address addr;
     }
 
-    struct Worker{
+    struct Worker {
         string workerID;
+        string name;
     }
 
     struct DurianFarm{
@@ -90,6 +91,14 @@ contract DTTBA {
     // }
 
     function addDurianFarm(string memory _farmID, string memory _name, string memory _location) public {
+
+    }
+
+    function addDurianTree(string memory _treeID, DurianFarm memory _farm, uint _age, string memory _species, uint256 _lastHarvestTime) public {
+
+    }
+
+    function addWorker() public{
 
     }
 }
