@@ -40,6 +40,12 @@ contract DTTBA {
         Excellent
     }
 
+    enum WorkedFor{
+        DurianFarm,
+        DistributionCentre,
+        Retailer
+    }
+
     // Ratings given to this durian by the customers
 
     struct Rating {
@@ -60,6 +66,7 @@ contract DTTBA {
     struct Worker {
         string workerID;
         string name;
+        WorkedFor works;
     }
 
     struct DurianFarm{
@@ -105,8 +112,12 @@ contract DTTBA {
 
     }
 
-    
-    function addWorker(string memory _id, string memory _name) public{
-
+    mapping(uint=>Worker) public workerList;
+    uint workerCount = 0;
+    function addWorker(string memory _name) public{
+        Worker storage newWorker = workerList[workerCount];
+        newWorker.name = _name;
+        newWorker.workerID = durianCount;
+        workerCount++;
     }
 }
