@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 contract DTTBA {
-
     uint256 public durianCount = 0;
     Durian[] durians;
     struct Durian {
@@ -11,36 +10,36 @@ contract DTTBA {
         Stage supplyChainStage;
         uint[] stageTimestamps;
         DurianGrade grade;
-        DurianFarm farm; 
+        DurianFarm farm;
         DurianTree tree;
         Rating customerRating;
     }
 
     enum DurianGrade {
-        Extra, 
-        ClassI, 
+        Extra,
+        ClassI,
         ClassII
     }
-    
+
     // Timestamps for the four stages
 
     enum Stage {
-        Harvested, 
-        AtDistributionCenter, 
-        AtRetailer, 
-        SoldToCustomer, 
+        Harvested,
+        AtDistributionCenter,
+        AtRetailer,
+        SoldToCustomer,
         Expired
     }
 
     enum Rate {
-        Worst, 
-        Bad, 
-        Normal, 
-        Good, 
+        Worst,
+        Bad,
+        Normal,
+        Good,
         Excellent
     }
 
-    enum WorkedFor{
+    enum WorkedFor {
         DurianFarm,
         DistributionCentre,
         Retailer
@@ -54,9 +53,9 @@ contract DTTBA {
         Rate taste;
         Rate fragrance;
         Rate creaminess;
-        Rate price; 
+        Rate price;
     }
-    
+
     struct Customer {
         string id;
         string name;
@@ -69,14 +68,14 @@ contract DTTBA {
         WorkedFor works;
     }
 
-    struct DurianFarm{
+    struct DurianFarm {
         string name;
         string location;
         mapping(uint => DurianTree) durianTrees;
         uint256 durianTreeCount;
     }
 
-    struct DurianTree{
+    struct DurianTree {
         uint age;
         string species;
         uint256 lastHarvestTime;
@@ -96,25 +95,29 @@ contract DTTBA {
     mapping(uint => DurianFarm) public durianFarms;
     uint256 public durianFarmCount;
 
-    function addDurianFarm(string memory _name, string memory _location) public {
-        
-    }
+    function addDurianFarm(
+        string memory _name,
+        string memory _location
+    ) public {}
 
     function addDurian(
-        string memory species, 
-        uint256 weightInGrams, 
+        string memory species,
+        uint256 weightInGrams,
         uint256 durianFarmID
-    ) public {
+    ) public {}
 
-    }
+    function addDurianTree(
+        string memory _treeID,
+        DurianFarm memory _farm,
+        uint _age,
+        string memory _species,
+        uint256 _lastHarvestTime
+    ) public {}
 
-    function addDurianTree(string memory _treeID, DurianFarm memory _farm, uint _age, string memory _species, uint256 _lastHarvestTime) public {
-
-    }
-
-    mapping(uint=>Worker) public workerList;
+    mapping(uint => Worker) public workerList;
     uint workerCount = 0;
-    function addWorker(string memory _name) public{
+
+    function addWorker(string memory _name) public {
         Worker storage newWorker = workerList[workerCount];
         newWorker.name = _name;
         newWorker.workerID = workerCount;
