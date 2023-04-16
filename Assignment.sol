@@ -28,20 +28,22 @@ contract Durian {
     rating[] ratings;
 
     struct rating {
-        address ratingCustomer;
+        Customer ratingCustomer;
         Rate taste;
         Rate fragrance;
         Rate creaminess;
         Rate price; 
     }
+    
+    struct Customer {
+        string id;
+        string name;
+        address addr;
+    }
 
 
     struct worker{
         string workerID;
-        
-    }
-
-    struct Customer {
         
     }
 
