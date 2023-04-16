@@ -128,7 +128,6 @@ contract DTTBA {
     function addDurianTree(
         uint _age,
         string memory _species,
-        uint256 _lastHarvestTime,
         uint256 _durianFarmID
     ) public isOwner(msg.sender) durianFarmExist(_durianFarmID) {
         durianTreesCount++;
@@ -182,31 +181,33 @@ contract DTTBA {
     }
 
 
-    function recordDurian(Durian memory durian, address worker) public view returns ( string memory){
+    function recordDurian(Durian memory durian, address worker) public view returns (string memory output){
         if(durian.supplyChainStage == Stage.Harvested){
             if(workerList[worker].workedFor == WorkedFor.DurianFarm){
                 //TODO what need to record
                 durian.supplyChainStage = Stage.AtDistributionCenter;
-                return "Status changed to AtDistributionCenter";
+                output = "Status changed to AtDistributionCenter";
             }
         }
         else if(durian.supplyChainStage == Stage.AtDistributionCenter){
             if(workerList[worker].workedFor == WorkedFor.DistributionCentre){
                 //TODO what need to record
                 durian.supplyChainStage = Stage.AtRetailer;
-                return "Status changed to AtRetailer";
+                output = "Status changed to AtRetailer";
             }
         }
         else if(durian.supplyChainStage == Stage.AtRetailer){
             if(workerList[worker].workedFor == WorkedFor.Retailer){
                 //TODO what need to record
                 durian.supplyChainStage = Stage.SoldToCustomer;
-                return "Status changed to SoldToCustomer";
+                output = "Status changed to SoldToCustomer";
             }
         }
         else{
-            return "Invalid Input";
+            output = "Invalid Input";
         }
+        
+        return output;
 
         // Harvested,
         // AtDistributionCenter,
