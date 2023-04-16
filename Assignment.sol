@@ -11,8 +11,12 @@ contract DTTBA {
     struct Durian {
         uint256 id;
         uint256 weightGrams;
+        Stage supplyChainStage;
+        uint[] stageTimestamps;
         DurianGrade grade;
-        Stage stage;
+        DurianFarm farm; 
+        DurianTree tree;
+        Rating customerRating;
     }
 
     enum DurianGrade {
@@ -22,7 +26,6 @@ contract DTTBA {
     }
     
     // Timestamps for the four stages
-    uint[] stageTimestamps;
 
     enum Stage {
         Harvested, 
@@ -41,12 +44,10 @@ contract DTTBA {
     }
 
     // Ratings given to this durian by the customers
-    Rating[] ratings;
-    DurianFarm public farm; 
-    DurianTree public tree;
 
     struct Rating {
         Customer ratingCustomer;
+        uint ratingTime;
         Rate taste;
         Rate fragrance;
         Rate creaminess;
@@ -81,7 +82,6 @@ contract DTTBA {
 
     constructor() {
         owner = msg.sender;
-        stageTimestamps[0] = block.timestamp;
     }
 
     // modifier validStage(Stage reqStage) {
