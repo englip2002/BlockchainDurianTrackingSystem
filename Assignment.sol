@@ -59,23 +59,23 @@ contract DTTBA {
         address addr;
     }
 
-    struct worker{
+    struct Worker{
         string workerID;
     }
 
-    struct durianFarm{
+    struct DurianFarm{
         string farmID;
         string name;
         string location;
         durianFarmSector[] sectors;
     }
 
-    struct durianFarmSector{
+    struct DurianFarmSector{
         string farmSectorID;
         uint256 duringTreeCount;
     }
 
-    struct durianTree{
+    struct DurianTree{
         string treeID;
         durianFarm farm;
         durianFarmSector sector;
