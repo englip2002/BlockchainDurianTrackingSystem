@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 contract DTTBA {
     uint256 public durianCount = 0;
-    mapping(uint => Durian) public durians;
+    mapping(uint => Durian) durians;
     struct Durian {
         string id;
         string species;
@@ -72,12 +72,11 @@ contract DTTBA {
     struct DurianFarm {
         string name;
         string location;
-        DurianTree[] durianTrees;
         uint256 durianTreeCount;
+        mapping(uint => DurianTree) durianTrees;
     }
 
     struct DurianTree{
-        uint id;
         uint age;
         string species;
         uint256 lastHarvestTime;
@@ -95,7 +94,13 @@ contract DTTBA {
     }
 
     modifier isDurianFarmExist(uint256 _durianFarmID) {
-        require(durianFarms[_durianFarmID] != false);
+        require(_durianFarmID > 0 && _durianFarmID <= durianFarmCount);
+        _;
+    }
+
+    modifier isDurianTreeExist(uint256 _durianFarmID, uint256 _durianTreeID) {
+        uint c = durianFarms[_durianFarmID].durianTreeCount;
+        require(_durianTreeID > 0 && _durianTreeID <= c);
         _;
     }
 
@@ -119,8 +124,12 @@ contract DTTBA {
         string memory _id,
         string memory _species, 
         uint256 _weightInGrams, 
-        uint256 _durianFarmID
-    ) public {
+        uint256 _durianFarmID, 
+        uint256 _durianTreeID
+    ) public 
+    isDurianFarmExist(_durianFarmID) 
+    isDurianTreeExist(_durianFarmID, _durianTreeID)
+    {
         durianCount++;
         Durian storage d = durians[durianCount];
         d.id = _id;
@@ -128,6 +137,11 @@ contract DTTBA {
         d.weightInGrams = _weightInGrams;
         d.supplyChainStage = Stage.Harvested;
         d.stageTimestamps[0] = block.timestamp;
+
+    }
+
+    function determineDurianGrade(uint weight) pure returns(DurianGrade grade) {
+        
     }
 
 
