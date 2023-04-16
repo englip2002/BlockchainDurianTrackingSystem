@@ -90,17 +90,14 @@ contract DTTBA {
     uint256 public durianFarmCount;
 
     function addDurianFarm(string memory _name, string memory _location) public {
-        newDurianFarm = DurianFarm(
-            _name, 
-            _location
-        );
+        
     }
 
     function addDurian(
         string memory species, 
         uint256 weightInGrams, 
-
-    ) {
+        uint256 durianFarmID
+    ) public {
 
     }
 }
