@@ -37,7 +37,9 @@ contract DTTBA {
 
     // Ratings given to this durian by the customers
     rating[] ratings;
-    Stages public currentStage; 
+    Stages public currentStage;
+    durianFarm public farm; 
+    durianTree public tree;
 
     struct rating {
         Customer ratingCustomer;
@@ -70,6 +72,16 @@ contract DTTBA {
         uint256 duringTreeCount;
     }
 
+
+    struct durianTree{
+        string treeID;
+        durianFarm farm;
+        durianFarmSector sector;
+        uint age;
+        string species;
+        uint256 lastHarvestTime;
+    }
+
     address owner;
 
     constructor() {
@@ -77,5 +89,12 @@ contract DTTBA {
         stageTimestamps[0] = block.timestamp;
     }
 
+    modifier validStage(Stages reqStage) {
+        require(currentStage == reqStage);
+        _;
+    }
 
+    function addDurianFarm(string memory _farmID, string memory _name, string memory _location) public {
+
+    }
 }
