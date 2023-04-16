@@ -4,10 +4,11 @@ pragma solidity ^0.8.0;
 contract DTTBA {
 
     uint256 public durianCount = 0;
-    Durian[] durians;
+    mapping(uint => Durian) public durians;
     struct Durian {
-        uint256 id;
-        uint256 weightGrams;
+        string id;
+        string species;
+        uint256 weightInGrams;
         Stage supplyChainStage;
         uint[] stageTimestamps;
         DurianGrade grade;
@@ -65,11 +66,12 @@ contract DTTBA {
     struct DurianFarm{
         string name;
         string location;
-        mapping(uint => DurianTree) durianTrees;
+        DurianTree[] durianTrees;
         uint256 durianTreeCount;
     }
 
     struct DurianTree{
+        uint id;
         uint age;
         string species;
         uint256 lastHarvestTime;
@@ -81,23 +83,46 @@ contract DTTBA {
         owner = msg.sender;
     }
 
+    modifier isOwner(address sender) {
+        require(sender == owner);
+        _;
+    }
+
+    modifier isDurianFarmExist(uint256 _durianFarmID) {
+        require(durianFarms[_durianFarmID] != false);
+        _;
+    }
+
     // modifier validStage(Stage reqStage) {
     //     require(currentStage == reqStage);
     //     _;
     // }
 
     mapping(uint => DurianFarm) public durianFarms;
-    uint256 public durianFarmCount;
+    uint256 public durianFarmCount = 0;
 
-    function addDurianFarm(string memory _name, string memory _location) public {
-        
+    function addDurianFarm(string memory _name, string memory _location) public isOwner(msg.sender) {
+        durianFarmCount++;
+        DurianFarm storage newFarm = durianFarms[durianFarmCount];
+        newFarm.name = _name;
+        newFarm.location = _location;
+        newFarm.durianTreeCount = 0;
     }
 
     function addDurian(
-        string memory species, 
-        uint256 weightInGrams, 
-        uint256 durianFarmID
+        string memory _id,
+        string memory _species, 
+        uint256 _weightInGrams, 
+        uint256 _durianFarmID
     ) public {
+        durianCount++;
+        Durian storage d = durians[durianCount];
+        d.id = _id;
+        d.species = _species;
+        d.weightInGrams = _weightInGrams;
+        d.supplyChainStage = Stage.Harvested;
+        d.stageTimestamps[0] = block.timestamp;
+        
 
     }
 
