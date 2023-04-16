@@ -117,7 +117,7 @@ contract DTTBA {
     function addWorker(string memory _name) public{
         Worker storage newWorker = workerList[workerCount];
         newWorker.name = _name;
-        newWorker.workerID = durianCount;
+        newWorker.workerID = workerCount;
         workerCount++;
     }
 }
