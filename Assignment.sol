@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract Durian {
     uint256 id;
     uint256 weightGrams;
-    DurianGrade class;
+    DurianGrade grade;
 
     enum DurianGrade {
         Extra, 
