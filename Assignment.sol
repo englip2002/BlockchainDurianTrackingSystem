@@ -35,7 +35,7 @@ contract Durian {
     rating[] ratings;
     Stages public currentStage;
     durianFarm public farm; 
-    durianTree 
+    durianTree public tree;
 
     struct rating {
         Customer ratingCustomer;
