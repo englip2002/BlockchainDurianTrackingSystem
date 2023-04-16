@@ -4,7 +4,13 @@ pragma solidity ^0.8.0;
 contract Durian {
     uint256 id;
     uint256 weightGrams;
-    string species;
+    DurianGrade class;
+
+    enum DurianGrade {
+        Extra, 
+        ClassI, 
+        ClassII
+    }
     
     // Timestamps for the four stages
     uint[] stageTimestamps;
@@ -13,7 +19,8 @@ contract Durian {
         Harvested, 
         AtDistributionCenter, 
         AtRetailer, 
-        SoldToCustomer
+        SoldToCustomer, 
+        Expired
     }
 
     enum Rate {
@@ -44,7 +51,6 @@ contract Durian {
 
     struct worker{
         string workerID;
-        
     }
 
     struct durianTree{
@@ -68,7 +74,12 @@ contract Durian {
         uint256 duringTreeCount;
     }
 
-    constructor() {
+    address owner;
 
+    constructor() {
+        owner = msg.sender;
+        stageTimestamps[0] = block.timestamp;
     }
+
+
 }
