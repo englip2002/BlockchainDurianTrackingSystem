@@ -28,13 +28,6 @@ contract Durian {
         uint256 duringTreeCount;
     }
 
-    enum Stage {
-        Init,
-        Reg,
-        Vote,
-        Done
-    }
-
     constructor() {
 
     }
