@@ -66,7 +66,7 @@ contract DTTBA {
     struct Worker {
         uint workerID;
         string name;
-        WorkedFor place;
+        WorkedFor workedFor;
     }
 
     struct DurianFarm {
@@ -92,10 +92,6 @@ contract DTTBA {
 
     constructor() {
         owner = msg.sender;
-    }
-
-    modifier isCorrectWorker(Worker memory worker, WorkedFor place) {
-        require(worker.place == place);
     }
 
     modifier isOwner(address sender) {
@@ -175,13 +171,52 @@ contract DTTBA {
         else return DurianGrade.AA;
     }
 
-    mapping(uint => Worker) public workerList;
+    mapping(address => Worker) public workerList;
     uint workerCount = 0;
 
-    function addWorker(string memory _name) public {
-        Worker storage newWorker = workerList[workerCount];
+    function addWorker(string memory _name, address workerAddress) public {
+        Worker storage newWorker = workerList[workerAddress];
         newWorker.name = _name;
         newWorker.workerID = workerCount;
         workerCount++;
+    }
+
+
+    function recordDurian(Durian memory durian, address worker) public view returns ( string memory){
+        if(durian.supplyChainStage == Stage.Harvested){
+            if(workerList[worker].workedFor == WorkedFor.DurianFarm){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.AtDistributionCenter;
+                return "Status changed to AtDistributionCenter";
+            }
+        }
+        else if(durian.supplyChainStage == Stage.AtDistributionCenter){
+            if(workerList[worker].workedFor == WorkedFor.DistributionCentre){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.AtRetailer;
+                return "Status changed to AtRetailer";
+            }
+        }
+        else if(durian.supplyChainStage == Stage.AtRetailer){
+            if(workerList[worker].workedFor == WorkedFor.Retailer){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.SoldToCustomer;
+                return "Status changed to SoldToCustomer";
+            }
+        }
+        else{
+            return "Invalid Input";
+        }
+
+        // Harvested,
+        // AtDistributionCenter,
+        // AtRetailer,
+        // SoldToCustomer,
+        // Expired
+
+
+        // DurianFarm,
+        // DistributionCentre,
+        // Retailer
     }
 }
