@@ -4,9 +4,6 @@ pragma solidity ^0.8.0;
 contract DTTBA {
 
     uint256 public durianCount = 0;
-    uint256 public durianFarmCount = 0;
-    uint256 public durianFarmSectorCount = 0;
-
     Durian[] durians;
     struct Durian {
         uint256 id;
@@ -62,17 +59,17 @@ contract DTTBA {
 
     struct Worker{
         string workerID;
+        string name;
     }
 
     struct DurianFarm{
-        string farmID;
         string name;
         string location;
+        mapping(uint => DurianTree) durianTrees;
+        uint256 durianTreeCount;
     }
 
     struct DurianTree{
-        string treeID;
-        DurianFarm farm;
         uint age;
         string species;
         uint256 lastHarvestTime;
@@ -89,7 +86,21 @@ contract DTTBA {
     //     _;
     // }
 
-    function addDurianFarm(string memory _farmID, string memory _name, string memory _location) public {
+    mapping(uint => DurianFarm) public durianFarms;
+    uint256 public durianFarmCount;
+
+    function addDurianFarm(string memory _name, string memory _location) public {
+        newDurianFarm = DurianFarm(
+            _name, 
+            _location
+        );
+    }
+
+    function addDurian(
+        string memory species, 
+        uint256 weightInGrams, 
+
+    ) {
 
     }
 }
