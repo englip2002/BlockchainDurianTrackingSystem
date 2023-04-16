@@ -64,9 +64,9 @@ contract DTTBA {
     }
 
     struct Worker {
-        string workerID;
+        uint workerID;
         string name;
-        WorkedFor works;
+        WorkedFor place;
     }
 
     struct DurianFarm {
@@ -86,6 +86,10 @@ contract DTTBA {
 
     constructor() {
         owner = msg.sender;
+    }
+
+    modifier isCorrectWorker(Worker memory worker, WorkedFor place){
+        require(worker.place == place);
     }
 
     modifier isOwner(address sender) {
@@ -153,6 +157,7 @@ contract DTTBA {
         uint256 _lastHarvestTime
     ) public {}
 
+    
     mapping(uint => Worker) public workerList;
     uint workerCount = 0;
 
