@@ -67,6 +67,7 @@ contract DTTBA {
         string name;
         string location;
         uint256 durianTreeCount;
+        bool exist;
     }
 
     struct DurianTree {
@@ -75,6 +76,7 @@ contract DTTBA {
         string species;
         uint256 lastHarvestTime;
         DurianFarm farm;
+        bool exist;
     }
 
     address owner;
@@ -95,17 +97,17 @@ contract DTTBA {
     }
 
     modifier durianFarmExist(uint256 _durianFarmID) {
-        require(_durianFarmID != 0);
+        require(durianFarms[_durianFarmID].exist);
         _;
     }
 
     modifier durianTreeExist(uint256 _durianTreeID) {
-        require(_durianTreeID != 0);
+        require(durianTrees[_durianTreeID].exist);
         _;
     }
 
     modifier durianExist(string memory _durianID) {
-        require(durians[_durianID].exist == true);
+        require(durians[_durianID].exist);
         _;
     }
 
@@ -123,6 +125,7 @@ contract DTTBA {
         newFarm.name = _name;
         newFarm.location = _location;
         newFarm.durianTreeCount = 0;
+        newFarm.exist = true;
     }
 
     function addDurianTree(
@@ -132,12 +135,13 @@ contract DTTBA {
         uint256 _durianFarmID
     ) public isOwner(msg.sender) durianFarmExist(_durianFarmID) {
         durianTreesCount++;
-        DurianTree memory t = durianTrees[durianTreesCount];
+        DurianTree storage t = durianTrees[durianTreesCount];
         t.id = _id;
         t.age = _age;
         t.species = _species;
         t.lastHarvestTime = 0;
         t.farm = durianFarms[_durianFarmID];
+        t.exist = true;
     }
 
     function addDurian(
@@ -149,7 +153,7 @@ contract DTTBA {
     ) public durianFarmExist(_durianFarmID) durianTreeExist(_durianTreeID) {
         // Create new durian
         durianCount++;
-        Durian memory d = durians[_id];
+        Durian storage d = durians[_id];
         d.species = _species;
         d.weightInGrams = _weightInGrams;
         d.supplyChainStage = Stage.Harvested;
@@ -243,7 +247,7 @@ contract DTTBA {
             uint soldTime
         )
     {
-        Durian memory d = durians[durianID];
+        Durian storage d = durians[durianID];
         durianFarmName = d.farm.name;
         durianFarmLocation = d.farm.location;
         durianTreeSpecies = d.tree.species;
