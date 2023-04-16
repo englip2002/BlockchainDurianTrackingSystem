@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract Durian {
     uint256 id;
     uint256 weightGrams;
-    DurianGrade grade;
+    DurianGrade class;
 
     enum DurianGrade {
         Extra, 
@@ -66,6 +66,16 @@ contract Durian {
     struct durianFarmSector{
         string farmSectorID;
         uint256 duringTreeCount;
+    }
+
+
+    struct durianTree{
+        string treeID;
+        durianFarm farm;
+        durianFarmSector sector;
+        uint age;
+        string species;
+        uint256 lastHarvestTime;
     }
 
     address owner;
