@@ -126,13 +126,14 @@ contract DTTBA {
     }
 
     function addDurianTree(
+        string memory _id,
         uint _age,
         string memory _species,
         uint256 _durianFarmID
     ) public isOwner(msg.sender) durianFarmExist(_durianFarmID) {
         durianTreesCount++;
         DurianTree memory t = durianTrees[durianTreesCount];
-        t.id = durianTreesCount;
+        t.id = _id;
         t.age = _age;
         t.species = _species;
         t.lastHarvestTime = 0;
