@@ -1,10 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Durian {
-    uint256 id;
-    uint256 weightGrams;
-    DurianGrade grade;
+contract DTTBA {
+
+    Durian[] durians;
+    struct Durian {
+        uint256 id;
+        uint256 weightGrams;
+        DurianGrade grade;
+    }
 
     enum DurianGrade {
         Extra, 
