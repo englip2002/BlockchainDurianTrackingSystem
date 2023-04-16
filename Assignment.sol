@@ -29,6 +29,6 @@ contract Durian {
     }
 
     constructor() {
-
+        
     }
 }
