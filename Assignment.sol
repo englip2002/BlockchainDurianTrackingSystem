@@ -41,11 +41,11 @@ contract DTTBA {
     }
 
     // Ratings given to this durian by the customers
-    rating[] ratings;
-    durianFarm public farm; 
-    durianTree public tree;
+    Rating[] ratings;
+    DurianFarm public farm; 
+    DurianTree public tree;
 
-    struct rating {
+    struct Rating {
         Customer ratingCustomer;
         Rate taste;
         Rate fragrance;
@@ -67,18 +67,11 @@ contract DTTBA {
         string farmID;
         string name;
         string location;
-        durianFarmSector[] sectors;
-    }
-
-    struct DurianFarmSector{
-        string farmSectorID;
-        uint256 duringTreeCount;
     }
 
     struct DurianTree{
         string treeID;
-        durianFarm farm;
-        durianFarmSector sector;
+        DurianFarm farm;
         uint age;
         string species;
         uint256 lastHarvestTime;
