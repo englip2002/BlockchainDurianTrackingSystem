@@ -66,7 +66,7 @@ contract DTTBA {
     struct Worker {
         uint workerID;
         string name;
-        WorkedFor place;
+        WorkedFor workedFor;
     }
 
     struct DurianFarm {
@@ -86,10 +86,6 @@ contract DTTBA {
 
     constructor() {
         owner = msg.sender;
-    }
-
-    modifier isCorrectWorker(Worker memory worker, WorkedFor place){
-        require(worker.place == place);
     }
 
     modifier isOwner(address sender) {
@@ -166,5 +162,44 @@ contract DTTBA {
         newWorker.name = _name;
         newWorker.workerID = workerCount;
         workerCount++;
+    }
+
+
+    function recordDurian(Durian memory durian, address worker) public returns ( string memory){
+        if(durian.supplyChainStage == Stage.Harvested){
+            if(workerList[address].workedFor == WorkedFor.DurianFarm){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.AtDistributionCenter;
+                return "Status changed to AtDistributionCenter";
+            }
+        }
+        else if(durian.supplyChainStage == Stage.AtDistributionCenter){
+            if(workerList[address].workedFor == WorkedFor.DistributionCentre){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.AtRetailer;
+                return "Status changed to AtRetailer";
+            }
+        }
+        else if(durian.supplyChainStage == Stage.AtRetailer){
+            if(workerList[address].workedFor == WorkedFor.Retailer){
+                //TODO what need to record
+                durian.supplyChainStage = Stage.SoldToCustomer;
+                return "Status changed to SoldToCustomer";
+            }
+        }
+        else{
+            return "Invalid Input";
+        }
+
+        // Harvested,
+        // AtDistributionCenter,
+        // AtRetailer,
+        // SoldToCustomer,
+        // Expired
+
+
+        // DurianFarm,
+        // DistributionCentre,
+        // Retailer
     }
 }
