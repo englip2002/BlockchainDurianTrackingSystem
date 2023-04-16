@@ -26,6 +26,7 @@ contract Durian {
 
     // Ratings given to this durian by the customers
     rating[] ratings;
+    Stages public currentStage; 
 
     struct rating {
         Customer ratingCustomer;
@@ -47,15 +48,6 @@ contract Durian {
         
     }
 
-    struct durianTree{
-        string treeID;
-        durianFarm farm;
-        durianFarmSector farmSector;
-        uint256 age;
-        string species;
-        uint256 lastHarvestTime;
-    }
-
     struct durianFarm{
         string farmID;
         string name;
@@ -68,7 +60,27 @@ contract Durian {
         uint256 duringTreeCount;
     }
 
+    struct durianTree{
+        string treeID;
+        durianFarm farm;
+        durianFarmSector farmSector;
+        uint256 age;
+        string species;
+        uint256 lastHarvestTime;
+    }
+
     constructor() {
+
+    }
+
+    modifier validStage(Stages reqStage) {
+        require(currentStage == reqStage);
+        _;
+    }
+
+    //information input (durian tree, durian farm, durianSector)
+    function addDurianFarm(string memory _farmID, string memory _name, string memory location) public {
         
     }
+
 }
