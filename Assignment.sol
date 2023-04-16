@@ -246,6 +246,7 @@ contract DTTBA {
         Durian memory d = durians[durianID];
         durianFarmName = d.farm.name;
         durianFarmLocation = d.farm.location;
+        durianTreeSpecies = d.tree.species;
         durianTreeID = d.tree.id;
         harvestTime = d.stageTimestamps[0];
         distributionCenterTime = d.stageTimestamps[1];
