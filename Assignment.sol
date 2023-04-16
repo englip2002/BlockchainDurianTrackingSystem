@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 contract DTTBA {
+    mapping(string => Durian) public durians;
     uint256 public durianCount = 0;
-    mapping(uint => Durian) durians;
+
     struct Durian {
-        string id;
         string species;
         uint256 weightInGrams;
         Stage supplyChainStage;
@@ -17,9 +17,9 @@ contract DTTBA {
     }
 
     enum DurianGrade {
-        Extra,
-        ClassI,
-        ClassII
+        AA,
+        A,
+        B
     }
 
     // Timestamps for the four stages
@@ -73,22 +73,28 @@ contract DTTBA {
         string name;
         string location;
         uint256 durianTreeCount;
-        mapping(uint => DurianTree) durianTrees;
     }
 
-    struct DurianTree{
+    struct DurianTree {
         uint age;
         string species;
         uint256 lastHarvestTime;
+        DurianFarm farm;
     }
 
     address owner;
+
+    mapping(uint => DurianFarm) public durianFarms;
+    uint256 public durianFarmCount = 0;
+
+    mapping(uint => DurianTree) public durianTrees;
+    uint256 public durianTreesCount = 0;
 
     constructor() {
         owner = msg.sender;
     }
 
-    modifier isCorrectWorker(Worker memory worker, WorkedFor place){
+    modifier isCorrectWorker(Worker memory worker, WorkedFor place) {
         require(worker.place == place);
     }
 
@@ -97,26 +103,25 @@ contract DTTBA {
         _;
     }
 
-    modifier isDurianFarmExist(uint256 _durianFarmID) {
+    modifier durianFarmExist(uint256 _durianFarmID) {
         require(_durianFarmID > 0 && _durianFarmID <= durianFarmCount);
         _;
     }
 
-    modifier isDurianTreeExist(uint256 _durianFarmID, uint256 _durianTreeID) {
-        uint c = durianFarms[_durianFarmID].durianTreeCount;
-        require(_durianTreeID > 0 && _durianTreeID <= c);
+    modifier durianTreeExist(uint256 _durianTreeID) {
+        require(_durianTreeID > 0 && _durianTreeID <= durianTreesCount);
         _;
     }
 
-    // modifier validStage(Stage reqStage) {
-    //     require(currentStage == reqStage);
-    //     _;
-    // }
+    modifier validDurianWeight(uint _weight) {
+        require(_weight >= 0);
+        _;
+    }
 
-    mapping(uint => DurianFarm) public durianFarms;
-    uint256 public durianFarmCount = 0;
-
-    function addDurianFarm(string memory _name, string memory _location) public isOwner(msg.sender) {
+    function addDurianFarm(
+        string memory _name,
+        string memory _location
+    ) public isOwner(msg.sender) {
         durianFarmCount++;
         DurianFarm storage newFarm = durianFarms[durianFarmCount];
         newFarm.name = _name;
@@ -124,40 +129,52 @@ contract DTTBA {
         newFarm.durianTreeCount = 0;
     }
 
+    function addDurianTree(
+        uint _age,
+        string memory _species,
+        uint256 _lastHarvestTime,
+        uint256 _durianFarmID
+    ) public isOwner(msg.sender) durianFarmExist(_durianFarmID) {
+        durianTreesCount++;
+        DurianTree memory t = durianTrees[durianTreesCount];
+        t.age = _age;
+        t.species = _species;
+        t.lastHarvestTime = 0;
+        t.farm = durianFarms[_durianFarmID];
+    }
+
     function addDurian(
         string memory _id,
-        string memory _species, 
-        uint256 _weightInGrams, 
-        uint256 _durianFarmID, 
+        string memory _species,
+        uint256 _weightInGrams,
+        uint256 _durianFarmID,
         uint256 _durianTreeID
-    ) public 
-    isDurianFarmExist(_durianFarmID) 
-    isDurianTreeExist(_durianFarmID, _durianTreeID)
-    {
+    ) public durianFarmExist(_durianFarmID) durianTreeExist(_durianTreeID) {
+        // Create new durian
         durianCount++;
-        Durian storage d = durians[durianCount];
-        d.id = _id;
+        Durian memory d = durians[_id];
         d.species = _species;
         d.weightInGrams = _weightInGrams;
         d.supplyChainStage = Stage.Harvested;
         d.stageTimestamps[0] = block.timestamp;
+        d.grade = determineDurianGrade(_weightInGrams);
+        d.farm = durianFarms[_durianFarmID];
+        d.tree = durianTrees[_durianTreeID];
 
+        // Update durian tree info
+        if (durianTrees[_durianTreeID].lastHarvestTime < block.timestamp) {
+            durianTrees[_durianTreeID].lastHarvestTime = block.timestamp;
+        }
     }
 
-    function determineDurianGrade(uint weight) pure returns(DurianGrade grade) {
-        
+    function determineDurianGrade(
+        uint weight
+    ) private pure returns (DurianGrade grade) {
+        if (weight >= 0 && weight <= 1200) return DurianGrade.B;
+        else if (weight > 1200 && weight <= 2400) return DurianGrade.A;
+        else return DurianGrade.AA;
     }
 
-
-    function addDurianTree(
-        string memory _treeID,
-        DurianFarm memory _farm,
-        uint _age,
-        string memory _species,
-        uint256 _lastHarvestTime
-    ) public {}
-
-    
     mapping(uint => Worker) public workerList;
     uint workerCount = 0;
 
