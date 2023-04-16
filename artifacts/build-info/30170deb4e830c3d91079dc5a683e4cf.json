@@ -1,13 +1,13 @@
 {
-	"id": "029b876ca0df08037e41bb27013d4f33",
+	"id": "30170deb4e830c3d91079dc5a683e4cf",
 	"_format": "hh-sol-build-info-1",
-	"solcVersion": "0.6.12",
-	"solcLongVersion": "0.6.12+commit.27d51765",
+	"solcVersion": "0.8.19",
+	"solcLongVersion": "0.8.19+commit.7dd6d404",
 	"input": {
 		"language": "Solidity",
 		"sources": {
 			"Assignment.sol": {
-				"content": "//SPDX-License-Identifier: MIT\r\npragma solidity ^0.6.8;"
+				"content": "//SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;"
 			}
 		},
 		"settings": {
@@ -52,8 +52,8 @@
 							"literals": [
 								"solidity",
 								"^",
-								"0.6",
-								".8"
+								"0.8",
+								".0"
 							],
 							"nodeType": "PragmaDirective",
 							"src": "32:23:0"
