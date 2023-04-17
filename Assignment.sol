@@ -6,13 +6,12 @@ contract DTTBA {
     uint256 public durianCount = 0;
 
     struct Durian {
-        string species;
         uint256 weightInGrams;
         Stage supplyChainStage;
         uint[] stageTimestamps;
         DurianGrade grade;
-        DurianFarm farm;
-        DurianTree tree;
+        string durianFarmID;
+        string durianTreeID;
         Rating customerRating;
         bool exist;
     }
@@ -28,8 +27,7 @@ contract DTTBA {
         Harvested,
         AtDistributionCenter,
         AtRetailer,
-        SoldToCustomer,
-        Expired
+        SoldToCustomer
     }
 
     enum Rate {
@@ -40,7 +38,8 @@ contract DTTBA {
         Excellent
     }
 
-    enum WorkedFor {
+    enum WorkFor {
+        None,
         DurianFarm,
         DistributionCentre,
         Retailer
@@ -59,11 +58,10 @@ contract DTTBA {
     struct Worker {
         uint workerID;
         string name;
-        WorkedFor workedFor;
+        WorkFor workedFor;
     }
 
     struct DurianFarm {
-        string id;
         string name;
         string location;
         uint256 durianTreeCount;
@@ -71,38 +69,64 @@ contract DTTBA {
     }
 
     struct DurianTree {
-        string id;
         uint age;
         string species;
         uint256 lastHarvestTime;
-        DurianFarm farm;
+        string durianFarmID;
         bool exist;
     }
 
     address owner;
 
-    mapping(uint => DurianFarm) public durianFarms;
+    mapping(string => DurianFarm) public durianFarms;
     uint256 public durianFarmCount = 0;
 
-    mapping(uint => DurianTree) public durianTrees;
+    mapping(string => DurianTree) public durianTrees;
     uint256 public durianTreesCount = 0;
 
     constructor() {
         owner = msg.sender;
     }
 
+    // Verify message sender
     modifier isOwner(address sender) {
         require(sender == owner);
         _;
     }
 
-    modifier durianFarmExist(uint256 _durianFarmID) {
+    modifier isFarmWorker(address senderAddr) {
+        require(workerList[senderAddr].workedFor == WorkFor.DurianFarm);
+        _;
+    }
+
+    modifier isDistributionCenterWorker(address senderAddr) {
+        require(workerList[senderAddr].workedFor == WorkFor.DistributionCentre);
+        _;
+    }
+
+    modifier isRetailerWorker(address senderAddr) {
+        require(workerList[senderAddr].workedFor == WorkFor.Retailer);
+        _;
+    }
+
+    // Verify ID existence
+    modifier durianFarmExist(string memory _durianFarmID) {
         require(durianFarms[_durianFarmID].exist);
         _;
     }
 
-    modifier durianTreeExist(uint256 _durianTreeID) {
+    modifier durianFarmNotExist(string memory _durianFarmID) {
+        require(!durianFarms[_durianFarmID].exist);
+        _;
+    }
+
+    modifier durianTreeExist(string memory _durianTreeID) {
         require(durianTrees[_durianTreeID].exist);
+        _;
+    }
+
+    modifier durianTreeNotExist(string memory _durianTreeID) {
+        require(!durianTrees[_durianTreeID].exist);
         _;
     }
 
@@ -111,56 +135,79 @@ contract DTTBA {
         _;
     }
 
+    modifier durianNotExist(string memory _durianID) {
+        require(!durians[_durianID].exist);
+        _;
+    }
+
+    // Others
     modifier validDurianWeight(uint _weight) {
         require(_weight >= 0);
         _;
     }
 
+    modifier isDurianSold(string memory durianID) {
+        require(durians[durianID].supplyChainStage == Stage.SoldToCustomer);
+        _;
+    }
+
+    // Functions for workers and Owner
     function addDurianFarm(
+        string memory _id,
         string memory _name,
         string memory _location
     ) public isOwner(msg.sender) {
         durianFarmCount++;
-        DurianFarm storage newFarm = durianFarms[durianFarmCount];
-        newFarm.name = _name;
-        newFarm.location = _location;
-        newFarm.durianTreeCount = 0;
-        newFarm.exist = true;
+        durianFarms[_id] = DurianFarm({
+            name: _name,
+            location: _location,
+            durianTreeCount: 0,
+            exist: true
+        });
     }
 
     function addDurianTree(
         string memory _id,
         uint _age,
         string memory _species,
-        uint256 _durianFarmID
-    ) public isOwner(msg.sender) durianFarmExist(_durianFarmID) {
+        string memory _durianFarmID
+    )
+        public
+        isOwner(msg.sender)
+        durianTreeNotExist(_id)
+        durianFarmExist(_durianFarmID)
+    {
         durianTreesCount++;
-        DurianTree storage t = durianTrees[durianTreesCount];
-        t.id = _id;
-        t.age = _age;
-        t.species = _species;
-        t.lastHarvestTime = 0;
-        t.farm = durianFarms[_durianFarmID];
-        t.exist = true;
+        durianTrees[_id] = DurianTree({
+            age: _age,
+            species: _species,
+            lastHarvestTime: 0,
+            durianFarmID: _durianFarmID,
+            exist: true
+        });
     }
 
     function addDurian(
         string memory _id,
-        string memory _species,
         uint256 _weightInGrams,
-        uint256 _durianFarmID,
-        uint256 _durianTreeID
-    ) public durianFarmExist(_durianFarmID) durianTreeExist(_durianTreeID) {
+        string memory _durianFarmID,
+        string memory _durianTreeID
+    )
+        public
+        isFarmWorker(msg.sender)
+        durianNotExist(_id)
+        durianFarmExist(_durianFarmID)
+        durianTreeExist(_durianTreeID)
+    {
         // Create new durian
         durianCount++;
         Durian storage d = durians[_id];
-        d.species = _species;
         d.weightInGrams = _weightInGrams;
         d.supplyChainStage = Stage.Harvested;
-        d.stageTimestamps[0] = block.timestamp;
+        d.stageTimestamps.push(block.timestamp);
         d.grade = determineDurianGrade(_weightInGrams);
-        d.farm = durianFarms[_durianFarmID];
-        d.tree = durianTrees[_durianTreeID];
+        d.durianFarmID = _durianFarmID;
+        d.durianTreeID = _durianTreeID;
         d.exist = true;
 
         // Update durian tree info
@@ -180,53 +227,48 @@ contract DTTBA {
     mapping(address => Worker) public workerList;
     uint workerCount = 0;
 
-    function addWorker(string memory _name, address workerAddress) public {
+    function addWorker(string memory _name, address workerAddress, WorkFor _workFor) public {
         Worker storage newWorker = workerList[workerAddress];
         newWorker.name = _name;
         newWorker.workerID = workerCount;
+        newWorker.workedFor = _workFor;
         workerCount++;
     }
 
     function recordDurian(
-        Durian memory durian,
-        address worker
-    ) public view returns (string memory output) {
-        if (durian.supplyChainStage == Stage.Harvested) {
-            if (workerList[worker].workedFor == WorkedFor.DurianFarm) {
-                //TODO what need to record
-                durian.supplyChainStage = Stage.AtDistributionCenter;
-                output = "Status changed to AtDistributionCenter";
-                durian.stageTimestamps[1] = block.timestamp;
-            }
-        } else if (durian.supplyChainStage == Stage.AtDistributionCenter) {
-            if (workerList[worker].workedFor == WorkedFor.DistributionCentre) {
-                //TODO what need to record
-                durian.supplyChainStage = Stage.AtRetailer;
-                output = "Status changed to AtRetailer";
-                durian.stageTimestamps[2] = block.timestamp;
-            }
-        } else if (durian.supplyChainStage == Stage.AtRetailer) {
-            if (workerList[worker].workedFor == WorkedFor.Retailer) {
-                //TODO what need to record
-                durian.supplyChainStage = Stage.SoldToCustomer;
-                output = "Status changed to SoldToCustomer";
-                durian.stageTimestamps[3] = block.timestamp;
-            }
+        string memory durianID
+    ) public durianExist(durianID) returns (string memory output) {
+        Durian storage durian = durians[durianID];
+        address worker = msg.sender;
+        if (
+            durian.supplyChainStage == Stage.Harvested &&
+            workerList[worker].workedFor == WorkFor.DurianFarm
+        ) {
+            //TODO what need to record
+            durian.supplyChainStage = Stage.AtDistributionCenter;
+            output = "Status changed to AtDistributionCenter";
+            durian.stageTimestamps.push(block.timestamp);
+        } else if (
+            durian.supplyChainStage == Stage.AtDistributionCenter &&
+            workerList[worker].workedFor == WorkFor.DistributionCentre
+        ) {
+            //TODO what need to record
+            durian.supplyChainStage = Stage.AtRetailer;
+            output = "Status changed to AtRetailer";
+            durian.stageTimestamps.push(block.timestamp);
+        } else if (
+            durian.supplyChainStage == Stage.AtRetailer &&
+            workerList[worker].workedFor == WorkFor.Retailer
+        ) {
+            //TODO what need to record
+            durian.supplyChainStage = Stage.SoldToCustomer;
+            output = "Status changed to SoldToCustomer";
+            durian.stageTimestamps.push(block.timestamp);
         } else {
             output = "Invalid Input";
         }
 
         return output;
-
-        // Harvested,
-        // AtDistributionCenter,
-        // AtRetailer,
-        // SoldToCustomer,
-        // Expired
-
-        // DurianFarm,
-        // DistributionCentre,
-        // Retailer
     }
 
     // Consumer Functions
@@ -241,21 +283,15 @@ contract DTTBA {
             string memory durianFarmLocation,
             string memory durianTreeSpecies,
             string memory durianTreeID,
-            uint harvestTime,
-            uint distributionCenterTime,
-            uint retailerTime,
-            uint soldTime
+            uint[] memory _stageTimestamps
         )
     {
         Durian storage d = durians[durianID];
-        durianFarmName = d.farm.name;
-        durianFarmLocation = d.farm.location;
-        durianTreeSpecies = d.tree.species;
-        durianTreeID = d.tree.id;
-        harvestTime = d.stageTimestamps[0];
-        distributionCenterTime = d.stageTimestamps[1];
-        retailerTime = d.stageTimestamps[2];
-        soldTime = d.stageTimestamps[3];
+        durianFarmName = durianFarms[d.durianFarmID].name;
+        durianFarmLocation = durianFarms[d.durianFarmID].location;
+        durianTreeSpecies = durianTrees[d.durianTreeID].species;
+        durianTreeID = d.durianTreeID;
+        _stageTimestamps = d.stageTimestamps;
     }
 
     function rateDurian(
@@ -263,7 +299,7 @@ contract DTTBA {
         Rate tasteRating,
         Rate fragranceRating,
         Rate creaminessRating
-    ) public durianExist(durianID) {
+    ) public isDurianSold(durianID) durianExist(durianID) {
         Rating memory r = Rating(
             msg.sender,
             block.timestamp,
@@ -273,4 +309,5 @@ contract DTTBA {
         );
         durians[durianID].customerRating = r;
     }
+
 }
