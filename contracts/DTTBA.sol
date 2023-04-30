@@ -148,8 +148,11 @@ contract DTTBA {
     function addDurianFarm(
         string memory _id,
         string memory _name,
-        string memory _location
-    ) public isOwner(msg.sender) {
+        string memory _location 
+    ) public 
+        isOwner(msg.sender) 
+        durianFarmNotExist(_id)
+    {
         durianFarmCount++;
         durianFarms[_id] = DurianFarm({
             name: _name,
