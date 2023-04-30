@@ -12,6 +12,7 @@ contract DTTBA {
         DurianGrade grade;
         string durianFarmID;
         string durianTreeID;
+        address boughtByCustomer;
         Rating customerRating;
         bool exist;
     }
@@ -48,8 +49,8 @@ contract DTTBA {
     // Ratings given to this durian by the customers
 
     struct Rating {
-        address customerAddress;
         uint ratingTime;
+        string remark;
         Rate taste;
         Rate fragrance;
         Rate creaminess;
@@ -296,13 +297,14 @@ contract DTTBA {
 
     function rateDurian(
         string memory durianID,
+        string memory remark,
         Rate tasteRating,
         Rate fragranceRating,
         Rate creaminessRating
     ) public isDurianSold(durianID) durianExist(durianID) {
         Rating memory r = Rating(
-            msg.sender,
             block.timestamp,
+            remark,
             tasteRating,
             fragranceRating,
             creaminessRating
