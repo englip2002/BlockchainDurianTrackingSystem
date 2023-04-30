@@ -1,15 +1,14 @@
 [
   {
     "id": 0,
-    "name": "Samba",
+    "name": "D24 Durian",
     "picture": "images/Samba.jpg",
-    "age": 20,
-    "fee": 5,
-    "location": "Lion, Zoo Malaysia"
+    "fee": 5
+
   },
   {
     "id": 1,
-    "name": "Choki",
+    "name": "XO Durian",
     "picture": "images/Choki.jpg",
     "age": 9,
     "fee": 5,
@@ -17,7 +16,7 @@
   },
   {
     "id": 2,
-    "name": "Mango",
+    "name": "Red Prawn Durian",
     "picture": "images/Mango.jpeg",
     "age": 5,
     "fee": 5,
@@ -25,7 +24,7 @@
   },
   {
     "id": 3,
-    "name": "White Tiger",
+    "name": "Mao Shan Wang Durian",
     "picture": "images/WhiteTiger.jpg",
     "age": 5,
     "fee": 5,
@@ -33,7 +32,7 @@
   },
   {
     "id": 4,
-    "name": "Yi Yi",
+    "name": "Black Pearl Durian",
     "picture": "images/YiYi.jpg",
     "age": 6,
     "fee": 5,
@@ -41,7 +40,7 @@
   },
   {
     "id": 5,
-    "name": "Jati",
+    "name": "Golden Phoenix Durian",
     "picture": "images/Jati.jpeg",
     "age": 3,
     "fee": 5,
@@ -49,7 +48,7 @@
   },
   {
     "id": 6,
-    "name": "Sibol",
+    "name": "Black Thorn Durian",
     "picture": "images/Sibol.jpg",
     "age": 2,
     "fee": 5,
@@ -57,7 +56,7 @@
   },
   {
     "id": 7,
-    "name": "Giraffe",
+    "name": "Black Gold Durian",
     "picture": "images/Giraffe.jpg",
     "age": 7,
     "fee": 5,
