@@ -31,14 +31,6 @@ contract DTTBA {
         SoldToCustomer
     }
 
-    enum Rate {
-        Worst,
-        Bad,
-        Normal,
-        Good,
-        Excellent
-    }
-
     enum WorkFor {
         None,
         DurianFarm,
@@ -51,9 +43,9 @@ contract DTTBA {
     struct Rating {
         uint ratingTime;
         string remark;
-        Rate taste;
-        Rate fragrance;
-        Rate creaminess;
+        uint taste;
+        uint fragrance;
+        uint creaminess;
     }
 
     struct Worker {
@@ -298,9 +290,9 @@ contract DTTBA {
     function rateDurian(
         string memory durianID,
         string memory remark,
-        Rate tasteRating,
-        Rate fragranceRating,
-        Rate creaminessRating
+        uint tasteRating,
+        uint fragranceRating,
+        uint creaminessRating
     ) public isDurianSold(durianID) durianExist(durianID) {
         Rating memory r = Rating(
             block.timestamp,
