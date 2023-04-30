@@ -8,7 +8,9 @@
     <title>Sponsor/Adoption of Animal</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,14 +30,23 @@
         </div>
       </div>
 
-      <div id="animalsRow" class="row">
+      <div id="productRow" class="row">
         <!-- ANIMALS LOAD HERE -->
       </div>
     </div>
 
-    <div id="animalsTemplate" style="display: none;">
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default panel-animals">
+    <div id="productTemplate" style="display: none;">
+      <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Produced by: <span class="product-location"></span></p>
+          <a href="#" class="btn btn-primary btn-purchase">Purchase for <span class="product-fee"></span></a>
+        </div>
+      </div>
+
+      <!-- <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default panel-product">
           <div class="panel-heading">
             <h3 class="panel-title">Display Animal Photo</h3>
           </div>
@@ -43,8 +54,6 @@
             <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="  " data-holder-rendered="true">
             <br/>
             <strong>ID</strong>: <span class="animals-id">Animal ID</span><br/>
-            <strong>Name</strong>: <span class="animals-name">Animal Name</span><br/>
-            <strong>Age</strong>: <span class="animals-age">3</span><br/>
             <strong>Fee</strong>: <span class="animals-fee">eth</span><br/>
             <strong>Location</strong>: <span class="animals-location">Location</span><br/>
              <button class="btn btn-default btn-adopt" type="button" data-id="0">Adopt</button><br/>
@@ -52,7 +61,7 @@
 
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

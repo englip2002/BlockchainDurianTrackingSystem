@@ -1,66 +1,67 @@
 [
   {
     "id": 0,
-    "name": "D24 Durian",
+    "species": "D24 Durian",
+    "weightInGrams": 1500,
     "picture": "images/Samba.jpg",
-    "fee": 5
-
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 1,
     "name": "XO Durian",
-    "picture": "images/Choki.jpg",
-    "age": 9,
-    "fee": 5,
-    "location": "OrangHutan,Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 2,
     "name": "Red Prawn Durian",
-    "picture": "images/Mango.jpeg",
-    "age": 5,
-    "fee": 5,
-    "location": "Bear, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 3,
     "name": "Mao Shan Wang Durian",
-    "picture": "images/WhiteTiger.jpg",
-    "age": 5,
-    "fee": 5,
-    "location": "White Tiger, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 4,
     "name": "Black Pearl Durian",
-    "picture": "images/YiYi.jpg",
-    "age": 6,
-    "fee": 5,
-    "location": "Panda, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 5,
     "name": "Golden Phoenix Durian",
-    "picture": "images/Jati.jpeg",
-    "age": 3,
-    "fee": 5,
-    "location": "Tiger, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 6,
     "name": "Black Thorn Durian",
-    "picture": "images/Sibol.jpg",
-    "age": 2,
-    "fee": 5,
-    "location": "Elephant, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   },
   {
     "id": 7,
     "name": "Black Gold Durian",
-    "picture": "images/Giraffe.jpg",
-    "age": 7,
-    "fee": 5,
-    "location": "Giraffe, Zoo Malaysia"
+    "weightInGrams": 1500,
+    "picture": "images/Samba.jpg",
+    "fee": 5, 
+    "farmId": "F001"
   }
 
 ]
