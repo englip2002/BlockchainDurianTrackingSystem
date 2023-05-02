@@ -1,0 +1,59 @@
+[
+    {
+        "id": "F001",
+        "name": "Lim Hong Kong Durian Farm",
+        "location": "Bera, Pahang",
+        "durianTrees": [
+            {
+                "id": "T001",
+                "age": 15,
+                "species": "D24",
+                "lastHarvestTime": 1682840943
+            }
+        ]
+    },
+    {
+        "id": "F002",
+        "name": "Chiew Hong Amo Productions",
+        "location": "Ipoh",
+        "durianTrees": [
+            {
+                "id": "T002",
+                "age": 17,
+                "species": "D30",
+                "lastHarvestTime": 1682840943
+            }, 
+            {
+                "id": "T003",
+                "age": 25,
+                "species": "D",
+                "lastHarvestTime": 1682840943
+            }
+        ]
+    },
+    {
+        "id": "F001",
+        "name": "Mohd Best Durians",
+        "location": "Johor",
+        "durianTrees": [
+            {
+                "id": "T004",
+                "age": 34,
+                "species": "D24",
+                "lastHarvestTime": 1682840943
+            },
+            {
+                "id": "T005",
+                "age": 35,
+                "species": "D25",
+                "lastHarvestTime": 1682840943
+            },
+            {
+                "id": "T006",
+                "age": 36,
+                "species": "D26",
+                "lastHarvestTime": 1682840943
+            }
+        ]
+    }
+]

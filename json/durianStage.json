@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "name": "Harvested"
+    },
+    {
+        "id": 1,
+        "name": "At Distribution Center"
+    },
+    {
+        "id": 2,
+        "name": "At Retailer"
+    },
+    {
+        "id": 3,
+        "name": "Sold to Customer"
+    },
+    {
+        "id": 4,
+        "name": "Expired"
+    }
+]

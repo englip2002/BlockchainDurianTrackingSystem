@@ -1,0 +1,32 @@
+<!-- <br />
+<button onclick="accessToMetamask()">Connect Metamask</button> <br />
+<p id="accountArea"></p>
+<br />
+
+<button onclick="accessToContract()">Connect to Smart Contract</button>
+<br />
+<p id="contractArea"></p>
+<br />
+
+<button onclick="readfromContract()">get Data from Contract</button>
+<br />
+
+<p id="ownerProduct"></p>
+<p id="dataArea0"></p>
+<p id="dataArea1"></p>
+<p id="dataArea2"></p>
+<button id="buy" onclick="BuyerBuyProduct()">BUY Product</button>
+<br />
+
+<br />
+<div id="transactionSection">
+    <label for="Pname">Product name:</label><br />
+    <input type="text" id="Pname" name="Pname" /><br />
+    <label for="Pprice">Product price (wei):</label><br />
+    <input type="number" id="Pprice" name="Pprice" /> <br />
+    <button id="submit" onclick="setNewProduct()">
+        Update Product
+    </button>
+
+    <a href="./page2">Click to page 2</a>
+</div> -->

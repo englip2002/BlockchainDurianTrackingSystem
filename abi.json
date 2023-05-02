@@ -1,0 +1,572 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_weightInGrams",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_durianFarmID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_durianTreeID",
+				"type": "string"
+			}
+		],
+		"name": "addDurian",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_location",
+				"type": "string"
+			}
+		],
+		"name": "addDurianFarm",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_age",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_species",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_durianFarmID",
+				"type": "string"
+			}
+		],
+		"name": "addDurianTree",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_age",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_species",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_durianFarmID",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "harvestTime",
+				"type": "uint256"
+			}
+		],
+		"name": "addDurianTreeWithHarvestTime",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "workerAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "enum DTTBA.WorkFor",
+				"name": "_workFor",
+				"type": "uint8"
+			}
+		],
+		"name": "addWorker",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "durianID",
+				"type": "string"
+			}
+		],
+		"name": "buyDurian",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "durianID",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tasteRating",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "fragranceRating",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "creaminessRating",
+				"type": "uint256"
+			}
+		],
+		"name": "rateDurian",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "durianID",
+				"type": "string"
+			}
+		],
+		"name": "recordDurianDistributionCenter",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "durianID",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_sellPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "recordDurianRetailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "durianCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "durianFarmCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "durianFarms",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "location",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "durianTreeCount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "exist",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "durians",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "weightInGrams",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum DTTBA.Stage",
+				"name": "supplyChainStage",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum DTTBA.DurianGrade",
+				"name": "grade",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "durianFarmID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "durianTreeID",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sellPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "boughtByCustomer",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "ratingTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "taste",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fragrance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "creaminess",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct DTTBA.Rating",
+				"name": "customerRating",
+				"type": "tuple"
+			},
+			{
+				"internalType": "bool",
+				"name": "exist",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "durianTrees",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "age",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "species",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastHarvestTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "durianFarmID",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exist",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "durianTreesCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "durianID",
+				"type": "string"
+			}
+		],
+		"name": "traceDurianProvenance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "durianWeight",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum DTTBA.DurianGrade",
+				"name": "grade",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "durianFarmName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "durianFarmLocation",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "durianTreeSpecies",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "durianTreeID",
+				"type": "string"
+			},
+			{
+				"internalType": "enum DTTBA.Stage",
+				"name": "currentStage",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_stageTimestamps",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sellPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "boughtByCustomer",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "ratingTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "taste",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fragrance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "creaminess",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct DTTBA.Rating",
+				"name": "customerRating",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "workerAddresses",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "workerCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "workerList",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "workerID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "enum DTTBA.WorkFor",
+				"name": "workedFor",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
