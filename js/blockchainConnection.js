@@ -16,13 +16,13 @@ export const accessToMetamask = async () => {
 export const accessToContract = async () => {
     var ABI = [];
 
-    await $.getJSON("./abi.json", (data) => {
+    await $.getJSON("/json/abi.json", (data) => {
         ABI = data;
     });
 
     var Address = "";
 
-    await $.getJSON("./address.json", (addr) => {
+    await $.getJSON("/json/address.json", (addr) => {
         Address = addr;
     });
 

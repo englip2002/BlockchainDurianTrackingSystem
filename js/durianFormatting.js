@@ -27,19 +27,6 @@ export const parseDurianBoughtByCustomer = (address) => {
     return address;
 };
 
-export const parseDurianStage = async (stage) => {
-    let result = "-";
-    await $.getJSON("json/durianStage.json", (data) => {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].id == stage) {
-                result = data[i].name;
-                break;
-            }
-        }
-    });
-    return result;
-};
-
 export const parseDurianFarm = async (farmID) => {
     let result = null;
     await window.contract.methods
@@ -62,9 +49,33 @@ export const parseDurianTree = async (treeID) => {
     return result;
 };
 
+export const parseDurian = async (durianID) => {
+    let result = null;
+    await window.contract.methods
+        .durians(durianID)
+        .call()
+        .then((durian) => {
+            result = durian;
+        });
+    return result;
+};
+
+export const parseDurianStage = async (stage) => {
+    let result = "-";
+    await $.getJSON("/json/durianStage.json", (data) => {
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id == stage) {
+                result = data[i].name;
+                break;
+            }
+        }
+    });
+    return result;
+};
+
 export const parseDurianGrade = async (grade) => {
     let result = "-";
-    await $.getJSON("json/grade.json", (data) => {
+    await $.getJSON("/json/grade.json", (data) => {
         for (let i = 0; i < data.length; i++) {
             if (data[i].id == grade) {
                 result = data[i].name;
@@ -72,5 +83,80 @@ export const parseDurianGrade = async (grade) => {
             }
         }
     });
+    return result;
+};
+
+export const parseDurianHarvestTime = (harvestTime) => {
+    if (harvestTime == 0) {
+        return "-";
+    }
+    var d = new Date(0);
+    d.setUTCSeconds(parseInt(harvestTime));
+    return d.toDateString();
+};
+
+export const getDurianFarmCount = async () => {
+    let result = null;
+    await window.contract.methods
+        .durianFarmCount()
+        .call()
+        .then((data) => {
+            result = data;
+        });
+    return result;
+};
+
+export const getDurianTreeCount = async () => {
+    let result = null;
+    await window.contract.methods
+        .durianTreesCount()
+        .call()
+        .then((data) => {
+            result = data;
+        });
+    return result;
+};
+
+export const getDurianCount = async () => {
+    let result = null;
+    await window.contract.methods
+        .durianCount()
+        .call()
+        .then((data) => {
+            result = data;
+        });
+    return result;
+};
+
+export const getWorkerCount = async () => {
+    let result = null;
+    await window.contract.methods
+        .workerCount()
+        .call()
+        .then((data) => {
+            result = data;
+        });
+    return result;
+};
+
+export const getWorkerAddress = async (i) => {
+    let result = null;
+    await window.contract.methods
+        .workerAddresses(i)
+        .call()
+        .then((address) => {
+            result = address;
+        });
+    return result;
+};
+
+export const parseWorker = async (address) => {
+    let result = null;
+    await window.contract.methods
+        .workerList(address)
+        .call()
+        .then((worker) => {
+            result = worker;
+        });
     return result;
 };

@@ -1,6 +1,5 @@
+import * as blockchain from "/js/blockchainConnection.js";
 import * as durianFormatting from "/js/durianFormatting.js";
-import * as blockchain from "/js/blockchainConnection.js"
-
 
 const submitTraceDurian = () => {
     let idInput = document.getElementById("durianIDinput").value;
@@ -19,7 +18,6 @@ const submitTraceDurian = () => {
         .call()
         .then((durian) => {
             if (durian.exist) {
-                
                 document.getElementById("traceDurianBox").style.display = "block";
                 visualizeLoadingBar(durian.supplyChainStage);
                 getDurianDetails(idInput, durian);
@@ -39,7 +37,7 @@ const getDurianDetails = (durianID, durian) => {
 
     durianFormatting.parseDurianStage(durian.supplyChainStage).then((durianStage) => {
         durianFormatting.parseDurianFarm(durian.durianFarmID).then((durianFarm) => {
-            durianFormatting.parseDurianGrade(durian.grade).then(durianGrade => {
+            durianFormatting.parseDurianGrade(durian.grade).then((durianGrade) => {
                 detailsTable.innerHTML += `
                 <th scope="row">Durian ID</th>
                 <td>${durianID}</td>
@@ -76,7 +74,7 @@ const getDurianDetails = (durianID, durian) => {
                 <th scope="row">Customer Rating</th>
                 <td>${durian.customerRating}</td>
                 `;
-            })
+            });
         });
     });
 };
@@ -100,18 +98,18 @@ const visualizeLoadingBar = (stage) => {
     });
 };
 
-blockchain.accessToMetamask()
+// Connection to blockchain
+blockchain
+    .accessToMetamask()
     .then((out) => {
         return blockchain.accessToContract();
     })
-    .then((out) => {
-    });
-
-document.querySelector('#submitTraceDurian').addEventListener('click', submitTraceDurian);
+    .then((out) => {});
 
 window.ethereum.on("accountsChanged", function (accounts) {
     console.log("Metamask account change detected!");
     blockchain.accessToMetamask();
 });
 
-
+// Onclick
+document.querySelector("#submitTraceDurian").addEventListener("click", submitTraceDurian);
