@@ -98,7 +98,7 @@ const submitAddDurian = () => {
             let durianID = df.parseIntToID(parseInt(durianCount) + 1, "durian");
             return window.contract.methods
                 .addDurian(durianID, parseInt(inputWeight), inputFarm, inputTree)
-                .send({ from: account });
+                .send({ from: blockchain.account });
         })
         .then((result) => {
             getAllDurians();
@@ -128,7 +128,7 @@ const getAllDurians = () => {
             df.parseDurian(durianID).then((durian) => {
                 if (durian.exist) {
                     df.parseDurianStage(durian.supplyChainStage).then((durianStage) => {
-                        df.parseDurianStage(durian.grade).then((durianGrade) => {
+                        df.parseDurianGrade(durian.grade).then((durianGrade) => {
                             df.parseDurianFarm(durian.durianFarmID).then((farm) => {
                                 let priceStr =
                                     durianStage == "At Retailer"
@@ -171,7 +171,7 @@ const submitRecordDC = () => {
         if (durian.exist) {
             window.contract.methods
                 .recordDurianDistributionCenter(durianIDinput)
-                .send({ from: account })
+                .send({ from: blockchain.account })
                 .then((result) => {
                     getAllDurians();
                 })
@@ -197,29 +197,30 @@ const submitRecordRetailer = () => {
     let durianIDinput = document.getElementById("durianIDinputRetail").value.toUpperCase();
     let durianSellPrice = document.getElementById("durianSellPriceRetailer").value;
 
-    let verifyRecordRetailer =
-        durianIDinput.length == 4 &&
-        (durianSellPrice.indexOf(".") == -1 ||
-            (durianSellPrice.indexOf(".") != -1 &&
-                durianSellPrice.length - durianSellPrice.indexOf(".") <= 3));
-    if (!verifyRecordRetailer) {
+    if (durianIDinput.length != 4) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong! Please check if your values are correct and valid. ",
+            text: "Something went wrong! Please check if your Durian ID is correct and valid. ",
         });
+        return;
+    } else if (durianSellPrice.indexOf(".") != -1 && durianSellPrice.split(".")[1].length > 18) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong! Please check if your Durian Price is correct and valid. (Maximum 18 decimal places)",
+        });
+        return;
     }
 
-    let durianSellPriceFormatted = parseInt(
-        parseFloat(durianSellPrice).toFixed(2).toString().replace(".", "")
-    );
-
-    df.parseDurian(durianIDinput),
+    let durianSellPriceFormatted = ethers.utils.parseEther(durianSellPrice).toString();
+    console.log(durianSellPriceFormatted)
+    df.parseDurian(durianIDinput).
         then((durian) => {
             if (durian.exist) {
                 window.contract.methods
                     .recordDurianRetailer(durianIDinput, durianSellPriceFormatted)
-                    .send({ from: account })
+                    .send({ from: blockchain.account })
                     .then((result) => {
                         getAllDurians();
                     })
