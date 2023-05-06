@@ -19,7 +19,8 @@ export const parseIntToID = (i, type) => {
 };
 
 export const parseDurianPrice = (price) => {
-    return Math.floor(price / 100).toString() + "." + (price % 100).toString();
+    // return Math.floor(price / 100).toString() + "." + (price % 100).toString();
+    return ethers.utils.formatEther(price);
 };
 
 export const parseDurianBoughtByCustomer = (address) => {

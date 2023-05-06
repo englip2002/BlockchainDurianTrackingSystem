@@ -82,7 +82,7 @@ const initDurianCards = async () => {
                 </div>
                 <div class="flip-card-back myCenter my-flex-col">
                     <h4>Purchase for</h4>
-                    <h1>5 ETH</h1>
+                    <h1>${d.parseDurianPrice} ETH</h1>
                 </div>
             </div>
         </div>
@@ -105,11 +105,33 @@ const parentsHaveClass = (el, className, terminatingClassName) => {
     return false;
 };
 
-const purchaseDurian = (event) => {
+const purchaseDurian = async (event) => {
     let p = parentsHaveClass(event.target, "durian-card", "productsBox");
-
+    let durianID = p.dataset.durianid;
+    let d = await df.parseDurian(durianID);
+    if (d.exist) {
+        window.contract.methods
+            .buyDurian(durianID)
+            .send({
+                from: blockchain.account,
+                value: ethers.utils.parseEther(df.parseDurianPrice(d.sellPrice).toString()),
+            })
+            .then((out) => {
+                initDurianCards();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong! The durian ID " + durianID + " doesn't exist. ",
+        });
+    }
 };
 
+const { ethereum } = window;
 blockchain
     .accessToMetamask()
     .then((out) => {
