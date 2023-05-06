@@ -2,9 +2,13 @@
 <html>
     <head>
         <title>Admin</title>
+
+        <!-- Web3 -->
         <script
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+
+        <!-- jQuery -->
         <script
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
             type="text/javascript"></script>
@@ -30,10 +34,13 @@
         "
             rel="stylesheet" />
 
-        <link rel="stylesheet" href="/style.css" />
+        <!-- Anime.js -->
+        <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
-        <div class="d-flex flex-row" style="min-height: 760px;">
+        <div class="d-flex flex-row" style="min-height: 760px">
             <!-- <div
                 class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
                 style="width: 280px; background-color: #212529;">
@@ -116,7 +123,7 @@
                     </ul>
                 </div>
             </div> -->
-            <div class="col">
+            <div class="col-8">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
                         <a
@@ -344,8 +351,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-4" id="sidebarVisualizer">
+                <div class="d-flex flex-column">
+                    <div class="col">
+                        something   
+                    </div>
+                    <div class="col">
+something
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <script type="module" src="/js/sidebarVisualizer.js"></script>
         <script type="module" src="/js/staff/admin.js"></script>
     </body>
 </html>

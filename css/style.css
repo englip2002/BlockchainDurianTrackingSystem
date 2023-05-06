@@ -1,0 +1,33 @@
+body {
+    /* background-color: ; */
+}
+
+a .nav-link .active {
+    font-weight: bold;
+    color: yellow !important;
+}
+
+.myCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-flex-row {
+    flex-direction: row;
+}
+
+.my-flex-col {
+    flex-direction: column;
+}
+
+#sidebarVisualizer {
+    background-color: #00ebd7;
+    height: 100vh;
+}
+
+#sidebarVisualizer .col {
+    background-color: red;
+}
+
+

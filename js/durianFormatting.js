@@ -1,3 +1,5 @@
+import { getWorkForList } from "./jsonFetching.js";
+
 export const parseIntToID = (i, type) => {
     let check = "";
     if (type == "farm") check = "F";
@@ -158,5 +160,123 @@ export const parseWorker = async (address) => {
         .then((worker) => {
             result = worker;
         });
+    return result;
+};
+
+export const getAllDurians = async (
+    convertDurianStage = false,
+    convertDurianFarm = false,
+    convertDurianPrice = false,
+    convertDurianTree = false
+) => {
+    let result = [];
+    let durianCount = await getDurianCount().then((durianCount) => {
+        return durianCount;
+    });
+    for (let i = 1; i <= durianCount; i++) {
+        let durianID = parseIntToID(i, "durian");
+        let durian = await parseDurian(durianID).then((durian) => {
+            return durian;
+        });
+        if (durian.exist) {
+            let thisRow = durian;
+            thisRow["id"] = durianID;
+            if (convertDurianStage) {
+                await parseDurianStage(durian.supplyChainStage).then((durianStage) => {
+                    durian["parseDurianStage"] = durianStage;
+                });
+            }
+            if (convertDurianFarm) {
+                await parseDurianFarm(durian.durianFarmID).then((farm) => {
+                    durian["parseDurianFarm"] = farm;
+                });
+            }
+            if (convertDurianPrice) {
+                durian["parseDurianPrice"] = parseDurianPrice(durian.sellPrice);
+            }
+            if (convertDurianTree) {
+                await parseDurianTree(durian.durianTreeID).then((tree) => {
+                    durian["parseDurianTree"] = tree;
+                });
+            }
+            result.push(thisRow);
+        }
+    }
+    return result;
+};
+
+export const getAllDurianFarms = async () => {
+    let result = [];
+    let farmCount = await getDurianFarmCount().then((farmCount) => {
+        return farmCount;
+    });
+
+    for (let i = 1; i <= farmCount; i++) {
+        let farmID = parseIntToID(i, "farm");
+        await parseDurianFarm(farmID).then((farm) => {
+            if (farm.exist) {
+                result.push(farm);
+            }
+        });
+    }
+    return result;
+};
+
+export const getAllDurianTrees = async (convertDurianFarm = false, convertHarvestTime = false) => {
+    let result = [];
+    let treeCount = await getDurianTreeCount().then((treeCount) => {
+        return treeCount;
+    });
+
+    for (let i = 1; i <= treeCount; i++) {
+        let treeID = parseIntToID(i, "tree");
+        let tree = await parseDurianTree(treeID).then((tree) => {
+            return tree;
+        });
+        if (tree.exist) {
+            if (convertDurianFarm) {
+                await parseDurianFarm(tree.durianFarmID).then((farm) => {
+                    tree["parseDurianFarm"] = farm;
+                });
+            }
+            if (convertHarvestTime) {
+                tree["parseHarvestTime"] = parseDurianHarvestTime(tree.lastHarvestTime);
+            }
+            result.push(tree);
+        }
+    }
+
+    return result;
+};
+
+export const getAllWorkers = async () => {
+    let result = [];
+    let workerCount = await getWorkerCount().then((count) => {
+        return count;
+    });
+
+    let workForList = await getWorkForList().then((out) => {
+        return out;
+    });
+
+    for (let i = 0; i < workerCount; i++) {
+        let addr = await getWorkerAddress(i).then((address) => {
+            return address;
+        });
+        let worker = await parseWorker(addr).then((worker) => {
+            return worker;
+        });
+        worker["address"] = addr;
+        worker["id"] = parseIntToID(parseInt(worker.workerID) + 1, "worker");
+
+        for (let j = 0; j < workForList.length; j++) {
+            if (workForList[j].id == worker.workedFor) {
+                worker['parseWorkFor'] = workForList[j].name;
+                break;
+            }
+        }
+        result.push(worker);
+    }
+
     return result;
 };
