@@ -236,7 +236,7 @@ const submitAddWorker = () => {
 
     df.getWorkerCount()
         .then((workerCount) => {
-            workerID = df.parseIntToID(workerCount + 1, "worker");
+            let workerID = df.parseIntToID(workerCount + 1, "worker");
             return window.contract.methods
                 .addWorker(wName, wAddress, wWorkFor.toString())
                 .send({ from: blockchain.account });
