@@ -44,7 +44,7 @@ const submitAddFarm = async () => {
         .then((result) => {
             return window.contract.methods
                 .addDurianFarm(farmID, farmName, farmLocation)
-                .send({ from: account });
+                .send({ from: blockchain.account });
         })
         .then((result) => {
             return updateDurianFarmSelect();
@@ -153,7 +153,7 @@ const submitAddTree = async () => {
 
             return window.contract.methods
                 .addDurianTree(treeID, treeAge, treeSpecies, treeFarm)
-                .send({ from: account });
+                .send({ from: blockchain.account });
         })
         .then((result) => {
             getAllTrees();
@@ -239,7 +239,7 @@ const submitAddWorker = () => {
             workerID = df.parseIntToID(workerCount + 1, "worker");
             return window.contract.methods
                 .addWorker(wName, wAddress, wWorkFor.toString())
-                .send({ from: account });
+                .send({ from: blockchain.account });
         })
         .then((result) => {
             Swal.fire({
