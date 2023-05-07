@@ -71,35 +71,31 @@ const submitAddFarm = async () => {
 const getAllFarms = async () => {
     let tableBody = document.getElementById("durianFarmTableBody");
     tableBody.innerHTML = "";
-    window.contract.methods
-        .durianFarmCount()
-        .call()
-        .then((data) => {
-            let durianFarmCount = data;
-            for (let n = 1; n <= durianFarmCount; n++) {
-                let thisId = df.parseIntToID(n, "farm");
-                df.parseDurianFarm(thisId).then((farm) => {
-                    if (farm.exist) {
-                        console.log(farm);
-                        tableBody.innerHTML +=
-                            `<tr>
-                            <th scope="row" class="dfCol1">` +
-                            df.parseIntToID(n, "farm") +
-                            `</th>
-                            <td class="dfCol2">` +
-                            farm.name +
-                            `</td>
-                            <td class="dfCol3">` +
-                            farm.location +
-                            `</td>
-                            <td class="dfCol4">` +
-                            farm.durianTreeCount +
-                            `</td>
-                        </tr>`;
-                    }
-                });
-            }
-        });
+
+    let durianFarms = await df.getAllDurianFarms().then((data) => {
+        return data;
+    });
+
+    for (let i = 0; i < durianFarms.length; i++) {
+        let farm = durianFarms[i];
+        if (farm.exist) {
+            tableBody.innerHTML +=
+                `<tr>
+                <th scope="row" class="dfCol1">` +
+                farm.id +
+                `</th>
+                <td class="dfCol2">` +
+                farm.name +
+                `</td>
+                <td class="dfCol3">` +
+                farm.location +
+                `</td>
+                <td class="dfCol4">` +
+                farm.durianTreeCount +
+                `</td>
+            </tr>`;
+        }
+    }
 };
 
 const loadDurianSpecies = async () => {
@@ -181,43 +177,35 @@ const submitAddTree = async () => {
 const getAllTrees = async () => {
     let tableBody2 = document.getElementById("durianTreeTableBody");
     tableBody2.innerHTML = "";
-    df.getDurianTreeCount().then((durianTreeCount) => {
-        for (let n = 1; n <= durianTreeCount; n++) {
-            let thisId = df.parseIntToID(n, "tree");
-            df.parseDurianTree(thisId).then((tree) => {
-                if (tree.exist) {
-                    let harvestTime = df.parseDurianHarvestTime(tree.lastHarvestTime);
-                    let tempHTML = "";
-                    tempHTML +=
-                        `<tr>
-                            <th scope="row" class="dfCol1">` +
-                        df.parseIntToID(n, "tree") +
-                        `</th>
-                            <td class="dfCol2">` +
-                        tree.species +
-                        `</td>
-                            <td class="dfCol3">` +
-                        tree.age +
-                        `</td>
-                            <td class="dfCol4">` +
-                        harvestTime +
-                        `</td>
-                            <td class="dfCol5">` +
-                        tree.durianFarmID +
-                        " : ";
-                    df.parseDurianFarm(tree.durianFarmID)
-                        .then((farm) => {
-                            tempHTML += farm.name + `</td></tr>`;
-                            tableBody2.innerHTML += tempHTML;
-                            tempHTML = "";
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-            });
-        }
+
+    let durianTrees = await df.getAllDurianTrees(true, true).then((data) => {
+        return data;
     });
+
+    for (let i = 0; i < durianTrees.length; i++) {
+        let tree = durianTrees[i];
+        if (tree.exist) {
+            tableBody2.innerHTML +=
+                `<tr>
+                <th scope="row" class="dfCol1">` +
+                tree.id +
+                `</th>
+                <td class="dfCol2">` +
+                tree.species +
+                `</td>
+                <td class="dfCol3">` +
+                tree.age +
+                `</td>
+                <td class="dfCol4">` +
+                tree.parseHarvestTime +
+                `</td>
+                <td class="dfCol5">` +
+                tree.durianFarmID +
+                " : " +
+                tree.parseDurianFarm.name +
+                "</td></tr>";
+        }
+    }
 };
 const updateWorkerWorkForSelections = () => {
     let workForEl = document.getElementById("workerWorkFor");
@@ -273,43 +261,27 @@ const submitAddWorker = () => {
         });
 };
 
-const getAllWorkers = () => {
+const getAllWorkers = async () => {
     let tableBody = document.getElementById("workerListBody");
     tableBody.innerHTML = "";
-    jsonFetching.getWorkForList().then((workForList) => {
-        df.getWorkerCount().then((workerCount) => {
-            for (let i = 0; i < workerCount; i++) {
-                df.getWorkerAddress(i).then((addr) => {
-                    df.parseWorker(addr).then((worker) => {
-                        let wID = df.parseIntToID(parseInt(worker.workerID) + 1, "worker");
 
-                        let wWorkFor = "";
-                        for (let j = 0; j < workForList.length; j++) {
-                            if (workForList[j].id == worker.workedFor) {
-                                wWorkFor = workForList[j].name;
-                                break;
-                            }
-                        }
-
-                        tableBody.innerHTML +=
-                            `<tr>
-                        <th scope="row" class="dfCol1">` +
-                            wID +
-                            `</th>
-                        <td class="dfCol2">` +
-                            worker.name +
-                            `</th>
-                        <td class="dfCol3">` +
-                            addr +
-                            `</td>
-                        <td class="dfCol4">` +
-                            wWorkFor +
-                            `</td>`;
-                    });
-                });
-            }
-        });
+    let workers = await df.getAllWorkers().then((data) => {
+        return data;
     });
+
+    for (let i = 0; i < workers.length; i++) {
+        let worker = workers[i];
+        tableBody.innerHTML +=
+            `<tr><th scope="row" class="dfCol1">` +
+            worker.id +
+            `</th><td class="dfCol2">` +
+            worker.name +
+            `</th><td class="dfCol3">` +
+            worker.address +
+            `</td><td class="dfCol4">` +
+            worker.parseWorkFor +
+            `</td>`;
+    }
 };
 
 blockchain

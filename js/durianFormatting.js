@@ -258,6 +258,7 @@ export const getAllDurianFarms = async () => {
         let farmID = parseIntToID(i, "farm");
         await parseDurianFarm(farmID).then((farm) => {
             if (farm.exist) {
+                farm['id'] = farmID;
                 result.push(farm);
             }
         });
@@ -277,6 +278,7 @@ export const getAllDurianTrees = async (convertDurianFarm = false, convertHarves
             return tree;
         });
         if (tree.exist) {
+            tree['id'] = treeID;
             if (convertDurianFarm) {
                 await parseDurianFarm(tree.durianFarmID).then((farm) => {
                     tree["parseDurianFarm"] = farm;
