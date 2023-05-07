@@ -80,7 +80,6 @@ const submitTraceDurian = async () => {
     }
 
     initCopyToClipboard();
-    $('[data-toggle="tooltip"]').tooltip();
 };
 
 const formatCustomerRating = (ratings) => {
@@ -147,6 +146,7 @@ const initCopyToClipboard = () => {
             });
         });
     });
+    $('[data-toggle="tooltip"]').tooltip();
 };
 
 const visualizeLoadingBar = (stage) => {

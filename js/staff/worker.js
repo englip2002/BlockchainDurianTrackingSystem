@@ -166,15 +166,33 @@ const updateAllDurians = async () => {
             <td>` + durian.durianFarmID + " : " + durian.parseDurianFarm.name + `</td>
             <td>` + durian.durianTreeID + `</td>
             <td class="durianRowSellPrice">` + priceStr + `</td>
-            <td>` + df.parseDurianBoughtByCustomer(durian.boughtByCustomer) + `</td>
+            <td class="durianRowBoughtCustomer">
+            <span class='copy-to-clipboard' data-toggle='tooltip' data-bs-placement='left' title='Click to Copy'>` + 
+            df.parseDurianBoughtByCustomer(durian.boughtByCustomer) + `</span></td>
         </tr>`;
     }
+
+    initCopyToClipboard();
 
     updateChart(speciesChart, "speciesChart", speciesData, "Species");
     updateChart(stagesChart, "stagesChart", stageData, "Stages");
     updateChart(gradesChart, "gradesChart", gradeData, "Grades");
     updateChart(farmsChart, "farmsChart", farmData, "Farms");
 };
+
+const initCopyToClipboard = () => {
+    document.querySelectorAll(".copy-to-clipboard").forEach((each) => {
+        each.addEventListener("click", (e) => {
+            navigator.clipboard.writeText(e.target.innerHTML.toString());
+            Swal.fire({
+                icon: "success",
+                title: "Address Copied to Clipboard!",
+            });
+        });
+    });
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
 
 const submitRecordDC = () => {
     let durianIDinputEl = document.getElementById("durianIDinput");

@@ -276,12 +276,28 @@ const getAllWorkers = async () => {
             worker.id +
             `</th><td class="dfCol2">` +
             worker.name +
-            `</th><td class="dfCol3">` +
+            `</th><td class="dfCol3">
+            <span class='copy-to-clipboard' data-toggle='tooltip' data-placement='top' title='Click to Copy'>` +
             worker.address +
-            `</td><td class="dfCol4">` +
+            `</span></td><td class="dfCol4">` +
             worker.parseWorkFor +
             `</td>`;
     }
+
+    initCopyToClipboard();
+};
+
+const initCopyToClipboard = () => {
+    document.querySelectorAll(".copy-to-clipboard").forEach((each) => {
+        each.addEventListener("click", (e) => {
+            navigator.clipboard.writeText(e.target.innerHTML.toString());
+            Swal.fire({
+                icon: "success",
+                title: "Address Copied to Clipboard!",
+            });
+        });
+    });
+    $('[data-toggle="tooltip"]').tooltip();
 };
 
 blockchain
