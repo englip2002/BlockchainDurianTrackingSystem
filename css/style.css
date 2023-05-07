@@ -1,6 +1,8 @@
 body {
-    /* background-color: ; */
+    
 }
+
+
 
 .navbar {
     min-height: 70px
@@ -43,9 +45,29 @@ a.nav-link.active {
 .my-flex-col {
     flex-direction: column;
 }
+/* b3d34c */
+
+body {
+    background-color: #fcfff2;
+}
+
+body .navbar {
+    background-color: #b3d34c;
+}
+
+body .btn-primary {
+    --a2: #d43b3b;
+    background-color: #68b031;
+    border-color: #68b031;
+}
+
+body .btn-primary:active, 
+body .btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem #b3d34c;
+}
 
 .hover-2 {
-    --c: #b3d34c; /* the color */
+    --c: #68b031; /* the color */
     --c2: #FFFFFF;
     --b: 0em; /* border length*/
     --b2: 0.1em;
@@ -103,12 +125,162 @@ a.nav-link.active {
 .hover-2:hover a {
     color: var(--c2) !important;
 }
-/* 
-#sidebarVisualizer {
-    background-color: #00ebd7;
-    height: 100vh;
+
+/* Admin */
+
+body.adminBody {
+    background-color: #fff5f5;
 }
 
-#sidebarVisualizer .col {
-    background-color: red;
-} */
+body.adminBody .navbar {
+    --a1: #ff6b6b;
+    background-color: var(--a1);
+}
+
+body.adminBody .btn-primary {
+    --a2: #d43b3b;
+    background-color: var(--a2);
+    border-color: var(--a2);
+}
+
+body.adminBody .btn-primary:active, 
+body.adminBody .btn-primary:focus {
+    
+    box-shadow: 0 0 0 0.25rem #ff6b6b;
+}
+
+body.adminBody .hover-2 {
+    --c: #d43b3b; /* the color */
+    --c2: #FFFFFF;
+    --b: 0em; /* border length*/
+    --b2: 0.1em;
+    --d: 8px; /* the cube depth */
+
+    --_s: calc(var(--d) + var(--b));
+    --_s2: calc(var(--d) + var(--b2));
+
+    color: var(--c);
+    border: solid #0000;
+    border-width: var(--b) var(--b) var(--_s) var(--_s);
+    background: conic-gradient(
+                at left var(--d) bottom var(--d),
+                #0000 90deg,
+                rgb(255 255 255 /0.3) 0 225deg,
+                rgb(255 255 255 /0.6) 0
+            )
+            border-box,
+        conic-gradient(at left var(--_s) bottom var(--_s), #0000 90deg, var(--c) 0) 0 100% /
+            calc(100% - var(--b)) calc(100% - var(--b)) border-box;
+    transform: translate(calc(var(--d) / -1), var(--d));
+    clip-path: polygon(
+        var(--d) 0%,
+        var(--d) 0%,
+        100% 0%,
+        100% calc(100% - var(--d)),
+        100% calc(100% - var(--d)),
+        var(--d) calc(100% - var(--d))
+    );
+    transition: 0.5s;
+}
+body.adminBody .hover-2:hover {
+    transform: translate(0, 0);
+    background: conic-gradient(
+                at left var(--d) bottom var(--d),
+                #0000 90deg,
+                rgb(255 255 255 /0.3) 0 225deg,
+                rgb(255 255 255 /0.6) 0
+            )
+            border-box,
+        conic-gradient(at left var(--_s) bottom var(--_s2), #0000 90deg, var(--c) 0) 0 100% /
+            calc(100% - var(--b2)) calc(100% - var(--b2)) border-box;
+    border-width: var(--b2) var(--b2) var(--_s2) var(--_s2);
+    background-color: var(--c);
+    clip-path: polygon(
+        0% var(--d),
+        var(--d) 0%,
+        100% 0%,
+        100% calc(100% - var(--d)),
+        calc(100% - var(--d)) 100%,
+        0% 100%
+    );
+}
+
+
+/* Worker */
+
+body.staffBody {
+    background-color: #f0f8ff;
+}
+
+body.staffBody .navbar {
+    --w1: #6bc0ff;
+    background-color: var(--w1);
+}
+
+body.staffBody .btn-primary {
+    --w2: #3097e3;
+    background-color: var(--w2);
+    border-color: var(--w2);
+}
+
+body.staffBody .btn-primary:active, 
+body.staffBody .btn-primary:focus {
+    
+    box-shadow: 0 0 0 0.25rem #6bc0ff;
+}
+
+body.staffBody .hover-2 {
+    --c: #3097e3; /* the color */
+    --c2: #FFFFFF;
+    --b: 0em; /* border length*/
+    --b2: 0.1em;
+    --d: 8px; /* the cube depth */
+
+    --_s: calc(var(--d) + var(--b));
+    --_s2: calc(var(--d) + var(--b2));
+
+    color: var(--c);
+    border: solid #0000;
+    border-width: var(--b) var(--b) var(--_s) var(--_s);
+    background: conic-gradient(
+                at left var(--d) bottom var(--d),
+                #0000 90deg,
+                rgb(255 255 255 /0.3) 0 225deg,
+                rgb(255 255 255 /0.6) 0
+            )
+            border-box,
+        conic-gradient(at left var(--_s) bottom var(--_s), #0000 90deg, var(--c) 0) 0 100% /
+            calc(100% - var(--b)) calc(100% - var(--b)) border-box;
+    transform: translate(calc(var(--d) / -1), var(--d));
+    clip-path: polygon(
+        var(--d) 0%,
+        var(--d) 0%,
+        100% 0%,
+        100% calc(100% - var(--d)),
+        100% calc(100% - var(--d)),
+        var(--d) calc(100% - var(--d))
+    );
+    transition: 0.5s;
+}
+body.staffBody .hover-2:hover {
+    transform: translate(0, 0);
+    background: conic-gradient(
+                at left var(--d) bottom var(--d),
+                #0000 90deg,
+                rgb(255 255 255 /0.3) 0 225deg,
+                rgb(255 255 255 /0.6) 0
+            )
+            border-box,
+        conic-gradient(at left var(--_s) bottom var(--_s2), #0000 90deg, var(--c) 0) 0 100% /
+            calc(100% - var(--b2)) calc(100% - var(--b2)) border-box;
+    border-width: var(--b2) var(--b2) var(--_s2) var(--_s2);
+    background-color: var(--c);
+    clip-path: polygon(
+        0% var(--d),
+        var(--d) 0%,
+        100% 0%,
+        100% calc(100% - var(--d)),
+        calc(100% - var(--d)) 100%,
+        0% 100%
+    );
+}
