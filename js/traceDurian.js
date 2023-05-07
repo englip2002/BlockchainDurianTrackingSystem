@@ -155,7 +155,12 @@ const visualizeLoadingBar = (stage) => {
     let labelTableTop = document.getElementById("stageLabelsTop");
     labelTable.innerHTML = "";
     labelTableTop.innerHTML = "";
+    
     $.getJSON("/json/durianStage.json", (data) => {
+        data.unshift({
+            id: "", name: "New"
+        })
+        console.log('xxx', data)
         let width = (1 / data.length) * 100;
         for (let i = 0; i < data.length; i++) {
             labelTableTop.innerHTML += `<th style="width: ${width}%; text-align: center;" >|</th>`;
