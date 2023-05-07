@@ -30,25 +30,58 @@
         "
             rel="stylesheet" />
 
+        <!-- Metro UI (For Star Rating) -->
+        <link rel="stylesheet" href="/css/metroui_rating.css" />
+
         <!-- Ethers.js -->
         <script
             src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
             type="application/javascript"></script>
 
         <style>
+            .progress-container {
+                width: 83%;
+                margin: auto;
+            }
             .progress {
                 padding: 0 !important;
+            }
+            .copy-to-clipboard {
+                cursor: pointer;
+            }
+
+            #navbarSupportedContent {
+                max-height: 100vh;
+            }
+
+            #navbarSupportedContent > ul {
+                margin: 0 !important;
+            }
+
+            .rating-group {
+                position: relative;
+            }
+
+            .rating-group .override {
+                position: absolute;
+                z-index: 10;
+                width: 100%;
+                height: 100%;
             }
         </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Durian Track and Trace Blockchain Application</a>
+                <a class="navbar-brand" href="index.html"
+                    >Durian Track and Trace Blockchain Application</a
+                >
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="staff/admin.html">Admin</a>
+                            <a class="nav-link active" aria-current="page" href="staff/admin.html"
+                                >Admin</a
+                            >
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="staff/worker.html">Worker</a>
@@ -89,15 +122,17 @@
                 </div>
                 <br />
                 <div class="container" style="display: none" id="traceDurianBox">
-                    <div class="row">
-                        <div class="progress">
-                            <div
-                                class="progress-bar progress-bar-striped progress-bar-animated"
-                                role="progressbar"
-                                aria-valuenow="75"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                                style="width: 75%"></div>
+                    <div class="row progress-row">
+                        <div class="progress-container">
+                            <div class="progress">
+                                <div
+                                    class="progress-bar progress-bar-striped progress-bar-animated"
+                                    role="progressbar"
+                                    aria-valuenow="75"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    style="width: 75%"></div>
+                            </div>
                         </div>
                         <table>
                             <tr id="stageLabelsTop"></tr>
@@ -113,24 +148,19 @@
                                     <th scope="col">Description</th>
                                 </tr>
                             </thead>
-                            <tbody id="durianDetailsTableBody">
-                                </tr>
-                            </tbody>
+                            <tbody id="durianDetailsTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="footer" style="padding-top: 100px;"></div>
+            <div class="footer" style="padding-top: 100px"></div>
         </div>
 
-        <script>
-            
-        </script>
+        <!-- Metro UI (For star rating) -->
+        <script src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
 
         <script type="module" src="/js/traceDurian.js"></script>
 
-        <script>
-
-        </script>
+        <script></script>
     </body>
 </html>

@@ -1,10 +1,10 @@
 import * as blockchain from "/js/blockchainConnection.js";
-import * as durianFormatting from "/js/durianFormatting.js";
+import * as df from "/js/durianFormatting.js";
 
-const submitTraceDurian = () => {
-    let idInput = document.getElementById("durianIDinput").value;
+const submitTraceDurian = async () => {
+    let durianID = document.getElementById("durianIDinput").value;
 
-    if (idInput.length != 4) {
+    if (durianID.length != 4) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -13,68 +13,137 @@ const submitTraceDurian = () => {
         return;
     }
 
-    window.contract.methods
-        .durians(idInput)
-        .call()
-        .then((durian) => {
-            if (durian.exist) {
-                document.getElementById("traceDurianBox").style.display = "block";
-                visualizeLoadingBar(durian.supplyChainStage);
-                getDurianDetails(idInput, durian);
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "This durian ID doesn't exist! ",
-                });
-            }
-        });
-};
+    let durian = await df.getDurianDetails(durianID, true, true, true, true, true, true);
 
-const getDurianDetails = (durianID, durian) => {
+    if (!durian.exist) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "This durian ID doesn't exist! ",
+        });
+        return;
+    }
+
+    console.log(durian);
+
+    document.querySelector("#traceDurianBox").style.display = "block";
+    visualizeLoadingBar(durian.supplyChainStage);
     let detailsTable = document.getElementById("durianDetailsTableBody");
     detailsTable.innerHTML = "";
 
-    durianFormatting.parseDurianStage(durian.supplyChainStage).then((durianStage) => {
-        durianFormatting.parseDurianFarm(durian.durianFarmID).then((durianFarm) => {
-            durianFormatting.parseDurianGrade(durian.grade).then((durianGrade) => {
+    detailsTable.innerHTML += `
+        <th scope="row">Durian ID</th>
+        <td>${durianID}</td>
+        `;
+    detailsTable.innerHTML += `
+        <th scope="row">Current Supply Chain Stage</th>
+        <td>${durian.parseDurianStage} 
+        ${
+            durian.supplyChainStage == 3
+                ? " (<span class='copy-to-clipboard' data-toggle='tooltip' data-placement='top' title='Click to Copy'>" +
+                  durian.boughtByCustomer +
+                  "</span>)"
+                : ""
+        }</td>
+        `;
+    if (durian.supplyChainStage == 3 && durian.customerRating["taste"] != 0) {
+        detailsTable.innerHTML += `
+            <th scope="row">Customer Rating</th>
+            <td>${formatCustomerRating(durian.customerRating)}</td>
+            `;
+    }
+    detailsTable.innerHTML += `
+        <th scope="row">Species</th>
+        <td>${durian.parseDurianTree.species}</td>
+        `;
+    detailsTable.innerHTML += `
+        <th scope="row">Weight (grams)</th>
+        <td>${durian.weightInGrams}</td>
+        `;
+    detailsTable.innerHTML += `
+        <th scope="row">Durian Grade</th>
+        <td>${durian.parseDurianGrade}</td>
+        `;
+    detailsTable.innerHTML += `
+        <th scope="row">Belong to Durian Farm</th>
+        <td>${durian.durianFarmID} : ${durian.parseDurianFarm.name}</td>
+        `;
+    detailsTable.innerHTML += `
+        <th scope="row">Produced by Durian Tree</th>
+        <td>${durian.durianTreeID}</td>
+        `;
+    if (durian.supplyChainStage >= 3) {
+        detailsTable.innerHTML += `
+            <th scope="row">Selling Price</th>
+            <td>${durian.parseDurianPrice} ETH</td>
+        `;
+    }
 
-                detailsTable.innerHTML += `
-                <th scope="row">Durian ID</th>
-                <td>${durianID}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Current Supply Chain Stage</th>
-                <td>${durianStage}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Weight (grams)</th>
-                <td>${durian.weightInGrams}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Durian Grade</th>
-                <td>${durianGrade}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Belong to Durian Farm</th>
-                <td>${durian.durianFarmID} : ${durianFarm.name}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Produced by Durian Tree</th>
-                <td>${durian.durianTreeID}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Selling Price</th>
-                <td>RM ${durianFormatting.parseDurianPrice(durian.sellPrice)}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Bought by Customer</th>
-                <td>${durianFormatting.parseDurianBoughtByCustomer(durian.boughtByCustomer)}</td>
-                `;
-                detailsTable.innerHTML += `
-                <th scope="row">Customer Rating</th>
-                <td>${durian.customerRating}</td>
-                `;
+    initCopyToClipboard();
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
+const formatCustomerRating = (ratings) => {
+    console.log(ratings);
+    let htmlStr = `
+    <div class="rating-group">
+            <div class="override"></div>
+            <div class="row rating-row rating-row-taste row" data-item="taste" data-static="true">
+                <div class="col-3">
+                    <span>Taste</span>
+                </div>
+                <div class="col-9">
+                    <input
+                        class="ratingInput"
+                        data-role="rating"
+                        data-value="${ratings["taste"]}" />
+                </div>
+            </div>
+            <div
+                class="row rating-row rating-row-fragrance"
+                data-item="fragrance"
+                data-static="true">
+                <div class="col-3">
+                    <span>Fragrance</span>
+                </div>
+                <div class="col-9">
+                    <input
+                        class="ratingInput"
+                        data-role="rating"
+                        data-value="${ratings["fragrance"]}" />
+                </div>
+            </div>
+            <div
+                class="row rating-row rating-row-creaminess"
+                data-item="creaminess"
+                data-static="true">
+                <div class="col-3">
+                    <span>Creaminess</span>
+                </div>
+                <div class="col-9">
+                    <input
+                        class="ratingInput"
+                        data-role="rating"
+                        data-value="${ratings["creaminess"]}" />
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <p style="margin: 0;"><small>Rated on ${df.parseDurianHarvestTime(
+                    ratings["ratingTime"]
+                )}</small></p>
+            </div>
+        </div>`;
+
+    return htmlStr;
+};
+
+const initCopyToClipboard = () => {
+    document.querySelectorAll(".copy-to-clipboard").forEach((each) => {
+        each.addEventListener("click", (e) => {
+            navigator.clipboard.writeText(e.target.innerHTML.toString());
+            Swal.fire({
+                icon: "success",
+                title: "Address Copied to Clipboard!",
             });
         });
     });
@@ -93,20 +162,21 @@ const visualizeLoadingBar = (stage) => {
             labelTable.innerHTML += `<th style="width: ${width}%; text-align: center;" >${data[i].name}</th>`;
         }
 
-        let percentage = ((parseInt(stage) + 0.5) / data.length) * 100;
+        console.log(stage);
+        let percentage = ((parseInt(stage) + 1) / (data.length - 1)) * 100;
         progressBar.setAttribute("aria-valuenow", percentage);
         progressBar.style.width = percentage + "%";
     });
 };
 
 const fetchSessionTrace = () => {
-    let traceID = localStorage.getItem('traceID')
+    let traceID = localStorage.getItem("traceID");
     if (traceID) {
-        document.querySelector('#durianIDinput').value = traceID;
-        document.querySelector('#submitTraceDurian').click();
-        localStorage.removeItem('traceID')
+        document.querySelector("#durianIDinput").value = traceID;
+        document.querySelector("#submitTraceDurian").click();
+        localStorage.removeItem("traceID");
     }
-}
+};
 
 // Connection to blockchain
 blockchain
@@ -115,7 +185,6 @@ blockchain
         return blockchain.accessToContract();
     })
     .then((out) => {
-        
         fetchSessionTrace();
     });
 
