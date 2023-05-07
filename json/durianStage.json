@@ -1,22 +1,18 @@
 [
     {
-        "id": 0, 
-        "name": "New"
-    }, 
-    {
-        "id": 1,
+        "id": 0,
         "name": "Harvested"
     },
     {
-        "id": 2,
+        "id": 1,
         "name": "At Distribution Center"
     },
     {
-        "id": 3,
+        "id": 2,
         "name": "At Retailer"
     },
     {
-        "id": 4,
+        "id": 3,
         "name": "Sold to Customer"
     }
 ]

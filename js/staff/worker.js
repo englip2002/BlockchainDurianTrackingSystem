@@ -223,7 +223,6 @@ const submitRecordRetailer = () => {
     }
 
     let durianSellPriceFormatted = ethers.utils.parseEther(durianSellPrice).toString();
-    console.log(durianSellPriceFormatted)
     df.parseDurian(durianIDinput).
         then((durian) => {
             if (durian.exist) {

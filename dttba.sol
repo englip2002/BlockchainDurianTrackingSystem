@@ -29,8 +29,7 @@ contract DTTBA {
         Harvested,
         AtDistributionCenter,
         AtRetailer,
-        SoldToCustomer,
-        Expired
+        SoldToCustomer
     }
 
     enum WorkFor {
@@ -304,6 +303,7 @@ contract DTTBA {
         uint256 fragranceRating,
         uint256 creaminessRating
     ) public isDurianSold(durianID) durianExist(durianID) {
+        require(durians[durianID].customerRating.taste == 0);
         Rating memory r = Rating(
             block.timestamp,
             tasteRating,

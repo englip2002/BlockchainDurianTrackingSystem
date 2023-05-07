@@ -1,110 +1,155 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Homepage</title>
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+        <script
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+            type="text/javascript"></script>
 
-<head>
-    <title>Homepage</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <!-- Bootstrap 5 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous" />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-
-    <!-- Sweet Alert 2 -->
-    <script src="
+        <!-- Sweet Alert 2 -->
+        <script src="
         https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
         "></script>
-    <link href="
+        <link
+            href="
         https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
-        " rel="stylesheet" />
+        "
+            rel="stylesheet" />
 
-    <style>
-        .progress {
-            padding: 0 !important;
-        }
+        <link rel="stylesheet" href="/css/style.css" />
+        <style>
+            .progress {
+                padding: 0 !important;
+            }
 
-        .myContainer{
-            height: 75vh;
-            display: flex;
-            flex-direction: column;
-            margin: auto;
-            justify-content: center;
-            align-items: center;
-        }
+            .myContainer {
+                height: 75vh;
+                display: flex;
+                flex-direction: column;
+                margin: auto;
+                justify-content: center;
+                align-items: center;
+            }
 
-        .myImage {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+            .myImage {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
 
-        .myButton{
-            margin-top: 20px;
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
+            .myButton {
+                margin-top: 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+        </style>
+    </head>
 
-    </style>
-</head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html"
+                    >Durian Track and Trace Blockchain Application</a
+                >
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item hover-2">
+                            <a class="nav-link active" href="/html/buyDurian.html"
+                                >Browse Durians</a
+                            >
+                        </li>
+                        <li class="nav-item hover-2">
+                            <a class="nav-link" href="/html/rateDurian.html"
+                                >View Purchase History</a
+                            >
+                        </li>
+                        <li class="nav-item hover-2">
+                            <a class="nav-link" href="/html/traceDurian.html">Trace Durian</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbarStaff">
+                        <div class="d-flex">
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Staff
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="/html/staff/admin.html"
+                                            >Admin</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/html/staff/worker.html">Worker</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Durian Track and Trace Blockchain Application</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="staff/admin.html">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="staff/worker.html">Worker</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="customerPortal.html">Customer Portal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="traceDurian.html">Trace Durian</a>
-                    </li>
-                </ul>
+        <div class="myContainer">
+            <div class="myImage" style="align-items: center">
+                <img
+                    src="https://i.ibb.co/bzYm64V/7315525.png"
+                    class="rounded float-start"
+                    width="256px"
+                    height="256px"
+                    alt="..." />
+            </div>
+
+            <div>
+                <h1 style="text-align: center">Durian Track and Trace Blockchain Application</h1>
+            </div>
+
+            <div class="container" style="text-align: center">
+                <div class="d-grid gap-2">
+                    <button
+                        class="btn btn-primary myButton"
+                        type="button"
+                        onclick="window.location.href='staff/admin.html';">
+                        Admin
+                    </button>
+                    <button
+                        class="btn btn-primary myButton"
+                        type="button"
+                        onclick="window.location.href='customerPortal.html';">
+                        Customer
+                    </button>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <div class="myContainer">
-        <div class="myImage" style="align-items: center;">
-            <img src="https://i.ibb.co/bzYm64V/7315525.png" class="rounded float-start" width="256px" height="256px" alt="...">
-        </div>
-    
-        <div>
-            <h1 style="text-align: center;">Durian Track and Trace Blockchain Application</h1>
-        </div>
-    
-        <div class="container" style=" text-align: center;">
-            <div class="d-grid gap-2">
-                <button class="btn btn-primary myButton" type="button"
-                    onclick="window.location.href='staff/admin.html';">Admin</button>
-                <button class="btn btn-primary myButton" type="button"
-                    onclick="window.location.href='customerPortal.html';">Customer</button>
-            </div>
-        </div>
-    </div>
-   
-    <div class="footer" style="padding-top: 100px;"></div>
+        <div class="footer" style="padding-top: 100px"></div>
 
-    <script style="align-items: center;">
+        <script style="align-items: center"></script>
 
-    </script>
+        <script type="module" src="../js/traceDurian.js"></script>
 
-    <script type="module" src="../js/traceDurian.js"></script>
-
-    <script>
-
-    </script>
-</body>
-
+        <script></script>
+    </body>
 </html>
