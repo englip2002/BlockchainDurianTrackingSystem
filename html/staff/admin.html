@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Admin</title>
 
-        <!-- Web3 -->
-        <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+<head>
+    <title>Admin</title>
 
-        <!-- jQuery -->
-        <script
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-            type="text/javascript"></script>
+    <!-- Web3 -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
 
-        <!-- Bootstrap 5 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous" />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
-        <!-- Sweet Alert 2 -->
-        <script src="
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Sweet Alert 2 -->
+    <script src="
         https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
         "></script>
-        <link
-            href="
+    <link href="
         https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
-        "
-            rel="stylesheet" />
+        " rel="stylesheet" />
 
-        <!-- Anime.js -->
-        <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <!-- Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 
         <link rel="stylesheet" href="/css/style.css" />
     </head>
@@ -59,216 +50,173 @@
                                         -ms-user-select: none;
                                         cursor: pointer;
                                         margin-right: 20px;
-                                    "
-                                    data-bs-toggle="offcanvas"
-                                    href="#offcanvasExample"
-                                    role="button"
-                                    aria-controls="offcanvasExample"
-                                    alt="" /></div
-                        ></a>
-                        <a class="navbar-brand" href="/"
-                            >Durian Track and Trace Blockchain Application</a
-                        >
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a
-                                        class="nav-link active"
-                                        aria-current="page"
-                                        href="/html/staff/admin.html"
-                                        >Admin</a
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/html/staff/worker.html">Worker</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/html/traceDurian.html"
-                                        >Trace Durian</a
-                                    >
-                                </li>
-                            </ul>
+                                    " data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                                aria-controls="offcanvasExample" alt="" />
                         </div>
+                    </a>
+                    <a class="navbar-brand" href="../index.html">Durian Track and Trace Blockchain Application</a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="admin.html">Admin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="worker.html">Worker</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="traceDurian.html">Trace Durian</a>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
+                </div>
+            </nav>
 
-                <div class="container" style="padding: 15px 30px">
-                    <br />
+            <div class="container" style="padding: 15px 30px">
+                <br />
+                <div class="row">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary" id="switchFarmUIel">
+                            Add Durian Farm
+                        </button>
+                        <button type="button" class="btn btn-primary" id="switchTreeUIel">
+                            Add Durian Tree
+                        </button>
+                        <button type="button" class="btn btn-primary" id="switchWorkerUIel">
+                            Add Workers
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div id="durianFarmUI">
                     <div class="row">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-primary" id="switchFarmUIel">
-                                Add Durian Farm
-                            </button>
-                            <button type="button" class="btn btn-primary" id="switchTreeUIel">
-                                Add Durian Tree
-                            </button>
-                            <button type="button" class="btn btn-primary" id="switchWorkerUIel">
-                                Add Workers
-                            </button>
-                        </div>
+                        <h1 style="text-align: center">Add Durian Farm</h1>
                     </div>
-                    <br />
-                    <div id="durianFarmUI">
-                        <div class="row">
-                            <h1 style="text-align: center">Add Durian Farm</h1>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="farmName" class="form-label">Farm Name</label>
+                            <input type="text" class="form-control" id="farmName" placeholder="Enter farm name..." />
                         </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="farmName" class="form-label">Farm Name</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="farmName"
-                                    placeholder="Enter farm name..." />
-                            </div>
-                            <div class="mb-3">
-                                <label for="farmLocation" class="form-label">Farm Location</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="farmLocation"
-                                    placeholder="Enter farm location..." />
-                            </div>
-                            <button type="button" class="btn btn-primary" id="submitAddFarmEl">
-                                Submit
-                            </button>
+                        <div class="mb-3">
+                            <label for="farmLocation" class="form-label">Farm Location</label>
+                            <input type="text" class="form-control" id="farmLocation"
+                                placeholder="Enter farm location..." />
                         </div>
-                        <br /><br />
-                        <div class="row">
-                            <h2>Durian Farms</h2>
-                        </div>
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Farm ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Location</th>
-                                        <th scope="col">Number Of Durian Trees</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="durianFarmTableBody"></tbody>
-                            </table>
-                        </div>
+                        <button type="button" class="btn btn-primary" id="submitAddFarmEl">
+                            Submit
+                        </button>
                     </div>
+                    <br /><br />
+                    <div class="row">
+                        <h2>Durian Farms</h2>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Farm ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Number Of Durian Trees</th>
+                                </tr>
+                            </thead>
+                            <tbody id="durianFarmTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
 
-                    <div id="durianTreeUI" style="display: none">
-                        <div class="row">
-                            <h1 style="text-align: center">Add Durian Tree</h1>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="treeSpecies" class="form-label"
-                                    >Durian Tree Species</label
-                                >
-                                <select
-                                    class="form-select"
-                                    aria-label="Default select example0"
-                                    id="durianSpeciesSelect">
-                                    <option selected disabled="disabled" value="0">
-                                        Select a durian tree species
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="treeAge" class="form-label">Age of tree (Years)</label>
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="treeAge"
-                                    placeholder="Enter age of tree..." />
-                            </div>
-                            <div class="mb-3">
-                                <label for="treeSelectFarm" class="form-label"
-                                    >Belong to Durian Farm</label
-                                >
-                                <select
-                                    class="form-select"
-                                    aria-label="Default select example0"
-                                    id="treeSelectFarm">
-                                    <option selected disabled="disabled" value="0">
-                                        Select a durian farm
-                                    </option>
-                                </select>
-                            </div>
-                            <button type="button" class="btn btn-primary" id="submitAddTreeEl">
-                                Submit
-                            </button>
-                        </div>
-                        <br /><br />
-                        <div class="row">
-                            <h2>Durian Farms</h2>
-                        </div>
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Tree ID</th>
-                                        <th scope="col">Species</th>
-                                        <th scope="col">Age (Years)</th>
-                                        <th scope="col">Last Harvest Time</th>
-                                        <th scope="col">Belong to Durian Farm</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="durianTreeTableBody"></tbody>
-                            </table>
-                        </div>
+                <div id="durianTreeUI" style="display: none">
+                    <div class="row">
+                        <h1 style="text-align: center">Add Durian Tree</h1>
                     </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="treeSpecies" class="form-label">Durian Tree Species</label>
+                            <select class="form-select" aria-label="Default select example0" id="durianSpeciesSelect">
+                                <option selected disabled="disabled" value="0">
+                                    Select a durian tree species
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="treeAge" class="form-label">Age of tree (Years)</label>
+                            <input type="number" class="form-control" id="treeAge" placeholder="Enter age of tree..." />
+                        </div>
+                        <div class="mb-3">
+                            <label for="treeSelectFarm" class="form-label">Belong to Durian Farm</label>
+                            <select class="form-select" aria-label="Default select example0" id="treeSelectFarm">
+                                <option selected disabled="disabled" value="0">
+                                    Select a durian farm
+                                </option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="submitAddTreeEl">
+                            Submit
+                        </button>
+                    </div>
+                    <br /><br />
+                    <div class="row">
+                        <h2>Durian Farms</h2>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tree ID</th>
+                                    <th scope="col">Species</th>
+                                    <th scope="col">Age (Years)</th>
+                                    <th scope="col">Last Harvest Time</th>
+                                    <th scope="col">Belong to Durian Farm</th>
+                                </tr>
+                            </thead>
+                            <tbody id="durianTreeTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
 
-                    <div id="workerUI" style="display: none">
-                        <div class="row">
-                            <h1 style="text-align: center">Add Worker</h1>
+                <div id="workerUI" style="display: none">
+                    <div class="row">
+                        <h1 style="text-align: center">Add Worker</h1>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="workerName" class="form-label">Worker Name: </label>
+                            <input type="text" class="form-control" id="workerName"
+                                placeholder="Enter name of worker..." />
                         </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="workerName" class="form-label">Worker Name: </label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="workerName"
-                                    placeholder="Enter name of worker..." />
-                            </div>
-                            <div class="mb-3">
-                                <label for="workerAddress" class="form-label"
-                                    >Worker's Public Address:
-                                </label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="workerAddress"
-                                    placeholder="Enter the public address of worker..." />
-                            </div>
-                            <div class="mb-3">
-                                <label for="workerWorkFor" class="form-label">Working For: </label>
-                                <select
-                                    class="form-select"
-                                    aria-label="Worker Work for"
-                                    id="workerWorkFor"></select>
-                            </div>
-                            <button type="button" class="btn btn-primary" id="submitAddWorkerEl">
-                                Submit
-                            </button>
+                        <div class="mb-3">
+                            <label for="workerAddress" class="form-label">Worker's Public Address:
+                            </label>
+                            <input type="text" class="form-control" id="workerAddress"
+                                placeholder="Enter the public address of worker..." />
                         </div>
-                        <br /><br />
-                        <div class="row">
-                            <h2>List of Workers</h2>
+                        <div class="mb-3">
+                            <label for="workerWorkFor" class="form-label">Working For: </label>
+                            <select class="form-select" aria-label="Worker Work for" id="workerWorkFor"></select>
                         </div>
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Worker ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Public Address</th>
-                                        <th scope="col">Worked For</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="workerListBody"></tbody>
-                            </table>
-                        </div>
+                        <button type="button" class="btn btn-primary" id="submitAddWorkerEl">
+                            Submit
+                        </button>
+                    </div>
+                    <br /><br />
+                    <div class="row">
+                        <h2>List of Workers</h2>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Worker ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Public Address</th>
+                                    <th scope="col">Worked For</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workerListBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+        </div>
 
         <script type="module" src="/js/sidebarVisualizer.js"></script>
         <script type="module" src="/js/staff/admin.js"></script>
