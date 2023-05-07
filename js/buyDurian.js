@@ -134,12 +134,10 @@ const initDurianCards = async () => {
         });
     });
 
-    console.log(durianList);
-
     updateDurianCards();
 };
 
-const updateDurianCards = () => {
+const updateDurianCards = (searchKey = false) => {
     let productsBox = document.querySelector(".productsBox");
     productsBox.innerHTML = "";
     let count = 0;
@@ -152,6 +150,25 @@ const updateDurianCards = () => {
             d.parseDurianPrice > priceRange[1]
         ) {
             continue;
+        }
+        else if (searchKey) {
+            let found = false;
+            let searchValues = [
+                d.parseDurianFarm.name, 
+                d.parseDurianFarm.location, 
+                d.parseDurianTree.species, 
+                d.parseDurianStage
+            ];
+            for (let j = 0; j < searchValues.length; j++) {
+                if (searchValues[j].toLowerCase().includes(searchKey.toLowerCase())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                continue;
+            }
         }
 
         count++;
@@ -248,6 +265,14 @@ const purchaseDurian = async (event) => {
     }
 };
 
+const initSearchBar = () => {
+    document.querySelector("#searchBarForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        let searchKey = document.querySelector("#searchBar").value;
+        updateDurianCards(searchKey);
+    });
+};
+
 blockchain
     .accessToMetamask()
     .then((out) => {
@@ -255,6 +280,7 @@ blockchain
     })
     .then((out) => {
         initDurianCards();
+        initSearchBar();
     });
 
 initRangeSliders();

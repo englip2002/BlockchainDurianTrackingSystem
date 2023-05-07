@@ -41,7 +41,7 @@
     <script src="https://unpkg.com/@spreadtheweb/multi-range-slider@1.0.2/dist/range-slider.main.min.js"></script>
 
     <style>
-        .topSearchContainer>div {
+        .topSearchContainer>* {
             width: 80%;
         }
 
@@ -150,14 +150,17 @@
     <div class="d-flex flex-row" style="min-height: 100vh">
         <div class="col">
             <div class="container myCenter my-flex-col topSearchContainer" style="padding: 15px 30px">
-                <div class="input-group mb-3">
-                    <input type="text" id="searchBar" class="form-control" placeholder="Search any keyword..." />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <form id="searchBarForm">
+                    
+                    <div class="input-group mb-3">
+                        <input type="text" id="searchBar" class="form-control" placeholder="Search any keyword..." />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
 
                     <div class="myCenter my-flex-row">
                         <div class="col-2">

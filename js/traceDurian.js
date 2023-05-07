@@ -74,9 +74,9 @@ const submitTraceDurian = async () => {
         `;
     if (durian.supplyChainStage >= 3) {
         detailsTable.innerHTML += `
-                <th scope="row">Selling Price</th>
-                <td>${durian.parseDurianPrice} ETH</td>
-                `;
+            <th scope="row">Selling Price</th>
+            <td>${durian.parseDurianPrice} ETH</td>
+        `;
     }
 
     initCopyToClipboard();
