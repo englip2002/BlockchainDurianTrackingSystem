@@ -1,4 +1,4 @@
-import { getWorkForList } from "./jsonFetching.js";
+import { getWorkForList } from "/js/jsonFetching.js";
 
 export const parseIntToID = (i, type) => {
     let check = "";
@@ -95,7 +95,7 @@ export const parseDurianHarvestTime = (harvestTime) => {
     }
     var d = new Date(0);
     d.setUTCSeconds(parseInt(harvestTime));
-    return d.toDateString();
+    return d.toString();
 };
 
 export const getDurianFarmCount = async () => {
@@ -168,7 +168,9 @@ export const getAllDurians = async (
     convertDurianStage = false,
     convertDurianFarm = false,
     convertDurianPrice = false,
-    convertDurianTree = false
+    convertDurianTree = false,
+    includeDurianTimestamps = false,
+    convertDurianGrade = false
 ) => {
     let result = [];
     let durianCount = await getDurianCount().then((durianCount) => {
@@ -198,6 +200,24 @@ export const getAllDurians = async (
             if (convertDurianTree) {
                 await parseDurianTree(durian.durianTreeID).then((tree) => {
                     durian["parseDurianTree"] = tree;
+                });
+            }
+            if (includeDurianTimestamps) {
+                await window.contract.methods
+                    .getDurianTimestamps(durianID)
+                    .call()
+                    .then((timestamps) => {
+                        durian["stageTimestamps"] = timestamps;
+                    });
+                let temp = [];
+                durian["stageTimestamps"].forEach((each) => {
+                    temp.push(parseDurianHarvestTime(each));
+                });
+                durian["parseStageTimestamps"] = temp;
+            }
+            if (convertDurianGrade) {
+                durian["parseDurianGrade"] = await parseDurianGrade(durian.grade).then((out) => {
+                    return out;
                 });
             }
             result.push(thisRow);
@@ -272,7 +292,7 @@ export const getAllWorkers = async () => {
 
         for (let j = 0; j < workForList.length; j++) {
             if (workForList[j].id == worker.workedFor) {
-                worker['parseWorkFor'] = workForList[j].name;
+                worker["parseWorkFor"] = workForList[j].name;
                 break;
             }
         }

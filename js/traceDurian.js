@@ -38,6 +38,7 @@ const getDurianDetails = (durianID, durian) => {
     durianFormatting.parseDurianStage(durian.supplyChainStage).then((durianStage) => {
         durianFormatting.parseDurianFarm(durian.durianFarmID).then((durianFarm) => {
             durianFormatting.parseDurianGrade(durian.grade).then((durianGrade) => {
+
                 detailsTable.innerHTML += `
                 <th scope="row">Durian ID</th>
                 <td>${durianID}</td>
@@ -85,7 +86,7 @@ const visualizeLoadingBar = (stage) => {
     let labelTableTop = document.getElementById("stageLabelsTop");
     labelTable.innerHTML = "";
     labelTableTop.innerHTML = "";
-    $.getJSON("json/durianStage.json", (data) => {
+    $.getJSON("/json/durianStage.json", (data) => {
         let width = (1 / data.length) * 100;
         for (let i = 0; i < data.length; i++) {
             labelTableTop.innerHTML += `<th style="width: ${width}%; text-align: center;" >|</th>`;
@@ -98,13 +99,25 @@ const visualizeLoadingBar = (stage) => {
     });
 };
 
+const fetchSessionTrace = () => {
+    let traceID = localStorage.getItem('traceID')
+    if (traceID) {
+        document.querySelector('#durianIDinput').value = traceID;
+        document.querySelector('#submitTraceDurian').click();
+        localStorage.removeItem('traceID')
+    }
+}
+
 // Connection to blockchain
 blockchain
     .accessToMetamask()
     .then((out) => {
         return blockchain.accessToContract();
     })
-    .then((out) => {});
+    .then((out) => {
+        
+        fetchSessionTrace();
+    });
 
 window.ethereum.on("accountsChanged", function (accounts) {
     console.log("Metamask account change detected!");

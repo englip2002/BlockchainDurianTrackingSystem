@@ -82,39 +82,6 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_id",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_age",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_species",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_durianFarmID",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "harvestTime",
-				"type": "uint256"
-			}
-		],
-		"name": "addDurianTreeWithHarvestTime",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
 				"name": "_name",
 				"type": "string"
 			},
@@ -405,19 +372,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -425,84 +379,25 @@
 				"type": "string"
 			}
 		],
-		"name": "traceDurianProvenance",
+		"name": "getDurianTimestamps",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "durianWeight",
-				"type": "uint256"
-			},
-			{
-				"internalType": "enum DTTBA.DurianGrade",
-				"name": "grade",
-				"type": "uint8"
-			},
-			{
-				"internalType": "string",
-				"name": "durianFarmName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "durianFarmLocation",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "durianTreeSpecies",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "durianTreeID",
-				"type": "string"
-			},
-			{
-				"internalType": "enum DTTBA.Stage",
-				"name": "currentStage",
-				"type": "uint8"
-			},
 			{
 				"internalType": "uint256[]",
 				"name": "_stageTimestamps",
 				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sellPrice",
-				"type": "uint256"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
 			{
 				"internalType": "address",
-				"name": "boughtByCustomer",
+				"name": "",
 				"type": "address"
-			},
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "ratingTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "taste",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "fragrance",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "creaminess",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct DTTBA.Rating",
-				"name": "customerRating",
-				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",

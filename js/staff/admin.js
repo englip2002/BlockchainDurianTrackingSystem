@@ -21,8 +21,10 @@ const switchWorkerUI = () => {
 };
 
 const submitAddFarm = async () => {
-    let farmName = document.getElementById("farmName").value;
-    let farmLocation = document.getElementById("farmLocation").value;
+    let farmNameInput = document.getElementById("farmName");
+    let farmName = farmNameInput.value;
+    let farmLocationInput = document.getElementById("farmLocation");
+    let farmLocation = farmLocationInput.value;
 
     let verifyFarmDetails = farmName.length != 0 && farmLocation.length != 0;
     if (!verifyFarmDetails) {
@@ -58,6 +60,8 @@ const submitAddFarm = async () => {
                 title: "Success!",
                 text: "The durian farm is added to the blockchain",
             });
+            farmNameInput.value = "";
+            farmLocationInput.value = "";
         })
         .catch((err) => {
             console.log(err);
@@ -76,7 +80,7 @@ const getAllFarms = async () => {
                 let thisId = df.parseIntToID(n, "farm");
                 df.parseDurianFarm(thisId).then((farm) => {
                     if (farm.exist) {
-                        console.log(farm)
+                        console.log(farm);
                         tableBody.innerHTML +=
                             `<tr>
                             <th scope="row" class="dfCol1">` +
@@ -130,12 +134,15 @@ const updateDurianFarmSelect = async () => {
 };
 
 const submitAddTree = async () => {
-    let treeSpecies = document.getElementById("durianSpeciesSelect").value;
-    let treeAge = document.getElementById("treeAge").value;
-    let treeFarm = document.getElementById("treeSelectFarm").value;
+    let treeSpecies = document.getElementById("durianSpeciesSelect");
+    let treeAge = document.getElementById("treeAge");
+    let treeFarm = document.getElementById("treeSelectFarm");
 
     let verifySubmitAddTree =
-        treeSpecies != 0 && treeAge != "" && treeAge >= 0 && treeFarm.length != 0;
+        treeSpecies.value != 0 &&
+        treeAge.value != "" &&
+        parseInt(treeAge.value) >= 0 &&
+        treeFarm.value.length != 0;
     if (!verifySubmitAddTree) {
         Swal.fire({
             icon: "error",
@@ -152,7 +159,7 @@ const submitAddTree = async () => {
             treeID = df.parseIntToID(parseInt(treeCount) + 1, "tree");
 
             return window.contract.methods
-                .addDurianTree(treeID, treeAge, treeSpecies, treeFarm)
+                .addDurianTree(treeID, treeAge.value, treeSpecies.value, treeFarm.value)
                 .send({ from: blockchain.account });
         })
         .then((result) => {
@@ -162,6 +169,9 @@ const submitAddTree = async () => {
                 title: "Success!",
                 text: "The durian tree is added to the blockchain!",
             });
+            treeSpecies.value = "0";
+            treeAge.value = "";
+            treeFarm.value = "0";
         })
         .catch((err) => {
             console.log(err);
@@ -221,11 +231,12 @@ const updateWorkerWorkForSelections = () => {
 };
 
 const submitAddWorker = () => {
-    let wName = document.getElementById("workerName").value;
-    let wAddress = document.getElementById("workerAddress").value;
-    let wWorkFor = document.getElementById("workerWorkFor").value;
+    let wName = document.getElementById("workerName");
+    let wAddress = document.getElementById("workerAddress");
+    let wWorkFor = document.getElementById("workerWorkFor");
 
-    let verifyAddWorker = wName.length != 0 && wAddress.length != 0 && wWorkFor > 0;
+    let verifyAddWorker =
+        wName.value.length != 0 && wAddress.value.length != 0 && wWorkFor.value > 0;
     if (!verifyAddWorker) {
         Swal.fire({
             icon: "error",
@@ -236,9 +247,9 @@ const submitAddWorker = () => {
 
     df.getWorkerCount()
         .then((workerCount) => {
-            workerID = df.parseIntToID(workerCount + 1, "worker");
+            let workerID = df.parseIntToID(workerCount + 1, "worker");
             return window.contract.methods
-                .addWorker(wName, wAddress, wWorkFor.toString())
+                .addWorker(wName.value, wAddress.value, wWorkFor.value.toString())
                 .send({ from: blockchain.account });
         })
         .then((result) => {
@@ -248,6 +259,9 @@ const submitAddWorker = () => {
                 text: "The worker is added to the blockchain!",
             });
             getAllWorkers();
+            wName.value = "";
+            wAddress.value = "";
+            wWorkFor.value = "1";
         })
         .catch((err) => {
             Swal.fire({

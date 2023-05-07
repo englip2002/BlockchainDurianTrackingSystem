@@ -72,7 +72,7 @@ const updateDurianTreeSelections = () => {
                 if (tree.exist && tree.durianFarmID == selectedFarmID) {
                     let treeID = df.parseIntToID(n, "tree");
                     durianTreeEl.innerHTML +=
-                        `<option value="` + treeID + `">` + treeID + `</option>`;
+                        `<option value="` + treeID + `">` + treeID + " - " + tree.species + `</option>`;
                 }
             });
         }
@@ -156,9 +156,10 @@ const getAllDurians = () => {
 };
 
 const submitRecordDC = () => {
-    let durianIDinput = document.getElementById("durianIDinput").value.toUpperCase();
+    let durianIDinputEl = document.getElementById("durianIDinput");
+    let durianIDinput = durianIDinputEl.value.toUpperCase()
 
-    let verifyRecordDC = durianID.length == 4;
+    let verifyRecordDC = durianIDinput.length == 4;
     if (!verifyRecordDC) {
         Swal.fire({
             icon: "error",
@@ -174,6 +175,12 @@ const submitRecordDC = () => {
                 .send({ from: blockchain.account })
                 .then((result) => {
                     getAllDurians();
+                    durianIDinputEl.value = "";
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "The durian is recorded as 'At Distribution Center' on the blockchain! ",
+                    });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -194,8 +201,10 @@ const submitRecordDC = () => {
 };
 
 const submitRecordRetailer = () => {
-    let durianIDinput = document.getElementById("durianIDinputRetail").value.toUpperCase();
-    let durianSellPrice = document.getElementById("durianSellPriceRetailer").value;
+    let idInputElement = document.getElementById("durianIDinputRetail");
+    let durianIDinput = idInputElement.value.toUpperCase();
+    let sellPriceElement = document.getElementById("durianSellPriceRetailer") 
+    let durianSellPrice = sellPriceElement.value;
 
     if (durianIDinput.length != 4) {
         Swal.fire({
@@ -223,6 +232,11 @@ const submitRecordRetailer = () => {
                     .send({ from: blockchain.account })
                     .then((result) => {
                         getAllDurians();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "The durian is recorded as 'At Retailer' on the blockchain! ",
+                        });
                     })
                     .catch((err) => {
                         console.log(err);
@@ -242,6 +256,8 @@ const submitRecordRetailer = () => {
         });
 };
 
+
+// ===============================
 blockchain
     .accessToMetamask()
     .then((out) => {
@@ -255,7 +271,7 @@ blockchain
 
 window.ethereum.on("accountsChanged", function (accounts) {
     console.log("Metamask account change detected!");
-    accessToMetamask();
+    blockchain.accessToMetamask();
 });
 
 setTimeout(() => {
@@ -275,3 +291,5 @@ document.querySelector("#switchUIretail").addEventListener("click", function () 
 document.querySelector("#submitAddDurianBtn").addEventListener("click", submitAddDurian);
 document.querySelector("#submitRecordDCbtn").addEventListener("click", submitRecordDC);
 document.querySelector("#submitRecordRetailerBtn").addEventListener("click", submitRecordRetailer);
+
+document.querySelector("#durianFarmSelect").addEventListener("change", updateDurianTreeSelections)

@@ -2,9 +2,11 @@ import * as blockchain from "/js/blockchainConnection.js";
 import * as df from "/js/durianFormatting.js";
 import * as jsonFetching from "/js/jsonFetching.js";
 
+var weightRange = [0, 10000];
+var priceRange = [0, 100];
 const initRangeSliders = () => {
     new RangeSlider(".range-slider-1", {
-        values: [0, 10000],
+        values: [weightRange[0], weightRange[1]],
         min: 0,
         max: 10000,
         step: 100,
@@ -13,19 +15,67 @@ const initRangeSliders = () => {
             rail: "#F77BF030",
             tracks: "#F77BF0",
         },
-    }).onChange((val) => console.log(val));
+    }).onChange((val) => {
+        let minVal, maxVal;
+        if (val[0] < val[1]) {
+            minVal = val[0];
+            maxVal = val[1];
+        }
+        else {
+            minVal = val[1];
+            maxVal = val[0];
+        }
+        weightRange[0] = minVal
+        weightRange[1] = maxVal;
+        updateWeightSlider();
+    });
 
     new RangeSlider(".range-slider-2", {
-        values: [0, 1000],
+        values: [priceRange[0], priceRange[1]],
         min: 0,
-        max: 1000,
-        step: 10,
+        max: 100,
+        step: 0.01,
         colors: {
             points: "#F77BF0",
             rail: "#F77BF030",
             tracks: "#F77BF0",
         },
-    }).onChange((val) => console.log(val));
+    }).onChange((val) => {
+        let minVal, maxVal;
+        if (val[0] < val[1]) {
+            minVal = val[0];
+            maxVal = val[1];
+        }
+        else {
+            minVal = val[1];
+            maxVal = val[0];
+        }
+ 
+        priceRange[0] = minVal;
+        priceRange[1] = maxVal;
+        updatePriceSlider();
+    });
+
+    document.querySelector("#weightSlideMin").addEventListener("change", updateWeightSlider);
+    document.querySelector("#weightSlideMax").addEventListener("change", updateWeightSlider);
+    document.querySelector("#priceSlideMin").addEventListener("change", updatePriceSlider);
+    document.querySelector("#priceSlideMax").addEventListener("change", updatePriceSlider);
+
+    updateWeightSlider();
+    updatePriceSlider();
+};
+
+const updateWeightSlider = () => {
+    document.querySelector("#weightSlideMin").value = weightRange[0];
+    document.querySelector("#weightSlideMax").value = weightRange[1];
+
+    updateDurianCards();
+};
+const updatePriceSlider = () => {
+    document.querySelector("#priceSlideMin").value = priceRange[0];
+    document.querySelector("#priceSlideMax").value = priceRange[1];
+
+    updateDurianCards();
 };
 
 var durianList = [];
@@ -39,10 +89,25 @@ const initDurianCards = async () => {
 
     console.log(durianList);
 
+    updateDurianCards();
+};
+
+const updateDurianCards = () => {
     let productsBox = document.querySelector(".productsBox");
     productsBox.innerHTML = "";
+    let count = 0;
     for (let i = 0; i < durianList.length; i++) {
         let d = durianList[i];
+        if (
+            d.weightInGrams < weightRange[0] ||
+            d.weightInGrams > weightRange[1] ||
+            d.parseDurianPrice < priceRange[0] ||
+            d.parseDurianPrice > priceRange[1]
+        ) {
+            continue;
+        }
+
+        count++;
         let html = `
         <div
             class="card bg-light mb-3 durian-card flip-card"
@@ -90,6 +155,10 @@ const initDurianCards = async () => {
         productsBox.innerHTML += html;
     }
 
+    if (count == 0) {
+        productsBox.innerHTML += "<h2>Looks like there are no durians<br/>that match your filter... :(</h2>";
+    }
+
     document.querySelectorAll(".durian-card").forEach((card) => {
         card.addEventListener("click", purchaseDurian);
     });
@@ -131,7 +200,6 @@ const purchaseDurian = async (event) => {
     }
 };
 
-const { ethereum } = window;
 blockchain
     .accessToMetamask()
     .then((out) => {
@@ -139,6 +207,7 @@ blockchain
     })
     .then((out) => {
         initDurianCards();
+
     });
 
 initRangeSliders();

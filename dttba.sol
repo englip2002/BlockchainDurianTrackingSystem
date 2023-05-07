@@ -70,7 +70,7 @@ contract DTTBA {
         bool exist;
     }
 
-    address public owner;
+    address payable public owner;
 
     mapping(string => DurianFarm) public durianFarms;
     uint256 public durianFarmCount = 0;
@@ -79,7 +79,7 @@ contract DTTBA {
     uint256 public durianTreesCount = 0;
 
     constructor() {
-        owner = msg.sender;
+        owner = payable(msg.sender);
     }
 
     // Verify message sender
@@ -187,28 +187,8 @@ contract DTTBA {
             durianFarmID: _durianFarmID,
             exist: true
         });
-    }
 
-    function addDurianTreeWithHarvestTime(
-        string memory _id,
-        uint256 _age,
-        string memory _species,
-        string memory _durianFarmID,
-        uint256 harvestTime
-    )
-        public
-        isOwner(msg.sender)
-        durianTreeNotExist(_id)
-        durianFarmExist(_durianFarmID)
-    {
-        durianTreesCount++;
-        durianTrees[_id] = DurianTree({
-            age: _age,
-            species: _species,
-            lastHarvestTime: harvestTime,
-            durianFarmID: _durianFarmID,
-            exist: true
-        });
+        durianFarms[_durianFarmID].durianTreeCount += 1;
     }
 
     function addDurian(
@@ -305,38 +285,17 @@ contract DTTBA {
         durian.supplyChainStage = Stage.SoldToCustomer;
         durian.stageTimestamps.push(block.timestamp);
         durian.boughtByCustomer = msg.sender;
+
+        owner.transfer(msg.value);
     }
 
-    function traceDurianProvenance(string memory durianID)
+    function getDurianTimestamps(string memory durianID)
         public
         view
         durianExist(durianID)
-        returns (
-            uint durianWeight, 
-            DurianGrade grade, 
-            string memory durianFarmName,
-            string memory durianFarmLocation,
-            string memory durianTreeSpecies,
-            string memory durianTreeID,
-            Stage currentStage,
-            uint256[] memory _stageTimestamps,
-            uint sellPrice, 
-            address boughtByCustomer,
-            Rating memory customerRating
-        )
+        returns (uint256[] memory _stageTimestamps)
     {
-        Durian storage d = durians[durianID];
-        durianFarmName = durianFarms[d.durianFarmID].name;
-        durianFarmLocation = durianFarms[d.durianFarmID].location;
-        durianTreeSpecies = durianTrees[d.durianTreeID].species;
-        durianTreeID = d.durianTreeID;
-        _stageTimestamps = d.stageTimestamps;
-        durianWeight = d.weightInGrams;
-        currentStage = d.supplyChainStage;
-        sellPrice = d.sellPrice;
-        boughtByCustomer = d.boughtByCustomer;
-        customerRating = d.customerRating;
-        grade = d.grade;
+        _stageTimestamps = durians[durianID].stageTimestamps;
     }
 
     function rateDurian(

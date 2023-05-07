@@ -64,6 +64,15 @@
                 margin-bottom: 10px;
             }
 
+            .topSearchContainer > .myCenter .sliderDiv {
+                display: flex;
+                flex-direction: row;
+            }
+            .topSearchContainer > .myCenter .input-group {
+                width: 20%;
+                min-width: 75px;
+            }
+
             .productsBox {
                 display: flex;
                 flex-direction: row;
@@ -125,6 +134,7 @@
                 color: white;
                 transform: rotateY(180deg);
             }
+
         </style>
     </head>
     <body>
@@ -197,20 +207,32 @@
                     </div>
 
                     <div class="myCenter my-flex-row">
-                        <div class="col-4">
+                        <div class="col-2">
                             <label for="">Weight (grams)</label>
                         </div>
-                        <div class="col-8">
+                        <div class="col-10 sliderDiv">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" id="weightSlideMin" style="margin-right: 30px;">
+                              </div>
                             <div class="range-slider-1" style="width: 100%; margin: 0"></div>
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" id="weightSlideMax" style="margin-left: 30px;">
+                              </div>
                         </div>
                     </div>
 
                     <div class="myCenter my-flex-row">
-                        <div class="col-4">
+                        <div class="col-2">
                             <label for="">Price (ETH)</label>
                         </div>
-                        <div class="col-8">
+                        <div class="col-10 sliderDiv">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" id="priceSlideMin" style="margin-right: 30px;">
+                              </div>
                             <div class="range-slider-2" style="width: 100%; margin: 0"></div>
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" id="priceSlideMax" style="margin-left: 30px;">
+                              </div>
                         </div>
                     </div>
 
