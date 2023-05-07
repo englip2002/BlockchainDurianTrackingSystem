@@ -14,3 +14,11 @@ export const getWorkForList = async () => {
     })
     return result;
 }
+
+export const getDurianSpeciesImages = async () => {
+    let result = null;
+    await $.getJSON("/json/durianSpeciesImages.json", data => {
+        result = data;
+    })
+    return result;
+}

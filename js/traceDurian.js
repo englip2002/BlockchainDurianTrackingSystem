@@ -24,8 +24,6 @@ const submitTraceDurian = async () => {
         return;
     }
 
-    console.log(durian);
-
     document.querySelector("#traceDurianBox").style.display = "block";
     visualizeLoadingBar(durian.supplyChainStage);
     let detailsTable = document.getElementById("durianDetailsTableBody");

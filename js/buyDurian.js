@@ -66,9 +66,9 @@ const renderSlider = (i) => {
             max: 10000,
             step: 100,
             colors: {
-                points: "#F77BF0",
-                rail: "#F77BF030",
-                tracks: "#F77BF0",
+                points: "#579c22",
+                rail: "#c6ff99",
+                tracks: "#579c22",
             },
         }).onChange((val) => {
             let minVal, maxVal;
@@ -91,9 +91,9 @@ const renderSlider = (i) => {
             max: 100,
             step: 0.01,
             colors: {
-                points: "#F77BF0",
-                rail: "#F77BF030",
-                tracks: "#F77BF0",
+                points: "#579c22",
+                rail: "#c6ff99",
+                tracks: "#579c22",
             },
         }).onChange((val) => {
             let minVal, maxVal;
@@ -128,7 +128,7 @@ const updatePriceSliderInput = () => {
 var durianList = [];
 
 const initDurianCards = async () => {
-    await df.getAllDurians(true, true, true, true).then((durians) => {
+    await df.getAllDurians(true, true, true, true, false, false, true).then((durians) => {
         durianList = durians.filter((each) => {
             return each.parseDurianStage == "At Retailer";
         });
@@ -186,7 +186,7 @@ const updateDurianCards = (searchKey = false) => {
                     <div class="card-body">
                         <img
                             style="width: 100%; object-fit: cover"
-                            src="https://i.ibb.co/6Xcq1nQ/istockphoto-1329896565-612x612.jpg"
+                            src="${d.imgSrc ? d.imgSrc : "https://i.ibb.co/6Xcq1nQ/istockphoto-1329896565-612x612.jpg"}"
                             alt="" />
                         <h5 class="card-title" style="text-align: center">${d.parseDurianPrice} ETH</h5>
                         <div class="row card-body-lower">

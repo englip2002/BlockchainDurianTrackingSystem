@@ -39,6 +39,21 @@
 
         <link rel="stylesheet" href="/css/style.css" />
         <style>
+
+            body {
+                position: relative;
+            }
+            .bodyBackground {
+                position: fixed;
+                top: -100vh;
+                left: -100vw;
+                height: 200vh;
+                width: 200vw;
+                z-index: -10;
+                opacity: 0.25;
+                background-image: url("/img/durian-background.jpg");
+                background-repeat: repeat;
+            }
             .progress {
                 padding: 0 !important;
             }
@@ -60,15 +75,27 @@
                 margin-bottom: 20px;
             }
 
+            .myButtonParent {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 55vh;
+                flex-direction: column;
+                margin: 0 auto;
+            }
+
             .myButton {
                 margin-top: 10px;
                 padding-top: 15px;
                 padding-bottom: 15px;
+                color: white;
+                width: 100%;
             }
         </style>
     </head>
 
     <body>
+        <div class="bodyBackground"></div>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/index.html"
@@ -77,9 +104,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item hover-2">
-                            <a class="nav-link" href="/html/buyDurian.html"
-                                >Browse Durians</a
-                            >
+                            <a class="nav-link" href="/html/buyDurian.html">Browse Durians</a>
                         </li>
                         <li class="nav-item hover-2">
                             <a class="nav-link" href="/html/rateDurian.html"
@@ -92,14 +117,10 @@
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbarStaff">
                         <li class="nav-item hover-2">
-                            <a class="nav-link" href="/html/staff/worker.html"
-                                >Worker</a
-                            >
+                            <a class="nav-link" href="/html/staff/worker.html">Worker</a>
                         </li>
                         <li class="nav-item hover-2">
-                            <a class="nav-link " href="/html/staff/admin.html"
-                                >Admin</a
-                            >
+                            <a class="nav-link" href="/html/staff/admin.html">Admin</a>
                         </li>
                     </ul>
                 </div>
@@ -109,7 +130,7 @@
         <div class="myContainer">
             <div class="myImage" style="align-items: center">
                 <img
-                    src="https://i.ibb.co/bzYm64V/7315525.png"
+                    src="/img/durian-logo.png"
                     class="rounded float-start"
                     width="256px"
                     height="256px"
@@ -121,21 +142,21 @@
             </div>
 
             <div class="container" style="text-align: center">
-                <div class="d-grid gap-2">
+                <div class="gap-2 myButtonParent">
                     <button
-                        class="btn btn-primary myButton"
+                        class="btn btn-primary myButton hover-2"
                         type="button"
                         onclick="window.location.href='staff/admin.html';">
                         Admin
                     </button>
                     <button
-                        class="btn btn-primary myButton"
+                        class="btn btn-primary myButton hover-2"
                         type="button"
                         onclick="window.location.href='staff/worker.html';">
                         Worker
                     </button>
                     <button
-                        class="btn btn-primary myButton"
+                        class="btn btn-primary myButton hover-2"
                         type="button"
                         onclick="window.location.href='buyDurian.html';">
                         Browse Durians
@@ -146,9 +167,7 @@
 
         <div class="footer" style="padding-top: 100px"></div>
 
-        <script style="align-items: center"></script>
-
-        <script type="module" src="../js/traceDurian.js"></script>
+        <script type="module" src="../js/index.js"></script>
 
         <script></script>
     </body>

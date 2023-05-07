@@ -11,29 +11,32 @@ const initDurianList = async () => {
         });
     });
 
-    console.log(durianList);
-
     let myTable = document.querySelector(".myTable tbody");
     myTable.innerHTML = "";
-    for (let i = 0; i < durianList.length; i++) {
-        let d = durianList[i];
-        myTable.innerHTML += `
-            <tr class="myTableRow" data-durianid="${d.id}">
-                <th scope="row">${d.id}</th>
-                <td>${d.parseStageTimestamps[d.parseStageTimestamps.length - 1]}</td>
-                <td>${d.parseDurianTree.species}</td>
-                <td>${d.parseDurianGrade}</td>
-                <td>${d.weightInGrams}</td>
-                <td>${d.parseDurianPrice}</td>
-                <td class="row-action">
-                    <a href="/html/traceDurian.html" target="_blank">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </a>
-                    
-                    &nbsp; 
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </td>
-            </tr>`;
+
+    if (durianList.length == 0) {
+        document.querySelector(".messageBox").innerHTML = "<h1>Oops... Looks like you haven't <br />purchased any durian yet!</h1>"
+    } else {
+        for (let i = 0; i < durianList.length; i++) {
+            let d = durianList[i];
+            myTable.innerHTML += `
+                <tr class="myTableRow" data-durianid="${d.id}">
+                    <th scope="row">${d.id}</th>
+                    <td>${d.parseStageTimestamps[d.parseStageTimestamps.length - 1]}</td>
+                    <td>${d.parseDurianTree.species}</td>
+                    <td>${d.parseDurianGrade}</td>
+                    <td>${d.weightInGrams}</td>
+                    <td>${d.parseDurianPrice}</td>
+                    <td class="row-action">
+                        <a href="/html/traceDurian.html" target="_blank">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
+                        
+                        &nbsp; 
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </td>
+                </tr>`;
+        }
     }
 
     document.querySelectorAll(".myTable tr .row-action a").forEach((each) => {
@@ -100,13 +103,13 @@ const getRatingsFromChild = (p) => {
     return count;
 };
 
-const updateRatingSwal = e => {
-    console.log(e)
-    let ratingRows = e.querySelectorAll('.swal2-html-container .rating');
-    ratingRows.forEach(element => {
-        element.classList.add('static');
+const updateRatingSwal = (e) => {
+    console.log(e);
+    let ratingRows = e.querySelectorAll(".swal2-html-container .rating");
+    ratingRows.forEach((element) => {
+        element.classList.add("static");
     });
-}
+};
 
 const rateDurian = (e) => {
     let p = parentsHaveClass(e.target, "myTableRow", "myTable");
@@ -121,41 +124,43 @@ const rateDurian = (e) => {
     }
     if (!d) return;
 
-    let isRated = d.customerRating['taste'] != 0;
+    let isRated = d.customerRating["taste"] != 0;
     let isRatedStr = "";
     let didOpenFunc = null;
     let htmlStr = "";
     if (isRated) {
         isRatedStr = "data-static='true'";
         didOpenFunc = updateRatingSwal;
-        ratings['taste'] = d.customerRating['taste']
-        ratings['fragrance'] = d.customerRating['fragrance']
-        ratings['creaminess'] = d.customerRating['creaminess']
+        ratings["taste"] = d.customerRating["taste"];
+        ratings["fragrance"] = d.customerRating["fragrance"];
+        ratings["creaminess"] = d.customerRating["creaminess"];
 
         htmlStr += `
             <h4>You've rated this durian before!</h4>
         `;
-    }
-    else {
+    } else {
         isRatedStr = "";
         didOpenFunc = () => {};
     }
 
-
     htmlStr += `
         <div class="rating-group">
-        ${isRated ? '<div class="override"></div>': ''}
+        ${isRated ? '<div class="override"></div>' : ""}
             <div class="row rating-row rating-row-taste" data-item="taste" ${isRatedStr}>
                 <span>Taste</span>
-                <input class="ratingInput" data-role="rating" data-value="${ratings['taste']}" />
+                <input class="ratingInput" data-role="rating" data-value="${ratings["taste"]}" />
             </div>
             <div class="row rating-row rating-row-fragrance" data-item="fragrance" ${isRatedStr}>
                 <span>Fragrance</span>
-                <input class="ratingInput" data-role="rating" data-value="${ratings['fragrance']}"  />
+                <input class="ratingInput" data-role="rating" data-value="${
+                    ratings["fragrance"]
+                }"  />
             </div>
             <div class="row rating-row rating-row-creaminess" data-item="creaminess" ${isRatedStr}>
                 <span>Creaminess</span>
-                <input class="ratingInput" data-role="rating" data-value="${ratings['creaminess']}"  />
+                <input class="ratingInput" data-role="rating" data-value="${
+                    ratings["creaminess"]
+                }"  />
             </div>
         </div>`;
     Swal.fire({

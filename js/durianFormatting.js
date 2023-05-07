@@ -1,4 +1,4 @@
-import { getWorkForList } from "/js/jsonFetching.js";
+import { getWorkForList, getDurianSpeciesImages } from "/js/jsonFetching.js";
 
 export const parseIntToID = (i, type) => {
     let check = "";
@@ -171,7 +171,8 @@ export const getDurianDetails = async (
     convertDurianPrice = false,
     convertDurianTree = false,
     includeDurianTimestamps = false,
-    convertDurianGrade = false
+    convertDurianGrade = false, 
+    includeDurianImages = false
 ) => {
     let durian = await parseDurian(durianID).then((durian) => {
         return durian;
@@ -191,6 +192,10 @@ export const getDurianDetails = async (
         }
         if (convertDurianPrice) {
             durian["parseDurianPrice"] = parseDurianPrice(durian.sellPrice);
+        }
+
+        if (includeDurianImages) {
+            convertDurianTree = true;
         }
         if (convertDurianTree) {
             await parseDurianTree(durian.durianTreeID).then((tree) => {
@@ -215,6 +220,16 @@ export const getDurianDetails = async (
                 return out;
             });
         }
+        if (includeDurianImages) {
+            await getDurianSpeciesImages().then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].name.toLowerCase() == durian.parseDurianTree.species.toLowerCase()) {
+                        durian["imgSrc"] = data[i].img;
+                        break;
+                    }
+                }
+            })
+        }
     }
     return durian;
 };
@@ -225,7 +240,8 @@ export const getAllDurians = async (
     convertDurianPrice = false,
     convertDurianTree = false,
     includeDurianTimestamps = false,
-    convertDurianGrade = false
+    convertDurianGrade = false, 
+    includeDurianImages = false
 ) => {
     let result = [];
     let durianCount = await getDurianCount().then((durianCount) => {
@@ -241,7 +257,8 @@ export const getAllDurians = async (
                 convertDurianPrice,
                 convertDurianTree,
                 includeDurianTimestamps,
-                convertDurianGrade
+                convertDurianGrade, 
+                includeDurianImages
             )
         );
     }

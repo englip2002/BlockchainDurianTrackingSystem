@@ -1,0 +1,34 @@
+[
+    {
+        "name": "D24", 
+        "img": "/img/durians/d24.png"
+    },
+    {
+        "name": "X0", 
+        "img": "/img/durians/xo.png"
+    },
+    {
+        "name": "Red Prawn", 
+        "img": "/img/durians/red_prawn.png"
+    },
+    {
+        "name": "Musang King", 
+        "img": "/img/durians/musang_king.png"
+    },
+    {
+        "name": "Black Pearl", 
+        "img": "/img/durians/black_pearl.png"
+    },
+    {
+        "name": "Golden Phoenix", 
+        "img": "/img/durians/golden_phoenix.png"
+    },
+    {
+        "name": "Black Thorn", 
+        "img": "/img/durians/black_thorn.png"
+    },
+    {
+        "name": "Black Gold", 
+        "img": "/img/durians/black_gold.png"
+    }
+]
