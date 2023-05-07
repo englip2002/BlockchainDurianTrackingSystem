@@ -100,6 +100,14 @@ const getRatingsFromChild = (p) => {
     return count;
 };
 
+const updateRatingSwal = e => {
+    console.log(e)
+    let ratingRows = e.querySelectorAll('.swal2-html-container .rating');
+    ratingRows.forEach(element => {
+        element.classList.add('static');
+    });
+}
+
 const rateDurian = (e) => {
     let p = parentsHaveClass(e.target, "myTableRow", "myTable");
     let durianID = p.dataset.durianid;
@@ -114,23 +122,40 @@ const rateDurian = (e) => {
     if (!d) return;
 
     let isRated = d.customerRating['taste'] != 0;
-
+    let isRatedStr = "";
+    let didOpenFunc = null;
     let htmlStr = "";
+    if (isRated) {
+        isRatedStr = "data-static='true'";
+        didOpenFunc = updateRatingSwal;
+        ratings['taste'] = d.customerRating['taste']
+        ratings['fragrance'] = d.customerRating['fragrance']
+        ratings['creaminess'] = d.customerRating['creaminess']
 
-    if (isRated)
+        htmlStr += `
+            <h4>You've rated this durian before!</h4>
+        `;
+    }
+    else {
+        isRatedStr = "";
+        didOpenFunc = () => {};
+    }
+
+
     htmlStr += `
         <div class="rating-group">
-            <div class="row rating-row rating-row-taste" data-item="taste">
+        ${isRated ? '<div class="override"></div>': ''}
+            <div class="row rating-row rating-row-taste" data-item="taste" ${isRatedStr}>
                 <span>Taste</span>
-                <input class="ratingInput" data-role="rating" data-value="3" />
+                <input class="ratingInput" data-role="rating" data-value="${ratings['taste']}" />
             </div>
-            <div class="row rating-row rating-row-fragrance" data-item="fragrance">
+            <div class="row rating-row rating-row-fragrance" data-item="fragrance" ${isRatedStr}>
                 <span>Fragrance</span>
-                <input class="ratingInput" data-role="rating" data-value="3"  />
+                <input class="ratingInput" data-role="rating" data-value="${ratings['fragrance']}"  />
             </div>
-            <div class="row rating-row rating-row-creaminess" data-item="creaminess">
+            <div class="row rating-row rating-row-creaminess" data-item="creaminess" ${isRatedStr}>
                 <span>Creaminess</span>
-                <input class="ratingInput" data-role="rating" data-value="3"  />
+                <input class="ratingInput" data-role="rating" data-value="${ratings['creaminess']}"  />
             </div>
         </div>`;
     Swal.fire({
@@ -138,10 +163,12 @@ const rateDurian = (e) => {
         html: htmlStr,
         showCloseButton: true,
         showCancelButton: true,
-        focusConfirm: true,
+        focusConfirm: !isRated,
+        showConfirmButton: !isRated,
         confirmButtonText: '<i class="fa fa-thumbs-up"></i> Submit Feedback!',
-        cancelButtonText: "Cancel",
+        cancelButtonText: isRated ? "OK" : "Cancel",
         preConfirm: updateRatings,
+        didOpen: didOpenFunc,
     })
         .then((out) => {
             if (out.isConfirmed) {
