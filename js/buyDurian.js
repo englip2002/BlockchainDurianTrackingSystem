@@ -11,26 +11,26 @@ const initRangeSliders = () => {
     renderSlider(2);
     document.querySelector("#weightSlideMin").addEventListener("change", (e) => {
         e.target.value = clampWeightInput(e.target.value);
-        weightRange[0] = e.target.value;
+        weightRange[0] = parseInt(e.target.value);
         renderSlider(1);
         updateDurianCards();
     });
     document.querySelector("#weightSlideMax").addEventListener("change", (e) => {
         e.target.value = clampWeightInput(e.target.value);
-        weightRange[1] = e.target.value;
+        weightRange[1] = parseInt(e.target.value);
         renderSlider(1);
         updateDurianCards();
     });
 
     document.querySelector("#priceSlideMin").addEventListener("change", (e) => {
         e.target.value = clampPriceInput(e.target.value);
-        priceRange[0] = e.target.value;
+        priceRange[0] = parseFloat(e.target.value);
         renderSlider(2);
         updateDurianCards();
     });
     document.querySelector("#priceSlideMax").addEventListener("change", (e) => {
         e.target.value = clampPriceInput(e.target.value);
-        priceRange[1] = e.target.value;
+        priceRange[1] = parseFloat(e.target.value);
         renderSlider(2);
         updateDurianCards();
     });
@@ -185,7 +185,7 @@ const updateDurianCards = (searchKey = false) => {
                     </div>
                     <div class="card-body">
                         <img
-                            style="width: 100%; height: 100%; object-fit: cover"
+                            style="width: 100%; object-fit: cover"
                             src="https://i.ibb.co/6Xcq1nQ/istockphoto-1329896565-612x612.jpg"
                             alt="" />
                         <h5 class="card-title" style="text-align: center">${d.parseDurianPrice} ETH</h5>

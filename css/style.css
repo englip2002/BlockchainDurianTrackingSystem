@@ -7,7 +7,7 @@ body {
 
 .navbar-brand {
     font-family: 'Ubuntu', sans-serif;
-    
+
 }
 
 .navbar {
@@ -62,7 +62,6 @@ body .navbar {
 }
 
 body .btn-primary {
-    --a2: #d43b3b;
     background-color: #68b031;
     border-color: #68b031;
 }

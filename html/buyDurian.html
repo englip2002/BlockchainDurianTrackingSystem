@@ -105,6 +105,7 @@
                 margin: 15px;
                 justify-self: center;
                 align-self: center;
+                position: relative;
             }
 
             .flip-card-inner {
@@ -139,6 +140,22 @@
                 background-color: #00b5a3;
                 color: white;
                 transform: rotateY(180deg);
+                padding: 15px;
+            }
+            .flip-card-back * {
+                overflow-wrap: anywhere;
+            }
+
+            .flip-card .card-header {
+                background-color: #b3d34c;
+                height: 12.5%;
+                position: relative;
+            }
+
+            .flip-card .card-body {
+                background-color: #d9ed9a;
+                height: 87.5%;
+                position: relative;
             }
         </style>
     </head>
@@ -229,7 +246,8 @@
                         <div class="col-10 sliderDiv">
                             <div class="input-group flex-nowrap">
                                 <input
-                                    type="text"
+                                    type="number"
+                                    step="0.001"
                                     class="form-control"
                                     id="priceSlideMin"
                                     style="margin-right: 30px" />
@@ -237,7 +255,8 @@
                             <div class="range-slider-2" style="width: 100%; margin: 0"></div>
                             <div class="input-group flex-nowrap">
                                 <input
-                                    type="text"
+                                    type="number"
+                                    step="0.001"
                                     class="form-control"
                                     id="priceSlideMax"
                                     style="margin-left: 30px" />
