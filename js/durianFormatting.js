@@ -164,6 +164,61 @@ export const parseWorker = async (address) => {
     return result;
 };
 
+export const getDurianDetails = async (
+    durianID,
+    convertDurianStage = false,
+    convertDurianFarm = false,
+    convertDurianPrice = false,
+    convertDurianTree = false,
+    includeDurianTimestamps = false,
+    convertDurianGrade = false
+) => {
+    let durian = await parseDurian(durianID).then((durian) => {
+        return durian;
+    });
+    if (durian.exist) {
+        let thisRow = durian;
+        thisRow["id"] = durianID;
+        if (convertDurianStage) {
+            await parseDurianStage(durian.supplyChainStage).then((durianStage) => {
+                durian["parseDurianStage"] = durianStage;
+            });
+        }
+        if (convertDurianFarm) {
+            await parseDurianFarm(durian.durianFarmID).then((farm) => {
+                durian["parseDurianFarm"] = farm;
+            });
+        }
+        if (convertDurianPrice) {
+            durian["parseDurianPrice"] = parseDurianPrice(durian.sellPrice);
+        }
+        if (convertDurianTree) {
+            await parseDurianTree(durian.durianTreeID).then((tree) => {
+                durian["parseDurianTree"] = tree;
+            });
+        }
+        if (includeDurianTimestamps) {
+            await window.contract.methods
+                .getDurianTimestamps(durianID)
+                .call()
+                .then((timestamps) => {
+                    durian["stageTimestamps"] = timestamps;
+                });
+            let temp = [];
+            durian["stageTimestamps"].forEach((each) => {
+                temp.push(parseDurianHarvestTime(each));
+            });
+            durian["parseStageTimestamps"] = temp;
+        }
+        if (convertDurianGrade) {
+            durian["parseDurianGrade"] = await parseDurianGrade(durian.grade).then((out) => {
+                return out;
+            });
+        }
+    }
+    return durian;
+};
+
 export const getAllDurians = async (
     convertDurianStage = false,
     convertDurianFarm = false,
@@ -178,50 +233,17 @@ export const getAllDurians = async (
     });
     for (let i = 1; i <= durianCount; i++) {
         let durianID = parseIntToID(i, "durian");
-        let durian = await parseDurian(durianID).then((durian) => {
-            return durian;
-        });
-        if (durian.exist) {
-            let thisRow = durian;
-            thisRow["id"] = durianID;
-            if (convertDurianStage) {
-                await parseDurianStage(durian.supplyChainStage).then((durianStage) => {
-                    durian["parseDurianStage"] = durianStage;
-                });
-            }
-            if (convertDurianFarm) {
-                await parseDurianFarm(durian.durianFarmID).then((farm) => {
-                    durian["parseDurianFarm"] = farm;
-                });
-            }
-            if (convertDurianPrice) {
-                durian["parseDurianPrice"] = parseDurianPrice(durian.sellPrice);
-            }
-            if (convertDurianTree) {
-                await parseDurianTree(durian.durianTreeID).then((tree) => {
-                    durian["parseDurianTree"] = tree;
-                });
-            }
-            if (includeDurianTimestamps) {
-                await window.contract.methods
-                    .getDurianTimestamps(durianID)
-                    .call()
-                    .then((timestamps) => {
-                        durian["stageTimestamps"] = timestamps;
-                    });
-                let temp = [];
-                durian["stageTimestamps"].forEach((each) => {
-                    temp.push(parseDurianHarvestTime(each));
-                });
-                durian["parseStageTimestamps"] = temp;
-            }
-            if (convertDurianGrade) {
-                durian["parseDurianGrade"] = await parseDurianGrade(durian.grade).then((out) => {
-                    return out;
-                });
-            }
-            result.push(thisRow);
-        }
+        result.push(
+            await getDurianDetails(
+                durianID,
+                convertDurianStage,
+                convertDurianFarm,
+                convertDurianPrice,
+                convertDurianTree,
+                includeDurianTimestamps,
+                convertDurianGrade
+            )
+        );
     }
     return result;
 };
