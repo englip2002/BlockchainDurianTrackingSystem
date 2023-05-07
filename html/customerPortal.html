@@ -34,6 +34,31 @@
             .progress {
                 padding: 0 !important;
             }
+
+            
+        .myContainer{
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .myImage {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .myButton{
+            margin-top: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
         </style>
     </head>
     <body>
@@ -59,15 +84,21 @@
             </div>
         </nav>
 
-        <div class="container">
-            <div class="row">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" onclick="switchFarmUI()">
-                        Browse for Durians
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="switchTreeUI()">
-                        Purchase History
-                    </button>
+        <div class="myContainer">
+            <div class="myImage" style="align-items: center;">
+                <img src="https://i.ibb.co/YNy2nrb/customer-satisfaction.png" class="rounded float-start" width="256px" height="256px" alt="...">
+            </div>
+        
+            <div>
+                <h1 style="text-align: center;">Customer Portal</h1>
+            </div>
+        
+            <div class="container" style=" text-align: center;">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary myButton" type="button"
+                        onclick="window.location.href='buyDurian.html';">Buy Durians</button>
+                    <button class="btn btn-primary myButton" type="button"
+                        onclick="window.location.href='rateDurian.html';">View Purchase History</button>
                 </div>
             </div>
         </div>
