@@ -72,7 +72,13 @@ const updateDurianTreeSelections = () => {
                 if (tree.exist && tree.durianFarmID == selectedFarmID) {
                     let treeID = df.parseIntToID(n, "tree");
                     durianTreeEl.innerHTML +=
-                        `<option value="` + treeID + `">` + treeID + " - " + tree.species + `</option>`;
+                        `<option value="` +
+                        treeID +
+                        `">` +
+                        treeID +
+                        " - " +
+                        tree.species +
+                        `</option>`;
                 }
             });
         }
@@ -101,7 +107,7 @@ const submitAddDurian = () => {
                 .send({ from: blockchain.account });
         })
         .then((result) => {
-            getAllDurians();
+            updateAllDurians();
             Swal.fire({
                 icon: "success",
                 title: "Success!",
@@ -118,46 +124,61 @@ const submitAddDurian = () => {
         });
 };
 
-const getAllDurians = () => {
+var durianList = [];
+
+const updateAllDurians = async () => {
     let tableBody = document.getElementById("duriansTableBody");
     tableBody.innerHTML = "";
-    df.getDurianCount().then((durianCount) => {
-        for (let i = 1; i <= durianCount; i++) {
-            let durianID = df.parseIntToID(i, "durian");
 
-            df.parseDurian(durianID).then((durian) => {
-                if (durian.exist) {
-                    df.parseDurianStage(durian.supplyChainStage).then((durianStage) => {
-                        df.parseDurianGrade(durian.grade).then((durianGrade) => {
-                            df.parseDurianFarm(durian.durianFarmID).then((farm) => {
-                                let priceStr =
-                                    durianStage == "At Retailer"
-                                        ? df.parseDurianPrice(durian.sellPrice)
-                                        : "-";
-                                // prettier-ignore
-                                tableBody.innerHTML += `
-                                <tr>
-                                    <th scope="row">` + durianID + `</th>
-                                    <td>` + durianStage + `</td>
-                                    <td>` + durianGrade + `</td>
-                                    <td>` + durian.weightInGrams + `</td>
-                                    <td>` + durian.durianFarmID + " : " + farm.name + `</td>
-                                    <td>` + durian.durianTreeID + `</td>
-                                    <td>` + priceStr + `</td>
-                                    <td>` + df.parseDurianBoughtByCustomer(durian.boughtByCustomer) + `</td>
-                                </tr>`;
-                            });
-                        });
-                    });
-                }
-            });
-        }
+    durianList = await df.getAllDurians(true, true, true, true, false, true).then((data) => {
+        return data;
     });
+
+    let speciesData = {};
+    let stageData = {};
+    let gradeData = {};
+    let farmData = {};
+    durianList.forEach((each) => {
+        let s = each.parseDurianTree.species;
+        speciesData[s] = speciesData[s] ? speciesData[s] + 1 : 1;
+
+        let t = each.parseDurianStage;
+        stageData[t] = stageData[t] ? stageData[t] + 1 : 1;
+
+        let g = each.parseDurianGrade;
+        gradeData[g] = gradeData[g] ? gradeData[g] + 1 : 1;
+
+        let f = each.parseDurianFarm.name;
+        farmData[f] = farmData[f] ? farmData[f] + 1 : 1;
+    });
+
+    for (let i = 0; i < durianList.length; i++) {
+        let durian = durianList[i];
+        let priceStr = durian.supplyChainStage >= 2 ? durian.parseDurianPrice : "-";
+        // prettier-ignore
+        tableBody.innerHTML += `
+        <tr>
+            <th scope="row">` + durian.id + `</th>
+            <td>` + durian.parseDurianStage + `</td>
+            <td>` + durian.parseDurianGrade + `</td>
+            <td>` + durian.parseDurianTree.species + `</td>
+            <td>` + durian.weightInGrams + `</td>
+            <td>` + durian.durianFarmID + " : " + durian.parseDurianFarm.name + `</td>
+            <td>` + durian.durianTreeID + `</td>
+            <td class="durianRowSellPrice">` + priceStr + `</td>
+            <td>` + df.parseDurianBoughtByCustomer(durian.boughtByCustomer) + `</td>
+        </tr>`;
+    }
+
+    updateChart(speciesChart, "speciesChart", speciesData, "Species");
+    updateChart(stagesChart, "stagesChart", stageData, "Stages");
+    updateChart(gradesChart, "gradesChart", gradeData, "Grades");
+    updateChart(farmsChart, "farmsChart", farmData, "Farms");
 };
 
 const submitRecordDC = () => {
     let durianIDinputEl = document.getElementById("durianIDinput");
-    let durianIDinput = durianIDinputEl.value.toUpperCase()
+    let durianIDinput = durianIDinputEl.value.toUpperCase();
 
     let verifyRecordDC = durianIDinput.length == 4;
     if (!verifyRecordDC) {
@@ -174,7 +195,7 @@ const submitRecordDC = () => {
                 .recordDurianDistributionCenter(durianIDinput)
                 .send({ from: blockchain.account })
                 .then((result) => {
-                    getAllDurians();
+                    updateAllDurians();
                     durianIDinputEl.value = "";
                     Swal.fire({
                         icon: "success",
@@ -203,7 +224,7 @@ const submitRecordDC = () => {
 const submitRecordRetailer = () => {
     let idInputElement = document.getElementById("durianIDinputRetail");
     let durianIDinput = idInputElement.value.toUpperCase();
-    let sellPriceElement = document.getElementById("durianSellPriceRetailer") 
+    let sellPriceElement = document.getElementById("durianSellPriceRetailer");
     let durianSellPrice = sellPriceElement.value;
 
     if (durianIDinput.length != 4) {
@@ -223,40 +244,85 @@ const submitRecordRetailer = () => {
     }
 
     let durianSellPriceFormatted = ethers.utils.parseEther(durianSellPrice).toString();
-    df.parseDurian(durianIDinput).
-        then((durian) => {
-            if (durian.exist) {
-                window.contract.methods
-                    .recordDurianRetailer(durianIDinput, durianSellPriceFormatted)
-                    .send({ from: blockchain.account })
-                    .then((result) => {
-                        getAllDurians();
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success!",
-                            text: "The durian is recorded as 'At Retailer' on the blockchain! ",
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Something went wrong in the blockchain transaction! ",
-                        });
+    df.parseDurian(durianIDinput).then((durian) => {
+        if (durian.exist) {
+            window.contract.methods
+                .recordDurianRetailer(durianIDinput, durianSellPriceFormatted)
+                .send({ from: blockchain.account })
+                .then((result) => {
+                    updateAllDurians();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "The durian is recorded as 'At Retailer' on the blockchain! ",
                     });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "This durian ID doesn't exist! ",
+                })
+                .catch((err) => {
+                    console.log(err);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong in the blockchain transaction! ",
+                    });
                 });
-            }
-        });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "This durian ID doesn't exist! ",
+            });
+        }
+    });
 };
 
+var speciesChart = null;
+var stagesChart = null;
+var gradesChart = null;
+var farmsChart = null;
 
-// ===============================
+const updateChart = (chart, id, data, title, bgColors = null) => {
+    if (chart) {
+        chart.destroy();
+    }
+
+    let c = document.getElementById(id);
+    let p = c.parentElement;
+    c.remove();
+    p.innerHTML = `<canvas id="${id}"></canvas>`
+    let canvas = document.querySelector('#' + id)
+    let ctx = canvas.getContext("2d")
+
+
+    if (!bgColors) {
+        bgColors = [
+            "#36A2EB",
+            "#FF6384",
+            "#4BC0C0",
+            "#FF9F40",
+            "#9966FF",
+            "#B71375",
+            "#FFCD56",
+            "#C9CBCF",
+        ];
+    }
+
+    
+    chart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: Object.keys(data),
+            datasets: [
+                {
+                    label: title,
+                    backgroundColor: bgColors,
+                    data: Object.values(data),
+                },
+            ],
+        },
+    });
+};
+
+// =================================
 blockchain
     .accessToMetamask()
     .then((out) => {
@@ -265,7 +331,7 @@ blockchain
     .then((out) => {
         updateDurianFarmSelections();
         updateDurianTreeSelections();
-        getAllDurians();
+        updateAllDurians();
     });
 
 window.ethereum.on("accountsChanged", function (accounts) {
@@ -291,4 +357,4 @@ document.querySelector("#submitAddDurianBtn").addEventListener("click", submitAd
 document.querySelector("#submitRecordDCbtn").addEventListener("click", submitRecordDC);
 document.querySelector("#submitRecordRetailerBtn").addEventListener("click", submitRecordRetailer);
 
-document.querySelector("#durianFarmSelect").addEventListener("change", updateDurianTreeSelections)
+document.querySelector("#durianFarmSelect").addEventListener("change", updateDurianTreeSelections);

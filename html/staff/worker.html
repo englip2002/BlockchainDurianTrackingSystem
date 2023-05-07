@@ -35,6 +35,11 @@
             src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
             type="application/javascript"></script>
 
+        <!-- Chart.js -->
+        <script src="
+        https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js
+        "></script>
+
         <!-- Google Roboto Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,6 +48,35 @@
             rel="stylesheet" />
 
         <link rel="stylesheet" href="/css/style.css" />
+        <style>
+            .durianRowSellPrice {
+                overflow-wrap: anywhere;
+            }
+
+            .sub-col {
+                position: relative;
+                background-color: #e3f2ff;
+            }
+
+            .sub-col-inner {
+                position: fixed;
+                top: 75px;
+                right: 0;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                height: 90vh;
+                width: 25%;
+                background-color: #e3f2ff;
+            }
+
+            .sub-col-inner > .row {
+                margin: 25px 0;
+            }
+
+            .sub-col-inner .chart-title {
+                text-align: center;
+            }
+        </style>
     </head>
 
     <body class="staffBody">
@@ -77,186 +111,219 @@
             </div>
         </nav>
 
-        <div class="container">
-            <br />
+        <div class="container-fluid" style="padding: 0 50px;">
             <div class="row">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="switchUIfarm">
-                        Durian Farm Worker
-                    </button>
-                    <button type="button" class="btn btn-primary" id="switchUIdistribution">
-                        Distribution Center Worker
-                    </button>
-                    <button type="button" class="btn btn-primary" id="switchUIretail">
-                        Retailer Worker
-                    </button>
-                </div>
-            </div>
-            <br />
-            <!-- farmWorkerUI -->
-            <div id="farmWorkerUI">
-                <div class="container">
+                <div class="col-9 main-col">
+                    <br />
                     <div class="row">
-                        <h1 style="text-align: center">Harvest Durian</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="weightInGrams" class="form-label"
-                                    >Durian weight (grams)</label
-                                >
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="weightInGrams"
-                                    placeholder="1500..." />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="durianFarmSelect" class="form-label"
-                                    >Belongs to durian farm:
-                                </label>
-                                <select
-                                    class="form-select"
-                                    aria-label="Durian Farm"
-                                    id="durianFarmSelect"></select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="durianTreeSelect" class="form-label"
-                                    >Belongs to durian tree:
-                                </label>
-                                <select
-                                    class="form-select"
-                                    aria-label="Durian Tree"
-                                    id="durianTreeSelect"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <button type="button" class="btn btn-primary" id="submitAddDurianBtn">
-                            Mark Harvested
-                        </button>
-                        <br />
-                    </div>
-                </div>
-            </div>
-            <!-- distributionWorkerUI -->
-
-            <div id="distributionWorkerUI" style="display: none">
-                <div class="container">
-                    <form novalidate class="row g-3 needs-validation">
-                        <div class="row">
-                            <br />
-                            <h1 style="text-align: center">
-                                Record Durian for Distribution Centers
-                            </h1>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="durianIDinput" class="form-label"
-                                        >Enter Durian ID:
-                                    </label>
-                                    <input
-                                        required
-                                        type="text"
-                                        class="form-control"
-                                        id="durianIDinput"
-                                        placeholder="D001..." />
-                                    <div class="invalid-feedback">
-                                        Please enter a valid Durian ID.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button type="button" class="btn btn-primary" id="submitRecordDCbtn">
-                                Mark as Recorded at Distribution Center
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary" id="switchUIfarm">
+                                Durian Farm Worker
                             </button>
-                            <br />
+                            <button type="button" class="btn btn-primary" id="switchUIdistribution">
+                                Distribution Center Worker
+                            </button>
+                            <button type="button" class="btn btn-primary" id="switchUIretail">
+                                Retailer Worker
+                            </button>
                         </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- retailerWorkerUI -->
-            <div id="retailerWorkerUI" style="display: none">
-                <div class="container">
-                    <form novalidate class="row g-3 needs-validation">
-                        <div class="row">
-                            <h1 style="text-align: center">Record Durian for Retailers</h1>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="durianIDinputRetail" class="form-label"
-                                        >Enter Durian ID:
-                                    </label>
-                                    <input
-                                        required
-                                        type="text"
-                                        class="form-control"
-                                        id="durianIDinputRetail"
-                                        placeholder="D001..." />
-                                    <div class="invalid-feedback">
-                                        Please enter a valid Durian ID.
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="durianSellPriceRetailer" class="form-label"
-                                        >Enter Durian Sell Price (RM):
-                                    </label>
-                                    <input
-                                        required
-                                        type="number"
-                                        class="form-control"
-                                        id="durianSellPriceRetailer"
-                                        placeholder="42.00" />
-                                    <div class="invalid-feedback">
-                                        Please enter a valid Durian sell price.
+                    </div>
+                    <br />
+                    <!-- farmWorkerUI -->
+                    <div id="farmWorkerUI">
+                        <div class="container">
+                            <div class="row">
+                                <h1 style="text-align: center">Harvest Durian</h1>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="weightInGrams" class="form-label"
+                                            >Durian weight (grams)</label
+                                        >
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="weightInGrams"
+                                            placeholder="1500..." />
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="durianFarmSelect" class="form-label"
+                                            >Belongs to durian farm:
+                                        </label>
+                                        <select
+                                            class="form-select"
+                                            aria-label="Durian Farm"
+                                            id="durianFarmSelect"></select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="durianTreeSelect" class="form-label"
+                                            >Belongs to durian tree:
+                                        </label>
+                                        <select
+                                            class="form-select"
+                                            aria-label="Durian Tree"
+                                            id="durianTreeSelect"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary" id="submitAddDurianBtn">
+                                    Mark Harvested
+                                </button>
+                                <br />
+                            </div>
                         </div>
-                        <div class="row">
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                id="submitRecordRetailerBtn">
-                                Mark as Recorded at Retailer
-                            </button>
-                            <br />
+                    </div>
+                    <!-- distributionWorkerUI -->
+    
+                    <div id="distributionWorkerUI" style="display: none">
+                        <div class="container">
+                            <form novalidate class="row g-3 needs-validation">
+                                <div class="row">
+                                    <br />
+                                    <h1 style="text-align: center">
+                                        Record Durian for Distribution Centers
+                                    </h1>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="durianIDinput" class="form-label"
+                                                >Enter Durian ID:
+                                            </label>
+                                            <input
+                                                required
+                                                type="text"
+                                                class="form-control"
+                                                id="durianIDinput"
+                                                placeholder="D001..." />
+                                            <div class="invalid-feedback">
+                                                Please enter a valid Durian ID.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        id="submitRecordDCbtn">
+                                        Mark as Recorded at Distribution Center
+                                    </button>
+                                    <br />
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+    
+                    <!-- retailerWorkerUI -->
+                    <div id="retailerWorkerUI" style="display: none">
+                        <div class="container">
+                            <form novalidate class="row g-3 needs-validation">
+                                <div class="row">
+                                    <h1 style="text-align: center">Record Durian for Retailers</h1>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="durianIDinputRetail" class="form-label"
+                                                >Enter Durian ID:
+                                            </label>
+                                            <input
+                                                required
+                                                type="text"
+                                                class="form-control"
+                                                id="durianIDinputRetail"
+                                                placeholder="D001..." />
+                                            <div class="invalid-feedback">
+                                                Please enter a valid Durian ID.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="durianSellPriceRetailer" class="form-label"
+                                                >Enter Durian Sell Price (RM):
+                                            </label>
+                                            <input
+                                                required
+                                                type="number"
+                                                class="form-control"
+                                                id="durianSellPriceRetailer"
+                                                placeholder="42.00" />
+                                            <div class="invalid-feedback">
+                                                Please enter a valid Durian sell price.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        id="submitRecordRetailerBtn">
+                                        Mark as Recorded at Retailer
+                                    </button>
+                                    <br />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+    
+                    <br /><br />
+                    <div class="row">
+                        <h2>List of Durians</h2>
+                    </div>
+    
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Durian ID</th>
+                                    <th scope="col">Current Stage</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Species</th>
+                                    <th scope="col">Weight (grams)</th>
+                                    <th scope="col">Durian Farm</th>
+                                    <th scope="col">Durian Tree</th>
+                                    <th scope="col">Selling Price (ETH)</th>
+                                    <th scope="col">Bought by Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="duriansTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-3 sub-col">
+                </div>
+                <div class="sub-col-inner">
+                    <div class="row">
+                        <h1>Durian Statistics</h1>
+                    </div>
+                    <div class="row">
+                        <div class="chart-title"><h4>Durian Species</h4></div>
+                        <div><canvas id="speciesChart" width="300" height="300"></canvas></div>
+                    </div>
+                    <div class="row">
+                        <div class="chart-title"><h4>Durian Stages</h4></div>
+                        <div><canvas id="stagesChart" width="300" height="300"></canvas></div>
+                    </div>
+                    <div class="row">
+                        <div class="chart-title"><h4>Durian Grades</h4></div>
+                        <div><canvas id="gradesChart" width="300" height="300"></canvas></div>
+                    </div>
+                    <div class="row">
+                        <div class="chart-title"><h4>Durian Farms</h4></div>
+                        <div><canvas id="farmsChart" width="300" height="300"></canvas></div>
+                    </div>
                 </div>
             </div>
-
-            <br /><br />
-            <div class="row">
-                <h2>Durians</h2>
-            </div>
-            <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Durian ID</th>
-                            <th scope="col">Current Stage</th>
-                            <th scope="col">Grade</th>
-                            <th scope="col">Weight (grams)</th>
-                            <th scope="col">Durian Farm</th>
-                            <th scope="col">Durian Tree</th>
-                            <th scope="col">Selling Price (ETH)</th>
-                            <th scope="col">Bought by Customer</th>
-                        </tr>
-                    </thead>
-                    <tbody id="duriansTableBody"></tbody>
-                </table>
-            </div>
+            
         </div>
 
         <script type="module" src="/js/staff/worker.js"></script>
