@@ -113,12 +113,11 @@ const rateDurian = (e) => {
     }
     if (!d) return;
 
-    let isRated = d.customerRating;
-
-    console.log(isRated);
+    let isRated = d.customerRating['taste'] != 0;
 
     let htmlStr = "";
 
+    if (isRated)
     htmlStr += `
         <div class="rating-group">
             <div class="row rating-row rating-row-taste" data-item="taste">
@@ -174,6 +173,7 @@ const rateDurian = (e) => {
                     title: "Success!",
                     text: "Your rating has been added to the blockchain!",
                 });
+                initDurianList();
             }
         })
         .catch((err) => {
