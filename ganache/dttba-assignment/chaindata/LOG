@@ -1,0 +1,13 @@
+2023/05/09-07:27:30.234 6720 Recovering log #81
+2023/05/09-07:27:30.234 6720 Level-0 table #85: started
+2023/05/09-07:27:30.241 6720 Level-0 table #85: 7118 bytes OK
+2023/05/09-07:27:30.265 6720 Delete type=0 #81
+2023/05/09-07:27:30.266 6720 Delete type=3 #79
+2023/05/09-07:27:30.793 2cb4 Compacting 1@0 + 2@1 files
+2023/05/09-07:27:30.833 2cb4 Generated table #87@0: 6541 keys, 2122744 bytes
+2023/05/09-07:27:30.880 2cb4 Generated table #88@0: 6940 keys, 2122899 bytes
+2023/05/09-07:27:30.880 2cb4 Compacted 1@0 + 2@1 files => 4245643 bytes
+2023/05/09-07:27:30.883 2cb4 compacted to: files[ 0 3 0 0 0 0 0 ]
+2023/05/09-07:27:30.884 2cb4 Delete type=2 #82
+2023/05/09-07:27:30.884 2cb4 Delete type=2 #83
+2023/05/09-07:27:30.885 2cb4 Delete type=2 #85

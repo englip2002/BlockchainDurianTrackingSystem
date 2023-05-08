@@ -156,6 +156,7 @@ const visualizeLoadingBar = async (stage, timestamps) => {
     let timestampsTable = document.getElementById("stageTimestamps");
     labelTable.innerHTML = "";
     labelTableTop.innerHTML = "";
+    timestampsTable.innerHTML = "";
 
     await $.getJSON("/json/durianStage.json", (data) => {
         data.unshift({
