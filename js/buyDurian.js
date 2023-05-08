@@ -150,14 +150,13 @@ const updateDurianCards = (searchKey = false) => {
             d.parseDurianPrice > priceRange[1]
         ) {
             continue;
-        }
-        else if (searchKey) {
+        } else if (searchKey) {
             let found = false;
             let searchValues = [
-                d.parseDurianFarm.name, 
-                d.parseDurianFarm.location, 
-                d.parseDurianTree.species, 
-                d.parseDurianStage
+                d.parseDurianFarm.name,
+                d.parseDurianFarm.location,
+                d.parseDurianTree.species,
+                d.parseDurianStage,
             ];
             for (let j = 0; j < searchValues.length; j++) {
                 if (searchValues[j].toLowerCase().includes(searchKey.toLowerCase())) {
@@ -186,9 +185,15 @@ const updateDurianCards = (searchKey = false) => {
                     <div class="card-body">
                         <img
                             style="width: 100%; object-fit: cover"
-                            src="${d.imgSrc ? d.imgSrc : "https://i.ibb.co/6Xcq1nQ/istockphoto-1329896565-612x612.jpg"}"
+                            src="${
+                                d.imgSrc
+                                    ? d.imgSrc
+                                    : "https://i.ibb.co/6Xcq1nQ/istockphoto-1329896565-612x612.jpg"
+                            }"
                             alt="" />
-                        <h5 class="card-title" style="text-align: center">${d.parseDurianPrice} ETH</h5>
+                        <h5 class="card-title" style="text-align: center">${
+                            d.parseDurianPrice
+                        } ETH</h5>
                         <div class="row card-body-lower">
                             <div class="col">
                                 <div class="row">
@@ -278,6 +283,16 @@ const purchaseDurian = async (event) => {
 const initSearchBar = () => {
     document.querySelector("#searchBarForm").addEventListener("submit", (e) => {
         e.preventDefault();
+        let searchKey = document.querySelector("#searchBar").value;
+        updateDurianCards(searchKey);
+    });
+
+    document.querySelector('#searchBar').addEventListener('change', e => {
+        let searchKey = document.querySelector("#searchBar").value;
+        updateDurianCards(searchKey);
+    })
+
+    document.querySelector("#searchBtn").addEventListener("click", (e) => {
         let searchKey = document.querySelector("#searchBar").value;
         updateDurianCards(searchKey);
     });

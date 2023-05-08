@@ -95,7 +95,7 @@ export const parseDurianHarvestTime = (harvestTime) => {
     }
     var d = new Date(0);
     d.setUTCSeconds(parseInt(harvestTime));
-    return d.toString();
+    return d.toLocaleString();
 };
 
 export const getDurianFarmCount = async () => {

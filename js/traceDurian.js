@@ -27,7 +27,7 @@ const submitTraceDurian = async () => {
     }
 
     document.querySelector("#traceDurianBox").style.display = "block";
-    visualizeLoadingBar(durian.supplyChainStage);
+    visualizeLoadingBar(durian.supplyChainStage, durian.parseStageTimestamps);
     let detailsTable = document.getElementById("durianDetailsTableBody");
     detailsTable.innerHTML = "";
 
@@ -149,22 +149,33 @@ const initCopyToClipboard = () => {
     $('[data-toggle="tooltip"]').tooltip();
 };
 
-const visualizeLoadingBar = (stage) => {
+const visualizeLoadingBar = async (stage, timestamps) => {
     let progressBar = document.querySelector("#traceDurianBox .progress-bar");
-    let labelTable = document.getElementById("stageLabels");
     let labelTableTop = document.getElementById("stageLabelsTop");
+    let labelTable = document.getElementById("stageLabels");
+    let timestampsTable = document.getElementById("stageTimestamps");
     labelTable.innerHTML = "";
     labelTableTop.innerHTML = "";
-    
-    $.getJSON("/json/durianStage.json", (data) => {
+
+    await $.getJSON("/json/durianStage.json", (data) => {
         data.unshift({
-            id: "", name: "New"
-        })
-        console.log('xxx', data)
+            id: "",
+            name: "New",
+        });
+
         let width = (1 / data.length) * 100;
         for (let i = 0; i < data.length; i++) {
             labelTableTop.innerHTML += `<th style="width: ${width}%; text-align: center;" >|</th>`;
             labelTable.innerHTML += `<th style="width: ${width}%; text-align: center;" >${data[i].name}</th>`;
+            if (!timestamps[i]) {
+                timestampsTable.innerHTML += `<td class="progressTimestamps" style="width: ${width}%; text-align: center;">-</td>`;
+            } else {
+                timestampsTable.innerHTML += `<td class="progressTimestamps" style="width: ${width}%; text-align: center;" >
+                    ${timestamps[i].substring(0, timestamps[i].indexOf(","))}
+                    <br/>
+                    ${timestamps[i].substring(timestamps[i].indexOf(",") + 2, timestamps[i].length)}
+                    </td>`;
+            }
         }
 
         console.log(stage);
