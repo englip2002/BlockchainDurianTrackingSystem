@@ -26,6 +26,7 @@ const switchUI = (target) => {
     }
 };
 
+//drop down list for farm selection
 const updateDurianFarmSelections = () => {
     let durianFarmEl = document.getElementById("durianFarmSelect");
     durianFarmEl.innerHTML = "";
