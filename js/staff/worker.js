@@ -104,16 +104,20 @@ const submitAddDurian = () => {
             let durianID = df.parseIntToID(parseInt(durianCount) + 1, "durian");
             return window.contract.methods
                 .addDurian(durianID, parseInt(inputWeight), inputFarm, inputTree)
-                .send({ from: blockchain.account });
+                .send({ from: blockchain.account })
+                .then((result) => {
+                    df.getDurianDetails(durianID, true, true, true, true, false, true).then((d) => {
+                        durianList.push(d);
+                        updateAllDurians();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "The durian is added to the blockchain!",
+                        });
+                    });
+                });
         })
-        .then((result) => {
-            updateAllDurians();
-            Swal.fire({
-                icon: "success",
-                title: "Success!",
-                text: "The durian is added to the blockchain!",
-            });
-        })
+
         .catch((err) => {
             Swal.fire({
                 icon: "error",
@@ -126,13 +130,16 @@ const submitAddDurian = () => {
 
 var durianList = [];
 
-const updateAllDurians = async () => {
-    let tableBody = document.getElementById("duriansTableBody");
-    tableBody.innerHTML = "";
-
+const syncDurians = async () => {
     durianList = await df.getAllDurians(true, true, true, true, false, true).then((data) => {
         return data;
     });
+    console.log(durianList);
+};
+
+const updateAllDurians = async () => {
+    let tableBody = document.getElementById("duriansTableBody");
+    tableBody.innerHTML = "";
 
     let speciesData = {};
     let stageData = {};
@@ -193,7 +200,6 @@ const initCopyToClipboard = () => {
     $('[data-toggle="tooltip"]').tooltip();
 };
 
-
 const submitRecordDC = () => {
     let durianIDinputEl = document.getElementById("durianIDinput");
     let durianIDinput = durianIDinputEl.value.toUpperCase();
@@ -207,28 +213,67 @@ const submitRecordDC = () => {
         });
     }
 
+    let foundWorker = false;
+    for (let i = 0; i < workers.length; i++) {
+        if (workers[i].address.toLowerCase() == blockchain.account.toLowerCase()) {
+            foundWorker = true;
+            if (workers[i].parseWorkFor != "Distribution Center") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Invalid Account!",
+                    text: "You are not a Distribution center worker!",
+                });
+                return;
+            }
+            break;
+        }
+    }
+    if (!foundWorker) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Account!",
+            text: "You are not a Distribution center worker!",
+        });
+        return;
+    }
+
     df.parseDurian(durianIDinput).then((durian) => {
         if (durian.exist) {
-            window.contract.methods
-                .recordDurianDistributionCenter(durianIDinput)
-                .send({ from: blockchain.account })
-                .then((result) => {
-                    updateAllDurians();
-                    durianIDinputEl.value = "";
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: "The durian is recorded as 'At Distribution Center' on the blockchain! ",
+            if (durian.supplyChainStage == 0) {
+                window.contract.methods
+                    .recordDurianDistributionCenter(durianIDinput)
+                    .send({ from: blockchain.account })
+                    .then((result) => {
+                        durianList.forEach((d) => {
+                            if (d.id.toLowerCase() == durianIDinput.toLowerCase()) {
+                                d.supplyChainStage += 1;
+                                d.parseDurianStage = "At Distribution Center";
+                            }
+                        });
+
+                        updateAllDurians();
+                        durianIDinputEl.value = "";
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "The durian is recorded as 'At Distribution Center' on the blockchain! ",
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong in the blockchain transaction! ",
+                        });
                     });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Something went wrong in the blockchain transaction! ",
-                    });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "This durian must be at Harvested stage! ",
                 });
+            }
         } else {
             Swal.fire({
                 icon: "error",
@@ -252,7 +297,10 @@ const submitRecordRetailer = () => {
             text: "Something went wrong! Please check if your Durian ID is correct and valid. ",
         });
         return;
-    } else if (durianSellPrice.indexOf(".") != -1 && durianSellPrice.split(".")[1].length > 18) {
+    } else if (
+        !durianSellPrice ||
+        (durianSellPrice.indexOf(".") != -1 && durianSellPrice.split(".")[1].length > 18)
+    ) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -261,28 +309,70 @@ const submitRecordRetailer = () => {
         return;
     }
 
+    let foundWorker = false;
+    for (let i = 0; i < workers.length; i++) {
+        if (workers[i].address.toLowerCase() == blockchain.account.toLowerCase()) {
+            foundWorker = true;
+            if (workers[i].parseWorkFor != "Retailer") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Invalid Account!",
+                    text: "You are not a Retailer worker!",
+                });
+                return;
+            }
+            break;
+        }
+    }
+    if (!foundWorker) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Account!",
+            text: "You are not a Retailer worker!",
+        });
+        return;
+    }
+
     let durianSellPriceFormatted = ethers.utils.parseEther(durianSellPrice).toString();
     df.parseDurian(durianIDinput).then((durian) => {
         if (durian.exist) {
-            window.contract.methods
-                .recordDurianRetailer(durianIDinput, durianSellPriceFormatted)
-                .send({ from: blockchain.account })
-                .then((result) => {
-                    updateAllDurians();
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: "The durian is recorded as 'At Retailer' on the blockchain! ",
+            if (durian.supplyChainStage == 1) {
+                window.contract.methods
+                    .recordDurianRetailer(durianIDinput, durianSellPriceFormatted)
+                    .send({ from: blockchain.account })
+                    .then((result) => {
+                        durianList.forEach((d) => {
+                            if (d.id.toLowerCase() == durianIDinput.toLowerCase()) {
+                                d.supplyChainStage += 1;
+                                d.parseDurianStage = "At Retailer";
+                                d.sellPrice = durianSellPriceFormatted;
+                                d.parseDurianPrice = durianSellPrice;
+                            }
+                        });
+                        updateAllDurians();
+                        idInputElement.value = "";
+                        sellPriceElement.value = "";
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "The durian is recorded as 'At Retailer' on the blockchain! ",
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong in the blockchain transaction! ",
+                        });
                     });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Something went wrong in the blockchain transaction! ",
-                    });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "This durian must be at Distribution Center stage! ",
                 });
+            }
         } else {
             Swal.fire({
                 icon: "error",
@@ -306,10 +396,9 @@ const updateChart = (chart, id, data, title, bgColors = null) => {
     let c = document.getElementById(id);
     let p = c.parentElement;
     c.remove();
-    p.innerHTML = `<canvas id="${id}"></canvas>`
-    let canvas = document.querySelector('#' + id)
-    let ctx = canvas.getContext("2d")
-
+    p.innerHTML = `<canvas id="${id}"></canvas>`;
+    let canvas = document.querySelector("#" + id);
+    let ctx = canvas.getContext("2d");
 
     if (!bgColors) {
         bgColors = [
@@ -324,7 +413,6 @@ const updateChart = (chart, id, data, title, bgColors = null) => {
         ];
     }
 
-    
     chart = new Chart(ctx, {
         type: "doughnut",
         data: {
@@ -340,6 +428,31 @@ const updateChart = (chart, id, data, title, bgColors = null) => {
     });
 };
 
+var workers;
+const verifyWorker = async () => {
+    workers = await df.getAllWorkers().then((data) => {
+        return data;
+    });
+    let found = false;
+    for (let i = 0; i < workers.length; i++) {
+        if (workers[i].address.toLowerCase() == blockchain.account.toLowerCase()) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Account!",
+            text: "You are not a worker!",
+            allowOutsideClick: false,
+        }).then((out) => {
+            window.location.href = "/index.html";
+        });
+    }
+};
+
 // =================================
 blockchain
     .accessToMetamask()
@@ -347,14 +460,22 @@ blockchain
         return blockchain.accessToContract();
     })
     .then((out) => {
+        return verifyWorker();
+    })
+    .then((out) => {
         updateDurianFarmSelections();
         updateDurianTreeSelections();
-        updateAllDurians();
+
+        syncDurians().then((out) => {
+            updateAllDurians();
+        });
     });
 
 window.ethereum.on("accountsChanged", function (accounts) {
     console.log("Metamask account change detected!");
-    blockchain.accessToMetamask();
+    blockchain.accessToMetamask().then((out) => {
+        verifyWorker();
+    });
 });
 
 setTimeout(() => {

@@ -300,10 +300,31 @@ const initCopyToClipboard = () => {
     $('[data-toggle="tooltip"]').tooltip();
 };
 
+const verifyAdmin = async () => {
+    await window.contract.methods
+        .owner()
+        .call()
+        .then((owner) => {
+            if (owner.toLowerCase() != blockchain.account.toLowerCase()) {
+                return Swal.fire({
+                    icon: "error",
+                    title: "Invalid Account!",
+                    text: "You are not the admin!",
+                    allowOutsideClick: false
+                }).then((out) => {
+                    window.location.href = "/index.html";
+                });
+            }
+        })
+};
+
 blockchain
     .accessToMetamask()
     .then((out) => {
         return blockchain.accessToContract();
+    })
+    .then((out) => {
+        return verifyAdmin();
     })
     .then((out) => {
         getAllFarms();
@@ -316,7 +337,9 @@ updateWorkerWorkForSelections();
 
 window.ethereum.on("accountsChanged", function (accounts) {
     console.log("Metamask account change detected!");
-    blockchain.accessToMetamask();
+    blockchain.accessToMetamask().then((out) => {
+        verifyAdmin();
+    });
 });
 
 // Onclick

@@ -13,6 +13,8 @@ const submitTraceDurian = async () => {
         return;
     }
 
+    durianID = durianID.toUpperCase();
+
     let durian = await df.getDurianDetails(durianID, true, true, true, true, true, true);
 
     if (!durian.exist) {

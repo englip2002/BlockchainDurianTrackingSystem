@@ -252,9 +252,19 @@ const purchaseDurian = async (event) => {
             })
             .then((out) => {
                 initDurianCards();
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "Your purchase is recorded onto the blockchain!",
+                });
             })
             .catch((err) => {
                 console.log(err);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong in the blockchain transaction!",
+                });
             });
     } else {
         Swal.fire({
