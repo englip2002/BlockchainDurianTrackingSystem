@@ -493,6 +493,8 @@ document.querySelector("#switchUIdistribution").addEventListener("click", functi
 document.querySelector("#switchUIretail").addEventListener("click", function () {
     switchUI("retail");
 });
+
+
 document.querySelector("#submitAddDurianBtn").addEventListener("click", submitAddDurian);
 document.querySelector("#submitRecordDCbtn").addEventListener("click", submitRecordDC);
 document.querySelector("#submitRecordRetailerBtn").addEventListener("click", submitRecordRetailer);

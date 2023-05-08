@@ -154,7 +154,7 @@ contract DTTBA {
         string memory _id,
         string memory _name,
         string memory _location
-    ) public isOwner(msg.sender) {
+    ) public durianFarmNotExist(_id) isOwner(msg.sender) {
         require(bytes(_name).length > 0);
         require(bytes(_location).length > 0);
 
@@ -178,6 +178,7 @@ contract DTTBA {
         durianTreeNotExist(_id)
         durianFarmExist(_durianFarmID)
     {
+        require(bytes(_species).length > 0);
         durianTreesCount++;
         durianTrees[_id] = DurianTree({
             age: _age,
