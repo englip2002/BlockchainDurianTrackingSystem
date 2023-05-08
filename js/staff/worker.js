@@ -58,6 +58,7 @@ const updateDurianFarmSelections = () => {
     });
 };
 
+//drop down list for durian tree
 const updateDurianTreeSelections = () => {
     let durianTreeEl = document.getElementById("durianTreeSelect");
     let selectedFarmID = document.getElementById("durianFarmSelect").value;
@@ -86,7 +87,9 @@ const updateDurianTreeSelections = () => {
     });
 };
 
+//add durian
 const submitAddDurian = () => {
+    //get value from user input
     let inputWeight = document.getElementById("weightInGrams").value;
     let inputFarm = document.getElementById("durianFarmSelect").value;
     let inputTree = document.getElementById("durianTreeSelect").value;
@@ -131,6 +134,7 @@ const submitAddDurian = () => {
 
 var durianList = [];
 
+//only call once to get all the data into an array
 const syncDurians = async () => {
     durianList = await df.getAllDurians(true, true, true, true, false, true).then((data) => {
         return data;
@@ -138,6 +142,7 @@ const syncDurians = async () => {
     console.log(durianList);
 };
 
+//to get the durian info from array and display in html 
 const updateAllDurians = async () => {
     let tableBody = document.getElementById("duriansTableBody");
     tableBody.innerHTML = "";
@@ -160,6 +165,7 @@ const updateAllDurians = async () => {
         farmData[f] = farmData[f] ? farmData[f] + 1 : 1;
     });
 
+    
     for (let i = 0; i < durianList.length; i++) {
         let durian = durianList[i];
         let priceStr = durian.supplyChainStage >= 2 ? durian.parseDurianPrice : "-";
@@ -188,6 +194,7 @@ const updateAllDurians = async () => {
     updateChart(farmsChart, "farmsChart", farmData, "Farms");
 };
 
+//allow the user to copy the address by click the address 
 const initCopyToClipboard = () => {
     document.querySelectorAll(".copy-to-clipboard").forEach((each) => {
         each.addEventListener("click", (e) => {
@@ -201,6 +208,7 @@ const initCopyToClipboard = () => {
     $('[data-toggle="tooltip"]').tooltip();
 };
 
+//submit distribuiton center record
 const submitRecordDC = () => {
     let durianIDinputEl = document.getElementById("durianIDinput");
     let durianIDinput = durianIDinputEl.value.toUpperCase();
@@ -214,6 +222,7 @@ const submitRecordDC = () => {
         });
     }
 
+    //error message
     let foundWorker = false;
     for (let i = 0; i < workers.length; i++) {
         if (workers[i].address.toLowerCase() == blockchain.account.toLowerCase()) {
@@ -285,6 +294,7 @@ const submitRecordDC = () => {
     });
 };
 
+//submit retailer record
 const submitRecordRetailer = () => {
     let idInputElement = document.getElementById("durianIDinputRetail");
     let durianIDinput = idInputElement.value.toUpperCase();
@@ -389,6 +399,7 @@ var stagesChart = null;
 var gradesChart = null;
 var farmsChart = null;
 
+//to update the chart when new records come in
 const updateChart = (chart, id, data, title, bgColors = null) => {
     if (chart) {
         chart.destroy();
@@ -429,6 +440,7 @@ const updateChart = (chart, id, data, title, bgColors = null) => {
     });
 };
 
+//verify id the user is a worker, if not dont allow them to use the page
 var workers;
 const verifyWorker = async () => {
     workers = await df.getAllWorkers().then((data) => {
@@ -454,10 +466,13 @@ const verifyWorker = async () => {
     }
 };
 
+//Procedure
 // =================================
+//connect to metamask
 blockchain
     .accessToMetamask()
     .then((out) => {
+        //access to contract
         return blockchain.accessToContract();
     })
     .then((out) => {
